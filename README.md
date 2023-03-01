@@ -1,6 +1,8 @@
 # online_english
 
 A new Flutter project.
+## Milestone 1: Mockup UI
+drawio: (https://drive.google.com/file/d/1EQ1Qc7WosscHCjSoIsSUcrT114bfSP4E/view?usp=sharing)
 
 ## Getting Started
 
