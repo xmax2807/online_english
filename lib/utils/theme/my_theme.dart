@@ -36,7 +36,7 @@ class MyTheme {
       onSurface: colors.black,
       surface: colors.white,
     ),
-    scaffoldBackgroundColor: colors.onSecondaryColor,
+    scaffoldBackgroundColor: colors.onPrimaryColor,
     //iconTheme: IconThemeData(color: colors.onSecondaryColor),
     floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: colors.secondaryColor,
@@ -44,8 +44,8 @@ class MyTheme {
   );
 
   static ThemeData darkTheme = ThemeData.dark().copyWith(
-    primaryTextTheme: MyTextTheme.lightTextTheme,
-    textTheme: GoogleFonts.robotoTextTheme(MyTextTheme.lightTextTheme),
+    primaryTextTheme: MyTextTheme.darkTextTheme,
+    textTheme: GoogleFonts.robotoTextTheme(MyTextTheme.darkTextTheme),
     colorScheme: ColorScheme(
       primary: colors.primaryColor,
       //primaryContainer: colors.onPrimaryColor,

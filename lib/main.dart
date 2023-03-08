@@ -1,7 +1,18 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
+import 'package:online_english/utils/theme/my_theme.dart';
+
+import 'screens/login_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(DevicePreview(
+    enabled: true,
+    tools: [
+      ...DevicePreview.defaultTools,
+      //const CustomPlugin(),
+    ],
+    builder: (context) => const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -12,19 +23,20 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      theme: MyTheme.lightTheme,
+      //(
+      //   // This is the theme of your application.
+      //   //
+      //   // Try running your application with "flutter run". You'll see the
+      //   // application has a blue toolbar. Then, without quitting the app, try
+      //   // changing the primarySwatch below to Colors.green and then invoke
+      //   // "hot reload" (press "r" in the console where you ran "flutter run",
+      //   // or simply save your changes to "hot reload" in a Flutter IDE).
+      //   // Notice that the counter didn't reset back to zero; the application
+      //   // is not restarted.
+      //   primarySwatch: Colors.blue,
+      // ),
+      home: const Androidlarge1Widget(),
     );
   }
 }
@@ -113,3 +125,29 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+
+// class App extends HookConsumerWidget {
+//   const App({super.key});
+
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     final appTheme = ref.read(appThemeNotifierProvider);
+//     final setting =
+//         ref.watch(appThemeNotifierProvider.select((value) => value.setting));
+//     //useFuture(useMemoized(appTheme.themeMode, [setting]));
+
+//     return GetMaterialApp(
+//         title: 'Flutter Architecture Blueprints',
+//         theme: lightTheme,
+//         darkTheme: darkTheme,
+//         themeMode: setting ?? ThemeMode.light,
+//         home: HomePage(),
+//         // localizationsDelegates: L10n.localizationsDelegates,
+//         // supportedLocales: L10n.supportedLocales,
+//         routes: {
+//           Constants.pageHome: (context) => HomePage(),
+//           Constants.pageSignIn: (context) => SignInPage(),
+//           Constants.pageDetail: (context) => DetailPage(),
+//         });
+//   }
+// }
