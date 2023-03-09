@@ -6,10 +6,10 @@ class MyTextTheme {
   static const colors = AppColors();
   static TextTheme lightTextTheme = ThemeData.light().textTheme.copyWith(
         headlineLarge: TextStyle(
-            color: colors.secondaryColor,
+            color: colors.primaryColor,
             fontWeight: FontWeight.bold,
             fontSize: 36),
-        headlineMedium: TextStyle(color: colors.secondaryColor),
+        headlineMedium: TextStyle(color: colors.secondaryColor, fontSize: 24),
         titleSmall: TextStyle(color: colors.primaryColor),
         titleLarge: TextStyle(color: colors.primaryColor),
         titleMedium: TextStyle(color: colors.primaryColor),
