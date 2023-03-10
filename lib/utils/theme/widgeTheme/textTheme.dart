@@ -10,6 +10,7 @@ class MyTextTheme {
             fontWeight: FontWeight.bold,
             fontSize: 36),
         headlineMedium: TextStyle(color: colors.secondaryColor, fontSize: 24),
+        headlineSmall: TextStyle(color: colors.primaryColor, fontSize: 18),
         titleSmall: TextStyle(color: colors.primaryColor),
         titleLarge: TextStyle(color: colors.primaryColor),
         titleMedium: TextStyle(color: colors.primaryColor),

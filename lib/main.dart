@@ -2,12 +2,12 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:online_english/utils/theme/my_theme.dart';
 
-import 'screens/login_screen.dart';
+import 'screens/login_screen/login_screen.dart';
 
 void main() {
   runApp(DevicePreview(
     enabled: true,
-    tools: [
+    tools: const [
       ...DevicePreview.defaultTools,
       //const CustomPlugin(),
     ],
@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
       //   // is not restarted.
       //   primarySwatch: Colors.blue,
       // ),
-      home: const Androidlarge1Widget(),
+      home: const LoginScreen(),
     );
   }
 }

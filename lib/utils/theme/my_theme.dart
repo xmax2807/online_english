@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:online_english/utils/theme/widgeTheme/textTheme.dart';
+import 'package:online_english/utils/theme/widgeTheme/buttonTheme.dart';
 
 @immutable
 class AppColors {
@@ -18,24 +19,11 @@ class MyTheme {
   static const colors = AppColors();
 
   const MyTheme._();
-  static ButtonStyle flatButtonStyle = TextButton.styleFrom(
-    backgroundColor: colors.primaryColor,
-    foregroundColor: colors.onPrimaryColor,
-    textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-    minimumSize: const Size.fromHeight(60),
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.all(Radius.circular(25.0)),
-    ),
-  );
-  static ButtonStyle outlineButtonStyle = OutlinedButton.styleFrom(
-    foregroundColor: colors.secondaryColor,
-    textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-    minimumSize: const Size.fromHeight(60),
-    side: BorderSide(color: colors.secondaryColor, width: 1),
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.all(Radius.circular(25.0)),
-    ),
-  );
+  static ButtonStyle flatButtonStyle = MyButtonTheme.flatButtonStyle;
+  static ButtonStyle outlineButtonStyle = MyButtonTheme.outlineButtonStyle;
+  static ButtonStyle iconButtonStyle = MyButtonTheme.iconButtonStyle;
+  static ButtonStyle tagButtonStyle = MyButtonTheme.tagButtonStyle;
+
   static TextStyle linkTextSyle = TextStyle(
       color: colors.secondaryColor, decoration: TextDecoration.underline);
   static ThemeData lightTheme = ThemeData.light().copyWith(
