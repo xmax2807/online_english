@@ -74,18 +74,13 @@ class TeacherCardState extends State<TeacherCardWidget> {
                               pressed = !pressed;
                             });
                           },
-                          child: pressed == true
-                              ? SvgPicture.asset(
-                                  Assets.myCustomIcons.hearts.heartFill,
-                                  colorFilter: ColorFilter.mode(
-                                      MyTheme.colors.primaryColor,
-                                      BlendMode.srcIn),
-                                )
-                              : SvgPicture.asset(
-                                  Assets.myCustomIcons.hearts.heartOutline,
-                                  colorFilter: ColorFilter.mode(
-                                      MyTheme.colors.primaryColor,
-                                      BlendMode.srcIn)),
+                          child: SvgPicture.asset(
+                            pressed == true
+                                ? Assets.myCustomIcons.hearts.heartFill
+                                : Assets.myCustomIcons.hearts.heartOutline,
+                            colorFilter: ColorFilter.mode(
+                                MyTheme.colors.primaryColor, BlendMode.srcIn),
+                          ),
                         ),
                       ),
                     ],

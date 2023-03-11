@@ -10,7 +10,7 @@ class AppColors {
   final red = const Color(0xFFFF0000);
   final primaryColor = const Color(0xFF222831); // e.g: app bar
   final onPrimaryColor = const Color(0xffffffff); // e.g: Text
-  final secondaryColor = const Color(0xFF00ADB5); // e.g: Button
+  final secondaryColor = const Color(0xFF27BBC3); // e.g: Button
   final onSecondaryColor = const Color(0xFFEEEEEE);
   const AppColors();
 }

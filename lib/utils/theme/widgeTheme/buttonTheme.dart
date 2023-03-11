@@ -6,7 +6,7 @@ class MyButtonTheme {
   static const colors = AppColors();
   static final ButtonStyle baseButtonStyle = TextButton.styleFrom(
     minimumSize: const Size(50, 50),
-    padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+    padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.all(Radius.circular(25.0)),
     ),
@@ -32,7 +32,8 @@ class MyButtonTheme {
     //padding: const EdgeInsets.all(8),
   );
   static final ButtonStyle tagButtonStyle = TextButton.styleFrom(
-    minimumSize: const Size(50, 40),
+    minimumSize: const Size(50, 30),
+    padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
     backgroundColor: const Color(0xFFD7D7D7),
     foregroundColor: colors.primaryColor,
   ).merge(baseButtonStyle);
