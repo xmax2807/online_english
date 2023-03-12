@@ -17,21 +17,32 @@ class _TutorScreenState extends State<TutorScreen>
     super.build(context);
     return SafeArea(
       child: Scaffold(
-        body: Column(
-          children: [
-            const MySearchWidget(),
-            Expanded(
-              child: ListView.separated(
-                shrinkWrap: true,
-                physics: const BouncingScrollPhysics(),
-                itemCount: 25,
-                separatorBuilder: (ctx, i) => const SizedBox(
-                  height: 10,
+        body: Center(
+          child: FractionallySizedBox(
+            widthFactor: 0.9,
+            child: Column(
+              // mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  "Search a Tutor",
+                  style: Theme.of(context).textTheme.headlineLarge,
                 ),
-                itemBuilder: (ctx, i) => TeacherCardWidget(),
-              ),
+                const MySearchWidget(),
+                Expanded(
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    physics: const BouncingScrollPhysics(),
+                    itemCount: 25,
+                    separatorBuilder: (ctx, i) => const SizedBox(
+                      height: 10,
+                    ),
+                    itemBuilder: (ctx, i) => TeacherCardWidget(),
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

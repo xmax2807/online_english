@@ -26,15 +26,6 @@ class TeacherCardState extends State<TeacherCardWidget> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      // decoration: const BoxDecoration(
-      //     color: Colors.white,
-      //     borderRadius: BorderRadius.all(Radius.circular(15)),
-      //     boxShadow: [
-      //       BoxShadow(
-      //           blurRadius: 1,
-      //           spreadRadius: 0.01,
-      //           color: Color.fromARGB(150, 0, 0, 0))
-      //     ]),
       height: 300,
       child: Card(
         shape: const RoundedRectangleBorder(
@@ -78,6 +69,7 @@ class TeacherCardState extends State<TeacherCardWidget> {
                             pressed == true
                                 ? Assets.myCustomIcons.hearts.heartFill
                                 : Assets.myCustomIcons.hearts.heartOutline,
+                            alignment: Alignment.centerRight,
                             colorFilter: ColorFilter.mode(
                                 MyTheme.colors.primaryColor, BlendMode.srcIn),
                           ),

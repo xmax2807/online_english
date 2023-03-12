@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:online_english/screens/course_screen/course_screen.dart';
 import 'package:online_english/screens/tutor/tutor_screen.dart';
 import 'package:online_english/utils/theme/my_theme.dart';
 
 import '../../utils/builtIcon/my_built_in_icons.dart';
+import '../schedule_screen/schedule_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -36,14 +38,8 @@ class _HomeScreenState extends State<HomeScreen> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     TutorScreen(),
-    Text(
-      'Index 1: Business',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: School',
-      style: optionStyle,
-    ),
+    ScheduleScreen(),
+    CourseScreen(),
     Text(
       'Index 3: School',
       style: optionStyle,
