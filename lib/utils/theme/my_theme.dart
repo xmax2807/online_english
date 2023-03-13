@@ -28,6 +28,14 @@ class MyTheme {
   static TextStyle linkTextSyle = TextStyle(
       color: colors.secondaryColor, decoration: TextDecoration.underline);
   static ThemeData lightTheme = ThemeData.light().copyWith(
+    tabBarTheme: TabBarTheme(
+      labelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+      unselectedLabelStyle:
+          const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+      indicatorColor: colors.secondaryColor,
+      labelColor: colors.onSecondaryColor,
+      indicator: BoxDecoration(color: colors.primaryColor.withAlpha(150)),
+    ),
     primaryTextTheme: GoogleFonts.robotoTextTheme(MyTextTheme.lightTextTheme),
     textTheme: GoogleFonts.robotoTextTheme(MyTextTheme.lightTextTheme),
     colorScheme: ColorScheme(

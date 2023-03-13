@@ -9,7 +9,6 @@ class LessonRequestContainer extends StatefulWidget {
 }
 
 class _LessonRequestContainerState extends State<LessonRequestContainer> {
-  bool isExpanded = false;
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -54,9 +53,6 @@ class _LessonRequestContainerState extends State<LessonRequestContainer> {
             children: const <Widget>[
               ListTile(title: Text('This is tile number 1')),
             ],
-            onExpansionChanged: (bool expanded) => setState(() {
-              isExpanded = expanded;
-            }),
           ),
           const SizedBox(
             height: 10,

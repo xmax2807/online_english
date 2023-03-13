@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:online_english/screens/course_screen/components/lesson_card_component.dart';
+import 'package:online_english/screens/shared_components/complex_search_component.dart';
+import 'package:online_english/screens/shared_components/my_stateless_listview_widget.dart';
+import 'package:online_english/screens/view_course_screen/view_course_screen.dart';
+
+import '../shared_components/my_drop_down.dart';
 
 class CourseScreen extends StatefulWidget {
   const CourseScreen({super.key});
@@ -9,21 +14,75 @@ class CourseScreen extends StatefulWidget {
 }
 
 class _CourseScreenState extends State<CourseScreen> {
+  final List<Widget> filters = [
+    MyDropDownWidget<String>(
+      hint: "Level",
+      dataList: const ["Begginer", "Intermediate", "Advanced"],
+    ),
+    MyDropDownWidget<String>(
+      hint: "Choose a Nationality",
+      dataList: const [
+        "Design Pattern",
+        "OOP",
+        "Game UI System",
+        "Deep Learning",
+      ],
+    ),
+    MyDropDownWidget<String>(
+        hint: "Sort level order",
+        dataList: const ["Hardest to Easiest", "Easiest to Hardest"]),
+  ];
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-            body: SizedBox.fromSize(
-      size: const Size.fromHeight(250),
-      child: ListView.separated(
-          physics: const BouncingScrollPhysics(),
-          scrollDirection: Axis.horizontal,
-          shrinkWrap: true,
-          itemBuilder: (ctx, i) => const LessonCardWidget(),
-          separatorBuilder: (ctx, i) => const SizedBox(
-                width: 5,
-              ),
-          itemCount: 25),
-    )));
+            body: ScrollConfiguration(
+                behavior:
+                    ScrollConfiguration.of(context).copyWith(scrollbars: false),
+                child: SingleChildScrollView(
+                    padding:
+                        const EdgeInsets.only(left: 20, right: 20, top: 10),
+                    child: Column(
+                      children: [
+                        Container(
+                          height: 50,
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "Find a course",
+                            style: Theme.of(context).textTheme.headlineLarge,
+                          ),
+                        ),
+                        MySearchWidget(
+                            filters: filters, hintSearch: "Find a course"),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        for (int i = 0; i < 3; i++)
+                          ListTile(
+                            title: Text(
+                              "ASd",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineMedium!
+                                  .copyWith(fontWeight: FontWeight.bold),
+                            ),
+                            subtitle: SizedBox.fromSize(
+                                size: const Size.fromHeight(250),
+                                child: MyStatelessListView(
+                                    onTapItem: (i) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const ViewCourseScreen()),
+                                      );
+                                    },
+                                    onBuildWidget: (int index) =>
+                                        const LessonCardWidget(),
+                                    itemCount: 25,
+                                    scrollDirection: Axis.horizontal)),
+                          ),
+                      ],
+                    )))));
   }
 }
