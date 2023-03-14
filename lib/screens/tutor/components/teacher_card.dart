@@ -2,6 +2,7 @@ import 'package:extended_wrap/extended_wrap.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:online_english/screens/shared_components/teacher_profile_info.dart';
+import 'package:online_english/screens/tutor/tutor_detail_screen.dart';
 
 import '../../../gen/assets.gen.dart';
 import '../../../utils/theme/my_theme.dart';
@@ -39,17 +40,29 @@ class TeacherCardState extends State<TeacherCardWidget> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(
-                  height: 90,
+                  height: 80,
                   child: Row(
                     // profile + react
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
-                        child: TeacherProfileWidget(
-                          teacherName: "ASD",
-                          nationality: "France",
-                          svgFlag: Assets.flags.fr,
-                          rating: 5,
+                        child: InkWell(
+                          hoverColor: Colors.transparent,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const TutorDetailScreen()),
+                            );
+                          },
+                          child: TeacherProfileWidget(
+                            teacherName: "ASD",
+                            nationality: "France",
+                            svgFlag: Assets.flags.fr,
+                            rating: 5,
+                            dimension: 70,
+                          ),
                         ),
                       ),
                       Container(

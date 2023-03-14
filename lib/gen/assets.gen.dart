@@ -1134,9 +1134,25 @@ class $AssetsMyCustomIconsGen {
   /// File path: assets/my_custom_icons/phone.svg
   String get phone => 'assets/my_custom_icons/phone.svg';
 
+  /// File path: assets/my_custom_icons/report-svgrepo-com.svg
+  String get reportSvgrepoCom =>
+      'assets/my_custom_icons/report-svgrepo-com.svg';
+
+  /// File path: assets/my_custom_icons/star.svg
+  String get star => 'assets/my_custom_icons/star.svg';
+
   /// List of all assets
-  List<String> get values =>
-      [avatar, avatarFemale, facebook, facebookSvg, google, googleSvg, phone];
+  List<String> get values => [
+        avatar,
+        avatarFemale,
+        facebook,
+        facebookSvg,
+        google,
+        googleSvg,
+        phone,
+        reportSvgrepoCom,
+        star
+      ];
 }
 
 class $AssetsMyCustomIconsHeartsGen {

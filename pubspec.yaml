@@ -48,6 +48,8 @@ dependencies:
   flutter_svg: ^2.0.2
   flutter_rating_bar: ^4.0.1
   extended_wrap: ^0.1.5
+  readmore: ^2.2.0
+  syncfusion_flutter_calendar: ^20.4.53
 
 dev_dependencies:
   flutter_test:
