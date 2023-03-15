@@ -5,13 +5,15 @@ import '../../gen/assets.gen.dart';
 class MyAppBar extends StatefulWidget {
   final List<Widget> tabWidgets;
   final List<String> tabLabels;
+  final String courseName;
   final ImageProvider<Object>? appbarImage;
 
   const MyAppBar(
       {super.key,
       required this.tabWidgets,
       required this.tabLabels,
-      this.appbarImage});
+      this.appbarImage,
+      required this.courseName});
 
   @override
   State<MyAppBar> createState() => _MyAppBarState();
@@ -32,6 +34,7 @@ class _MyAppBarState extends State<MyAppBar>
       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
         return <Widget>[
           SliverAppBar(
+            title: Text(widget.courseName),
             expandedHeight: 200,
             flexibleSpace: Stack(
               // fill whole appbar
@@ -43,7 +46,7 @@ class _MyAppBarState extends State<MyAppBar>
                     image: Assets.images.loginScreenBG.provider(),
                     fit: BoxFit.cover,
                   ),
-                )
+                ),
               ],
             ),
             pinned: true,

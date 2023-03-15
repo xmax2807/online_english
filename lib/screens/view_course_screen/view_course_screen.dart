@@ -10,8 +10,9 @@ class ViewCourseScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
         body: MyAppBar(
+      courseName: "Design Pattern",
       tabLabels: ["About", "Topics"],
-      tabWidgets: [AboutCourse(), DetailCourseScreen()],
+      tabWidgets: [AboutCourse(), CourseTopicsScreen()],
     ));
   }
 }

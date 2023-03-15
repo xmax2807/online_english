@@ -13,7 +13,7 @@ class LessonResultContainer extends StatelessWidget {
     speakValue: 1,
     vocabVal: 1,
     comment:
-        'Quang Huy, you are such an idiot. Please do not attend my class, ever!!!',
+        'Quang Huy, you are such an idiot. Please do not attend my class ever again !!!',
   ));
   LessonResultContainer({super.key, this.recordvideoLink});
 

@@ -1,7 +1,8 @@
 import 'package:extended_wrap/extended_wrap.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:online_english/screens/shared_components/my_icon_button.dart';
 import 'package:online_english/screens/shared_components/teacher_profile_info.dart';
+import 'package:online_english/screens/tutor/tutor_book_screen.dart';
 import 'package:online_english/screens/tutor/tutor_detail_screen.dart';
 
 import '../../../gen/assets.gen.dart';
@@ -66,28 +67,12 @@ class TeacherCardState extends State<TeacherCardWidget> {
                         ),
                       ),
                       Container(
-                        alignment: Alignment.topRight,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.transparent,
-                            splashFactory: NoSplash.splashFactory,
-                            shadowColor: Colors.transparent,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              pressed = !pressed;
-                            });
-                          },
-                          child: SvgPicture.asset(
-                            pressed == true
-                                ? Assets.myCustomIcons.hearts.heartFill
-                                : Assets.myCustomIcons.hearts.heartOutline,
-                            alignment: Alignment.centerRight,
-                            colorFilter: ColorFilter.mode(
-                                MyTheme.colors.primaryColor, BlendMode.srcIn),
-                          ),
-                        ),
-                      ),
+                          alignment: Alignment.topRight,
+                          child: MyToggleButton(
+                              toggleOffIcon:
+                                  Assets.myCustomIcons.hearts.heartOutline,
+                              toggleOnIcon:
+                                  Assets.myCustomIcons.hearts.heartFill)),
                     ],
                   ),
                 ),
@@ -121,7 +106,13 @@ class TeacherCardState extends State<TeacherCardWidget> {
                       Icons.calendar_month,
                     ),
                     label: const Text("Book"),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const TutorBookingScreen()),
+                      );
+                    },
                   ),
                 )
               ]),

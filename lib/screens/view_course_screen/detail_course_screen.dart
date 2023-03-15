@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../shared_components/my_drop_down.dart';
 
-class DetailCourseScreen extends StatefulWidget {
-  const DetailCourseScreen({super.key});
+class CourseTopicsScreen extends StatefulWidget {
+  const CourseTopicsScreen({super.key});
 
   @override
-  State<DetailCourseScreen> createState() => _DetailCourseScreenState();
+  State<CourseTopicsScreen> createState() => _CourseTopicsScreenState();
 }
 
-class _DetailCourseScreenState extends State<DetailCourseScreen> {
+class _CourseTopicsScreenState extends State<CourseTopicsScreen> {
   int currentIndex = 0;
   void onPageChanged(int index) {
     currentIndex = index;

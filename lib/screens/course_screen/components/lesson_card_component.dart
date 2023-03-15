@@ -27,18 +27,17 @@ class LessonCardWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Design Pattern",
-                          style: Theme.of(context).textTheme.headlineMedium,
-                        ),
-                        Text(
-                          "Description",
-                          style: TextStyle(color: MyTheme.colors.lightGray),
-                        ),
-                      ]),
+                  ListTile(
+                    contentPadding: const EdgeInsets.only(left: 0, right: 0),
+                    title: Text(
+                      "Design Pattern",
+                      style: Theme.of(context).textTheme.headlineMedium,
+                    ),
+                    subtitle: Text(
+                      "Description",
+                      style: TextStyle(color: MyTheme.colors.lightGray),
+                    ),
+                  ),
                   Text(
                     "Intermediate",
                     style: Theme.of(context).textTheme.headlineSmall,

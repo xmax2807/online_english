@@ -12,9 +12,7 @@ class _TutorBookingScreenState extends State<TutorBookingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          centerTitle: false,
-        ),
+        appBar: AppBar(),
         body: Container(
           padding: const EdgeInsets.all(16),
           child: SfCalendar(

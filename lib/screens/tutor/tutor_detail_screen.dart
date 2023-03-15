@@ -13,7 +13,7 @@ class TutorDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(centerTitle: false),
+      appBar: AppBar(),
       body: ListView(
           shrinkWrap: true,
           padding: const EdgeInsets.all(16.0),

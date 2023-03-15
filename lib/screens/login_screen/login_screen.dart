@@ -55,63 +55,61 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Container(
-                              alignment: Alignment.centerLeft,
-                              child: Column(
-                                children: [
-                                  Text('Welcome',
-                                      style: context
-                                          .theme.textTheme.headlineLarge),
-                                  Text('Description',
-                                      style: context
-                                          .theme.textTheme.headlineMedium)
-                                ],
-                              )),
+                          ListTile(
+                            title: Text('Welcome',
+                                style: context.theme.textTheme.headlineLarge),
+                            subtitle: Text('Description',
+                                style: context.theme.textTheme.headlineMedium),
+                          ),
                           const SizedBox(
                             height: 20,
                           ),
-                          const TextField(
-                            decoration: InputDecoration(
-                              labelText: "Email",
-                              contentPadding:
-                                  EdgeInsets.fromLTRB(25, 10, 25, 10),
-                              border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(100)),
+                          Column(
+                            children: [
+                              const TextField(
+                                decoration: InputDecoration(
+                                  labelText: "Email",
+                                  contentPadding:
+                                      EdgeInsets.fromLTRB(25, 10, 25, 10),
+                                  border: OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(100)),
+                                  ),
+                                  suffixIcon: IconButton(
+                                    icon: Icon(Icons.clear_rounded),
+                                    onPressed: null,
+                                  ),
+                                ),
                               ),
-                              suffixIcon: IconButton(
-                                icon: Icon(Icons.clear_rounded),
-                                onPressed: null,
+                              const SizedBox(
+                                height: 10,
+                              ), //% space
+                              const TextField(
+                                obscureText: true,
+                                decoration: InputDecoration(
+                                  labelText: "Password",
+                                  contentPadding:
+                                      EdgeInsets.fromLTRB(25, 10, 25, 10),
+                                  border: OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(100)),
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ), //% space
-                          const TextField(
-                            obscureText: true,
-                            decoration: InputDecoration(
-                              labelText: "Password",
-                              contentPadding:
-                                  EdgeInsets.fromLTRB(25, 10, 25, 10),
-                              border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(100)),
+                              const SizedBox(
+                                height: 5,
                               ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            child: RichText(
-                              text: TextSpan(
-                                  style: MyTheme.linkTextSyle,
-                                  text: 'Forgot Password?',
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () {}),
-                            ),
+                              Container(
+                                alignment: Alignment.centerLeft,
+                                child: RichText(
+                                  text: TextSpan(
+                                      style: MyTheme.linkTextSyle,
+                                      text: 'Forgot Password?',
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = () {}),
+                                ),
+                              ),
+                            ],
                           ),
                           const SizedBox(
                             height: 20,
