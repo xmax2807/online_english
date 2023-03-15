@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:online_english/utils/theme/widgeTheme/textTheme.dart';
+import 'package:online_english/utils/theme/widgeTheme/buttonTheme.dart';
 
 @immutable
 class AppColors {
   final white = const Color(0xffffffff);
   final black = const Color(0xFF000000);
   final red = const Color(0xFFFF0000);
+  final lightGray = const Color(0xFFB4B4B4);
   final primaryColor = const Color(0xFF222831); // e.g: app bar
   final onPrimaryColor = const Color(0xffffffff); // e.g: Text
-  final secondaryColor = const Color(0xFF00ADB5); // e.g: Button
+  final secondaryColor = const Color(0xFF27BBC3); // e.g: Button
   final onSecondaryColor = const Color(0xFFEEEEEE);
   const AppColors();
 }
@@ -18,8 +20,23 @@ class MyTheme {
   static const colors = AppColors();
 
   const MyTheme._();
+  static ButtonStyle flatButtonStyle = MyButtonTheme.flatButtonStyle;
+  static ButtonStyle outlineButtonStyle = MyButtonTheme.outlineButtonStyle;
+  static ButtonStyle iconButtonStyle = MyButtonTheme.iconButtonStyle;
+  static ButtonStyle tagButtonStyle = MyButtonTheme.tagButtonStyle;
+  static ButtonStyle textOnlyStyle = MyButtonTheme.textOnlyStyle;
 
+  static TextStyle linkTextSyle = TextStyle(
+      color: colors.secondaryColor, decoration: TextDecoration.underline);
   static ThemeData lightTheme = ThemeData.light().copyWith(
+    tabBarTheme: TabBarTheme(
+      labelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+      unselectedLabelStyle:
+          const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+      indicatorColor: colors.secondaryColor,
+      labelColor: colors.onSecondaryColor,
+      indicator: BoxDecoration(color: colors.primaryColor.withAlpha(150)),
+    ),
     primaryTextTheme: GoogleFonts.robotoTextTheme(MyTextTheme.lightTextTheme),
     textTheme: GoogleFonts.robotoTextTheme(MyTextTheme.lightTextTheme),
     colorScheme: ColorScheme(
@@ -36,7 +53,7 @@ class MyTheme {
       onSurface: colors.black,
       surface: colors.white,
     ),
-    scaffoldBackgroundColor: colors.onSecondaryColor,
+    scaffoldBackgroundColor: colors.onPrimaryColor,
     //iconTheme: IconThemeData(color: colors.onSecondaryColor),
     floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: colors.secondaryColor,
@@ -44,8 +61,8 @@ class MyTheme {
   );
 
   static ThemeData darkTheme = ThemeData.dark().copyWith(
-    primaryTextTheme: MyTextTheme.lightTextTheme,
-    textTheme: GoogleFonts.robotoTextTheme(MyTextTheme.lightTextTheme),
+    primaryTextTheme: MyTextTheme.darkTextTheme,
+    textTheme: GoogleFonts.robotoTextTheme(MyTextTheme.darkTextTheme),
     colorScheme: ColorScheme(
       primary: colors.primaryColor,
       //primaryContainer: colors.onPrimaryColor,
