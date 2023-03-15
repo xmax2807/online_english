@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -34,10 +36,10 @@ class TeacherProfileWidget extends StatelessWidget {
       ),
       const SizedBox(width: 10),
       SizedBox(
-        height: dimension,
+        height: max(dimension, 70),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Text(
               teacherName,
@@ -55,7 +57,10 @@ class TeacherProfileWidget extends StatelessWidget {
                     fit: BoxFit.contain,
                   ),
                 ),
-                Text(nationality),
+                Text(
+                  nationality,
+                  style: const TextStyle(fontSize: 16),
+                ),
               ],
             ),
             RatingBarIndicator(
@@ -65,7 +70,7 @@ class TeacherProfileWidget extends StatelessWidget {
                 color: Colors.amber,
               ),
               itemCount: 5,
-              itemSize: 20.0,
+              itemSize: 15,
               direction: Axis.horizontal,
             ),
           ],

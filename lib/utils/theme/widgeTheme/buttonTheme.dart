@@ -37,4 +37,10 @@ class MyButtonTheme {
     backgroundColor: const Color(0xFFD7D7D7),
     foregroundColor: colors.primaryColor,
   ).merge(baseButtonStyle);
+
+  static final ButtonStyle textOnlyStyle = ButtonStyle(
+          foregroundColor: MaterialStatePropertyAll(colors.primaryColor),
+          backgroundColor: const MaterialStatePropertyAll(Colors.transparent),
+          overlayColor: const MaterialStatePropertyAll(Colors.transparent))
+      .merge(tagButtonStyle);
 }
