@@ -6,9 +6,10 @@ class ApiKeys {
   static const String loginFB = "auth/facebook";
   static const String resetPassword = "user/forgotPassword";
   static const String changePassword = "auth/change-password";
+  static const String verifyAccount = "auth/verifyAccount";
   //Tutor
   static const String becomeTeacher = "tutor/register";
-  static const String listTutor = "tutor/more?perPage=9&page=1";
+  static const String listTutor = "tutor/more";
   static const String feedbackTutor = "user/feedbackTutor";
   static const String tutorInfo = "tutor/:tutorId";
   static const String searchTutor = "tutor/search";

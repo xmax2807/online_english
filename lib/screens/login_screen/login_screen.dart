@@ -1,19 +1,19 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:online_english/screens/sign_up_screen/sign_up_screen.dart';
+import 'package:online_english/services/auth_service.dart';
+import 'package:online_english/utils/field_validators/login_validator.dart';
+import 'package:online_english/utils/pop_up/pop_up_ui.dart';
 import '../../gen/assets.gen.dart';
 import '../../utils/theme/my_theme.dart';
 import '../home_screen/home_screen.dart';
 import 'button_group.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class LoginScreen extends ConsumerWidget {
+  LoginScreen({super.key});
 
-  @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
   final ImageProvider<Object> backgroundImage =
       Assets.images.loginScreenBG.provider();
 
@@ -24,15 +24,12 @@ class _LoginScreenState extends State<LoginScreen> {
   ];
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    precacheImage(backgroundImage, context);
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final loginValidator = ref.watch(loginValidatorProvider);
+    final authService = ref.watch(authServiceProvider);
     // Figma Flutter Generator Androidlarge1Widget - FRAME - VERTICAL
     return Scaffold(
+      key: scaffoldMessengerKey,
       body: SafeArea(
         child: Stack(
           children: [
@@ -64,29 +61,37 @@ class _LoginScreenState extends State<LoginScreen> {
                           const SizedBox(
                             height: 20,
                           ),
-                          Column(
-                            children: [
-                              const TextField(
+                          Form(
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            child: Column(children: [
+                              TextFormField(
+                                validator: loginValidator.validateEmail,
+                                controller: loginValidator.emailController,
                                 decoration: InputDecoration(
                                   labelText: "Email",
                                   contentPadding:
-                                      EdgeInsets.fromLTRB(25, 10, 25, 10),
-                                  border: OutlineInputBorder(
+                                      const EdgeInsets.fromLTRB(25, 10, 25, 10),
+                                  border: const OutlineInputBorder(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(100)),
                                   ),
                                   suffixIcon: IconButton(
-                                    icon: Icon(Icons.clear_rounded),
-                                    onPressed: null,
+                                    icon: const Icon(Icons.clear_rounded),
+                                    onPressed: () {
+                                      loginValidator.emailController.text = '';
+                                    },
                                   ),
                                 ),
                               ),
                               const SizedBox(
                                 height: 10,
                               ), //% space
-                              const TextField(
+                              TextFormField(
+                                validator: loginValidator.validatePassword,
+                                controller: loginValidator.passwordController,
                                 obscureText: true,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   labelText: "Password",
                                   contentPadding:
                                       EdgeInsets.fromLTRB(25, 10, 25, 10),
@@ -109,7 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         ..onTap = () {}),
                                 ),
                               ),
-                            ],
+                            ]),
                           ),
                           const SizedBox(
                             height: 20,
@@ -129,14 +134,25 @@ class _LoginScreenState extends State<LoginScreen> {
                                               const MaterialStatePropertyAll(
                                                   TextStyle(fontSize: 18)),
                                         ),
-                                        onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const HomeScreen()),
-                                          );
-                                        },
+                                        onPressed: !loginValidator.isAllValid
+                                            ? null
+                                            : () {
+                                                authService
+                                                    .signInWithEmailAndPassword(
+                                                        loginValidator.email,
+                                                        loginValidator.password)
+                                                    .then((value) {
+                                                  if (authService
+                                                      .isAuthenicated) {
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              const HomeScreen()),
+                                                    );
+                                                  }
+                                                });
+                                              },
                                         child: const Text("Login")),
                                     const SizedBox(
                                       height: 10,
@@ -177,12 +193,19 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                   OutlinedButton(
                                       style: MyTheme.outlineButtonStyle,
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  SignUpScreen()),
+                                        );
+                                      },
                                       child: const Text("Sign Up")),
                                 ],
                               )
                             ],
-                          )
+                          ),
                         ],
                       ),
                     ),

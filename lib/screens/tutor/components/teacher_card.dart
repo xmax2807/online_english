@@ -1,5 +1,6 @@
 import 'package:extended_wrap/extended_wrap.dart';
 import 'package:flutter/material.dart';
+import 'package:online_english/data/model/tutor_model/dto/overview_teacher_profile.dart';
 import 'package:online_english/screens/shared_components/my_icon_button.dart';
 import 'package:online_english/screens/shared_components/teacher_profile_info.dart';
 import 'package:online_english/screens/tutor/tutor_book_screen.dart';
@@ -17,14 +18,16 @@ class TeacherCardWidget extends StatefulWidget {
     "Deep Learning",
     "Reactive Programming"
   ];
+  final TeacherOverviewDTO dto;
 
-  TeacherCardWidget({super.key});
+  TeacherCardWidget({super.key, required this.dto});
   @override
   State<StatefulWidget> createState() => TeacherCardState();
 }
 
 class TeacherCardState extends State<TeacherCardWidget> {
   bool pressed = false;
+  TeacherOverviewDTO get currentDTO => widget.dto;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -58,10 +61,10 @@ class TeacherCardState extends State<TeacherCardWidget> {
                             );
                           },
                           child: TeacherProfileWidget(
-                            teacherName: "ASD",
-                            nationality: "France",
+                            teacherName: currentDTO.name,
+                            nationality: currentDTO.country!,
                             svgFlag: Assets.flags.fr,
-                            rating: 5,
+                            rating: currentDTO.rating,
                             dimension: 70,
                           ),
                         ),
@@ -69,6 +72,8 @@ class TeacherCardState extends State<TeacherCardWidget> {
                       Container(
                           alignment: Alignment.topRight,
                           child: MyToggleButton(
+                              isOn: currentDTO.isfavoritetutor != null &&
+                                  currentDTO.isfavoritetutor!,
                               toggleOffIcon:
                                   Assets.myCustomIcons.hearts.heartOutline,
                               toggleOnIcon:
@@ -81,7 +86,7 @@ class TeacherCardState extends State<TeacherCardWidget> {
                   spacing: 5,
                   runSpacing: 5,
                   children: [
-                    for (String tag in widget.tags)
+                    for (String tag in currentDTO.specialties.split(','))
                       TextButton(
                           style: MyTheme.tagButtonStyle,
                           onPressed: () {},
@@ -91,9 +96,9 @@ class TeacherCardState extends State<TeacherCardWidget> {
                 const SizedBox(
                   height: 10,
                 ),
-                const Expanded(
+                Expanded(
                   child: Text(
-                    'Text largeeeeeeeeeeeeeeeeeeeeeeeas lkdjalsjdlajsldkj alksjdlajsldkjals',
+                    currentDTO.bio!,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 4,
                   ),

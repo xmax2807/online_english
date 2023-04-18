@@ -63,16 +63,18 @@ class TeacherProfileWidget extends StatelessWidget {
                 ),
               ],
             ),
-            RatingBarIndicator(
-              rating: rating!,
-              itemBuilder: (context, index) => const Icon(
-                Icons.star,
-                color: Colors.amber,
-              ),
-              itemCount: 5,
-              itemSize: 15,
-              direction: Axis.horizontal,
-            ),
+            rating == null
+                ? const Text('no review yet')
+                : RatingBarIndicator(
+                    rating: rating!,
+                    itemBuilder: (context, index) => const Icon(
+                      Icons.star,
+                      color: Colors.amber,
+                    ),
+                    itemCount: 5,
+                    itemSize: 15,
+                    direction: Axis.horizontal,
+                  ),
           ],
         ),
       )

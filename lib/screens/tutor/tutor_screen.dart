@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:online_english/screens/shared_components/complex_search_component.dart';
 
+import '../../services/search_tutor_service.dart';
 import '../shared_components/my_drop_down.dart';
 import 'components/teacher_card.dart';
 
-class TutorScreen extends StatefulWidget {
+class TutorScreen extends ConsumerStatefulWidget {
   const TutorScreen({super.key});
 
   @override
-  State<TutorScreen> createState() => _TutorScreenState();
+  ConsumerState<TutorScreen> createState() => _TutorScreenState();
 }
 
-class _TutorScreenState extends State<TutorScreen>
+class _TutorScreenState extends ConsumerState<TutorScreen>
     with AutomaticKeepAliveClientMixin {
   final List<Widget> filters = [
     MyDropDownWidget<DateTime>(
@@ -41,10 +43,17 @@ class _TutorScreenState extends State<TutorScreen>
       icon: const Icon(Icons.clear_rounded),
     ),
   ];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    ref.read(tutorSearchServiceProvider).getList();
+  }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    final listTutor = ref.watch(tutorSearchServiceProvider).listTutor;
     return SafeArea(
       child: Scaffold(
         body: Center(
@@ -62,16 +71,25 @@ class _TutorScreenState extends State<TutorScreen>
                   height: 10,
                 ),
                 MySearchWidget(filters: filters, hintSearch: "Search a tutor"),
-                Expanded(
-                  child: ListView.separated(
-                    shrinkWrap: true,
-                    physics: const BouncingScrollPhysics(),
-                    itemCount: 25,
-                    separatorBuilder: (ctx, i) => const SizedBox(
-                      height: 10,
-                    ),
-                    itemBuilder: (ctx, i) => TeacherCardWidget(),
-                  ),
+                Consumer(
+                  builder: (ctx, widget, _) {
+                    final listTutor =
+                        widget.watch(tutorSearchServiceProvider).listTutor;
+                    return Expanded(
+                      child: listTutor == null || listTutor.isEmpty
+                          ? const Text('empty')
+                          : ListView.separated(
+                              shrinkWrap: true,
+                              physics: const BouncingScrollPhysics(),
+                              itemCount: listTutor.length,
+                              separatorBuilder: (ctx, i) => const SizedBox(
+                                height: 10,
+                              ),
+                              itemBuilder: (ctx, i) =>
+                                  TeacherCardWidget(dto: listTutor[i]),
+                            ),
+                    );
+                  },
                 ),
               ],
             ),

@@ -6,9 +6,17 @@ class AppSetting {
     dotEnv = DotEnv();
   }
 
-  static Future<AppSetting> Initialize() async {
-    var appSetting = AppSetting._();
-    await dotenv.load();
-    return appSetting;
+  static AppSetting? _instance;
+  static AppSetting get instance {
+    if (_instance == null) {
+      throw UnimplementedError();
+    }
+    return _instance!;
+  }
+
+  static Future<bool> initialize() async {
+    _instance = AppSetting._();
+    await _instance!.dotEnv.load();
+    return true;
   }
 }

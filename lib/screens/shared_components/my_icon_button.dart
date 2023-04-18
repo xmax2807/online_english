@@ -26,15 +26,17 @@ class MyIconButton extends StatefulWidget {
 class MyToggleButton extends MyIconButton {
   final String toggleOnIcon;
   final Color? toggleOnColor;
-  const MyToggleButton(
-      {super.key,
-      required String toggleOffIcon,
-      required this.toggleOnIcon,
-      this.toggleOnColor,
-      super.label,
-      super.iconSize,
-      Color? toggleOffColor})
-      : super(iconPath: toggleOffIcon, color: toggleOffColor);
+  bool isOn;
+  MyToggleButton({
+    super.key,
+    required String toggleOffIcon,
+    required this.toggleOnIcon,
+    this.toggleOnColor,
+    super.label,
+    super.iconSize,
+    Color? toggleOffColor,
+    this.isOn = false,
+  }) : super(iconPath: toggleOffIcon, color: toggleOffColor);
   @override
   State<MyIconButton> createState() => _MyToggleButtonState();
 }
@@ -68,7 +70,7 @@ class _MyIconButtonState<T extends MyIconButton> extends State<T> {
 }
 
 class _MyToggleButtonState extends _MyIconButtonState<MyToggleButton> {
-  bool isOn = false;
+  bool get isOn => widget.isOn;
   Color get toggleOffColor =>
       widget.color ?? Theme.of(context).colorScheme.primary;
   Color get toggleOnColor =>
@@ -84,7 +86,7 @@ class _MyToggleButtonState extends _MyIconButtonState<MyToggleButton> {
     return IconButton(
         onPressed: () {
           setState(() {
-            isOn = !isOn;
+            widget.isOn = !isOn;
           });
         },
         icon: SvgPicture.asset(isOn ? widget.toggleOnIcon : widget.iconPath,
