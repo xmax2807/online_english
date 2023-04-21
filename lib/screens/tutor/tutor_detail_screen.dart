@@ -1,3 +1,4 @@
+import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:online_english/screens/shared_components/teacher_profile_info.dart';
@@ -10,21 +11,33 @@ import '../../services/tutor_info_service.dart';
 import '../../utils/theme/my_theme.dart';
 import 'components/button_group.dart';
 
-class TutorDetailScreen extends StatelessWidget {
+class TutorDetailScreen extends ConsumerStatefulWidget {
   final String tutorId;
   const TutorDetailScreen({super.key, required this.tutorId});
+
+  @override
+  ConsumerState<TutorDetailScreen> createState() => _TutorDetailScreen();
+}
+
+class _TutorDetailScreen extends ConsumerState<TutorDetailScreen> {
+  late final TutorInfoService _service;
+  @override
+  void initState() {
+    super.initState();
+
+    _service = ref.read(tutorDetailServiceProvider);
+    _service.getTutorDetail(widget.tutorId);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
       body: Consumer(builder: (context, ref, _) {
-        ref.read(tutorDetailServiceProvider).getTutorDetail(tutorId);
         if (ref.watch(tutorDetailServiceProvider).detailInfo == null) {
-          return const Placeholder();
+          return const Center(child: CircularProgressIndicator());
         }
-        final TeacherDetailDTO data =
-            ref.watch(tutorDetailServiceProvider).detailInfo!;
+        final TeacherDetailDTO data = _service.detailInfo!;
         return ListView(
             shrinkWrap: true,
             padding: const EdgeInsets.all(16.0),
@@ -33,10 +46,14 @@ class TutorDetailScreen extends StatelessWidget {
                 teacherName: data.user.name ?? 'Unknown',
                 nationality: data.user.country ?? '',
                 svgFlag: Assets.flags.fr,
+                avatar: data.user.avatar ?? '',
                 dimension: 100,
                 rating: data.avgRating,
               ),
               const TutorButtonGroup(),
+              const SizedBox(
+                height: 10,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -70,13 +87,9 @@ class TutorDetailScreen extends StatelessWidget {
                   trimCollapsedText: 'Show more',
                   trimExpandedText: 'Show less',
                   moreStyle: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: MyTheme.colors.secondaryColor),
+                      fontSize: 16, color: MyTheme.colors.secondaryColor),
                   lessStyle: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: MyTheme.colors.secondaryColor),
+                      fontSize: 16, color: MyTheme.colors.secondaryColor),
                 ),
               ),
               ListTile(
@@ -89,7 +102,17 @@ class TutorDetailScreen extends StatelessWidget {
                 subtitle:
                     data.experience == null ? null : Text(data.experience!),
               ),
-              const Placeholder(),
+              _service.isVideoAvailable
+                  ? SizedBox(
+                      height: 540,
+                      child: FlickVideoPlayer(
+                          flickManager: _service.flickManager,
+                          flickVideoWithControls: const FlickVideoWithControls(
+                            videoFit: BoxFit.contain,
+                            controls: FlickPortraitControls(),
+                          )),
+                    )
+                  : const Text("No Video Available"),
               ListTile(
                 contentPadding: const EdgeInsets.all(8),
                 minVerticalPadding: 8,

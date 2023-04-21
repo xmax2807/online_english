@@ -16,6 +16,8 @@ class _TutorBookingScreenState extends State<TutorBookingScreen> {
         body: Container(
           padding: const EdgeInsets.all(16),
           child: SfCalendar(
+            minDate: DateTime.now(),
+            showCurrentTimeIndicator: false,
             onTap: (calendarTapDetails) {
               if (calendarTapDetails.targetElement ==
                   CalendarElement.appointment) {
@@ -42,7 +44,7 @@ class _TutorBookingScreenState extends State<TutorBookingScreen> {
             showDatePickerButton: true,
             view: CalendarView.week,
             timeSlotViewSettings: const TimeSlotViewSettings(
-                startHour: 8, endHour: 22, timeInterval: Duration(minutes: 45)),
+                startHour: 8, endHour: 23, timeInterval: Duration(minutes: 45)),
           ),
         ));
   }

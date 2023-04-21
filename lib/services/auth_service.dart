@@ -5,7 +5,7 @@ import 'package:online_english/data/repositories/auth_repository.dart';
 
 import '../data/providers/auth_repos_provider.dart';
 
-final authServiceProvider = ChangeNotifierProvider(
+final authServiceProvider = ChangeNotifierProvider.autoDispose(
     (ref) => AuthenicationService(ref.read(authReposProvider)));
 
 class AuthenicationService extends ChangeNotifier {
