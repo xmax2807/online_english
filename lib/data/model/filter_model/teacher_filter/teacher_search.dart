@@ -14,11 +14,23 @@ class TeacherSearchDTO {
   }
 
   Map<String, dynamic> toJson() {
+    if (search.isEmpty) {
+      return {
+        'filters': filter.toJson(),
+        'page': page,
+        'perPage': perPage,
+      };
+    }
     return {
       'filters': filter.toJson(),
       'page': page,
       'perPage': perPage,
       'search': search,
     };
+  }
+
+  int getPage() {
+    int? result = int.tryParse(page);
+    return result ?? 0;
   }
 }

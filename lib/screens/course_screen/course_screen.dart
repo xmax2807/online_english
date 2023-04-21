@@ -53,7 +53,10 @@ class _CourseScreenState extends State<CourseScreen> {
                           ),
                         ),
                         MySearchWidget(
-                            filters: filters, hintSearch: "Find a course"),
+                          filters: filters,
+                          hintSearch: "Find a course",
+                          onSearchClick: null,
+                        ),
                         const SizedBox(
                           height: 10,
                         ),

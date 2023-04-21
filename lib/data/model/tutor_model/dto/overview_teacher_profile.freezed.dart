@@ -28,7 +28,7 @@ mixin _$TeacherOverviewDTO {
   String get bio => throw _privateConstructorUsedError;
   String get specialties => throw _privateConstructorUsedError;
   double? get rating => throw _privateConstructorUsedError;
-  bool? get isfavoritetutor => throw _privateConstructorUsedError;
+  String? get isfavoritetutor => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -51,7 +51,7 @@ abstract class $TeacherOverviewDTOCopyWith<$Res> {
       String bio,
       String specialties,
       double? rating,
-      bool? isfavoritetutor});
+      String? isfavoritetutor});
 }
 
 /// @nodoc
@@ -113,7 +113,7 @@ class _$TeacherOverviewDTOCopyWithImpl<$Res, $Val extends TeacherOverviewDTO>
       isfavoritetutor: freezed == isfavoritetutor
           ? _value.isfavoritetutor
           : isfavoritetutor // ignore: cast_nullable_to_non_nullable
-              as bool?,
+              as String?,
     ) as $Val);
   }
 }
@@ -135,7 +135,7 @@ abstract class _$$_TeacherOverviewDTOCopyWith<$Res>
       String bio,
       String specialties,
       double? rating,
-      bool? isfavoritetutor});
+      String? isfavoritetutor});
 }
 
 /// @nodoc
@@ -195,7 +195,7 @@ class __$$_TeacherOverviewDTOCopyWithImpl<$Res>
       isfavoritetutor: freezed == isfavoritetutor
           ? _value.isfavoritetutor
           : isfavoritetutor // ignore: cast_nullable_to_non_nullable
-              as bool?,
+              as String?,
     ));
   }
 }
@@ -236,7 +236,7 @@ class _$_TeacherOverviewDTO implements _TeacherOverviewDTO {
   @override
   final double? rating;
   @override
-  final bool? isfavoritetutor;
+  final String? isfavoritetutor;
 
   @override
   String toString() {
@@ -291,7 +291,7 @@ abstract class _TeacherOverviewDTO implements TeacherOverviewDTO {
       required final String bio,
       required final String specialties,
       required final double? rating,
-      required final bool? isfavoritetutor}) = _$_TeacherOverviewDTO;
+      required final String? isfavoritetutor}) = _$_TeacherOverviewDTO;
 
   factory _TeacherOverviewDTO.fromJson(Map<String, dynamic> json) =
       _$_TeacherOverviewDTO.fromJson;
@@ -313,7 +313,7 @@ abstract class _TeacherOverviewDTO implements TeacherOverviewDTO {
   @override
   double? get rating;
   @override
-  bool? get isfavoritetutor;
+  String? get isfavoritetutor;
   @override
   @JsonKey(ignore: true)
   _$$_TeacherOverviewDTOCopyWith<_$_TeacherOverviewDTO> get copyWith =>

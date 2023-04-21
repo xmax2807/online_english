@@ -11,7 +11,7 @@ class ApiKeys {
   static const String becomeTeacher = "tutor/register";
   static const String listTutor = "tutor/more";
   static const String feedbackTutor = "user/feedbackTutor";
-  static const String tutorInfo = "tutor/:tutorId";
+  static const String tutorInfo = "tutor/";
   static const String searchTutor = "tutor/search";
   static const String addToFav = "user/manageFavoriteTutor";
   // Course

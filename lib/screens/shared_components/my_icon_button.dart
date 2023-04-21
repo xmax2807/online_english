@@ -26,9 +26,11 @@ class MyIconButton extends StatefulWidget {
 class MyToggleButton extends MyIconButton {
   final String toggleOnIcon;
   final Color? toggleOnColor;
-  bool isOn;
-  MyToggleButton({
+  final void Function(bool)? onToggle;
+  final bool isOn;
+  const MyToggleButton({
     super.key,
+    this.onToggle,
     required String toggleOffIcon,
     required this.toggleOnIcon,
     this.toggleOnColor,
@@ -70,7 +72,7 @@ class _MyIconButtonState<T extends MyIconButton> extends State<T> {
 }
 
 class _MyToggleButtonState extends _MyIconButtonState<MyToggleButton> {
-  bool get isOn => widget.isOn;
+  late bool isOn = false;
   Color get toggleOffColor =>
       widget.color ?? Theme.of(context).colorScheme.primary;
   Color get toggleOnColor =>
@@ -82,12 +84,20 @@ class _MyToggleButtonState extends _MyIconButtonState<MyToggleButton> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    isOn = widget.isOn;
+  }
+
+  @override
   Widget onCreateButton(BuildContext context) {
     return IconButton(
         onPressed: () {
           setState(() {
-            widget.isOn = !isOn;
+            isOn = !isOn;
           });
+          if (widget.onToggle != null) widget.onToggle!(isOn);
         },
         icon: SvgPicture.asset(isOn ? widget.toggleOnIcon : widget.iconPath,
             colorFilter: ColorFilter.mode(getColor(), BlendMode.srcIn)));

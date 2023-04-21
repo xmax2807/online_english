@@ -17,7 +17,7 @@ _$_TeacherOverviewDTO _$$_TeacherOverviewDTOFromJson(
       bio: json['bio'] as String,
       specialties: json['specialties'] as String,
       rating: (json['rating'] as num?)?.toDouble(),
-      isfavoritetutor: json['isfavoritetutor'] as bool?,
+      isfavoritetutor: json['isfavoritetutor'] as String?,
     );
 
 Map<String, dynamic> _$$_TeacherOverviewDTOToJson(

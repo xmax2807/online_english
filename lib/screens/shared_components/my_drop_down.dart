@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:online_english/utils/theme/my_theme.dart';
 
 class MyDropDownWidget<T> extends StatefulWidget {
-  MyDropDownWidget(
+  const MyDropDownWidget(
       {Key? key,
       this.hint = "Choose an option",
       required this.dataList,
@@ -10,18 +10,16 @@ class MyDropDownWidget<T> extends StatefulWidget {
       this.onValueChanged})
       : super(key: key);
   final String hint;
-  final void Function(int value)? onValueChanged;
-  int? choosenIndex;
+  final void Function(int? index)? onValueChanged;
+  final int? choosenIndex;
   final List<T> dataList;
   @override
   _MyDropDownWidgetState<T> createState() => _MyDropDownWidgetState<T>();
 }
 
 class _MyDropDownWidgetState<T> extends State<MyDropDownWidget<T>> {
-  T? get choosenValue => widget.choosenIndex == null
-      ? null
-      : widget.dataList[widget.choosenIndex!];
-  bool get isChosen => widget.choosenIndex != null;
+  T? choosenValue;
+  bool get isChosen => choosenValue != null;
   static BoxDecoration notChosen = BoxDecoration(
     border: Border.all(color: MyTheme.colors.primaryColor),
     borderRadius: BorderRadius.circular(1000),
@@ -35,6 +33,14 @@ class _MyDropDownWidgetState<T> extends State<MyDropDownWidget<T>> {
       TextStyle(color: MyTheme.colors.primaryColor);
   static TextStyle chosenTextStyle =
       TextStyle(color: MyTheme.colors.onSecondaryColor);
+
+  @override
+  void initState() {
+    super.initState();
+    choosenValue = widget.choosenIndex == null
+        ? null
+        : widget.dataList[widget.choosenIndex!];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,10 +82,15 @@ class _MyDropDownWidgetState<T> extends State<MyDropDownWidget<T>> {
                   ));
             }).toList(),
             onChanged: (T? value) {
+              if (value == null) return;
+
+              int index = widget.dataList.indexOf(value);
+              if (widget.onValueChanged != null) {
+                widget.onValueChanged!(index);
+              }
               setState(() {
-                widget.choosenIndex = widget.dataList.indexOf(value as T);
+                choosenValue = value;
               });
-              widget.onValueChanged!(widget.choosenIndex!);
             },
             iconEnabledColor: isChosen
                 ? MyTheme.colors.onSecondaryColor

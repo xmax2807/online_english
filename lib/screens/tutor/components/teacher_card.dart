@@ -1,26 +1,19 @@
 import 'package:extended_wrap/extended_wrap.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:online_english/data/model/tutor_model/dto/overview_teacher_profile.dart';
 import 'package:online_english/screens/shared_components/my_icon_button.dart';
 import 'package:online_english/screens/shared_components/teacher_profile_info.dart';
 import 'package:online_english/screens/tutor/tutor_book_screen.dart';
-import 'package:online_english/screens/tutor/tutor_detail_screen.dart';
 
 import '../../../gen/assets.gen.dart';
 import '../../../utils/theme/my_theme.dart';
 
 class TeacherCardWidget extends StatefulWidget {
-  final List<String> tags = [
-    "Flutter",
-    "OOP",
-    "Design Pattern",
-    "Dynamic Programming",
-    "Deep Learning",
-    "Reactive Programming"
-  ];
+  final List<String> tags = [];
   final TeacherOverviewDTO dto;
-
-  TeacherCardWidget({super.key, required this.dto});
+  final void Function() onTap;
+  TeacherCardWidget({super.key, required this.dto, required this.onTap});
   @override
   State<StatefulWidget> createState() => TeacherCardState();
 }
@@ -39,88 +32,85 @@ class TeacherCardState extends State<TeacherCardWidget> {
         shadowColor: const Color.fromARGB(255, 0, 0, 0),
         child: Padding(
           padding: const EdgeInsets.all(15),
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                  height: 80,
-                  child: Row(
-                    // profile + react
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: InkWell(
-                          hoverColor: Colors.transparent,
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const TutorDetailScreen()),
-                            );
-                          },
-                          child: TeacherProfileWidget(
-                            teacherName: currentDTO.name,
-                            nationality: currentDTO.country!,
-                            svgFlag: Assets.flags.fr,
-                            rating: currentDTO.rating,
-                            dimension: 70,
+          child: Consumer(builder: (context, ref, _) {
+            return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    height: 80,
+                    child: Row(
+                      // profile + react
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: InkWell(
+                            hoverColor: Colors.transparent,
+                            onTap: widget.onTap,
+                            child: TeacherProfileWidget(
+                              teacherName: currentDTO.name,
+                              nationality: currentDTO.country,
+                              svgFlag: Assets.flags.fr,
+                              rating: currentDTO.rating,
+                              avatar: currentDTO.avatar,
+                              dimension: 70,
+                            ),
                           ),
                         ),
-                      ),
-                      Container(
-                          alignment: Alignment.topRight,
-                          child: MyToggleButton(
-                              isOn: currentDTO.isfavoritetutor != null &&
-                                  currentDTO.isfavoritetutor!,
-                              toggleOffIcon:
-                                  Assets.myCustomIcons.hearts.heartOutline,
-                              toggleOnIcon:
-                                  Assets.myCustomIcons.hearts.heartFill)),
+                        Container(
+                            alignment: Alignment.topRight,
+                            child: MyToggleButton(
+                                onToggle: null,
+                                isOn: currentDTO.isfavoritetutor != null &&
+                                    currentDTO.isfavoritetutor! == '1',
+                                toggleOffIcon:
+                                    Assets.myCustomIcons.hearts.heartOutline,
+                                toggleOnIcon:
+                                    Assets.myCustomIcons.hearts.heartFill)),
+                      ],
+                    ),
+                  ),
+                  ExtendedWrap(
+                    maxLines: 1,
+                    spacing: 5,
+                    //runSpacing: -10,
+                    children: [
+                      for (String tag in currentDTO.specialties.split(','))
+                        TextButton(
+                            style: MyTheme.tagButtonStyle,
+                            onPressed: () {},
+                            child: Text(tag)),
                     ],
                   ),
-                ),
-                ExtendedWrap(
-                  maxLines: 2,
-                  spacing: 5,
-                  runSpacing: 5,
-                  children: [
-                    for (String tag in currentDTO.specialties.split(','))
-                      TextButton(
-                          style: MyTheme.tagButtonStyle,
-                          onPressed: () {},
-                          child: Text(tag)),
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Expanded(
-                  child: Text(
-                    currentDTO.bio!,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 4,
+                  const SizedBox(
+                    height: 10,
                   ),
-                ),
-                Container(
-                  alignment: Alignment.centerRight,
-                  child: TextButton.icon(
-                    style: MyTheme.outlineButtonStyle,
-                    icon: const Icon(
-                      Icons.calendar_month,
+                  Expanded(
+                    child: Text(
+                      currentDTO.bio,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 4,
                     ),
-                    label: const Text("Book"),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const TutorBookingScreen()),
-                      );
-                    },
                   ),
-                )
-              ]),
+                  Container(
+                    alignment: Alignment.centerRight,
+                    child: TextButton.icon(
+                      style: MyTheme.outlineButtonStyle,
+                      icon: const Icon(
+                        Icons.calendar_month,
+                      ),
+                      label: const Text("Book"),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const TutorBookingScreen()),
+                        );
+                      },
+                    ),
+                  )
+                ]);
+          }),
         ),
       ),
     );

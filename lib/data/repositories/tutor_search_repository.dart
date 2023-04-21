@@ -6,7 +6,8 @@ import '../model/tutor_model/dto/overview_teacher_profile.dart';
 import 'dart:developer' as dev;
 
 abstract class ITutorSearchRepository {
-  Future<List<TeacherOverviewDTO>?> getListTutor(TeacherSearchDTO searchDTO);
+  Future<Map<String, dynamic>?> getAll(int perPage, String page);
+  Future<List<TeacherOverviewDTO>?> searchATutor(TeacherSearchDTO searchDTO);
 }
 
 class TutorSearchRepository implements ITutorSearchRepository {
@@ -22,18 +23,17 @@ class TutorSearchRepository implements ITutorSearchRepository {
 
   TutorSearchRepository(this._dio);
   @override
-  Future<List<TeacherOverviewDTO>?> getListTutor(TeacherSearchDTO searchDTO) {
-    return _dio.get(ApiKeys.listTutor,
-        // data: <String, String>{
-        //   "studentRequest": '',
-        // },
-        queryParameters: <String, dynamic>{
-          "perPage": 9,
-          "page": '1',
-        }).then<List<TeacherOverviewDTO>?>((response) {
+  Future<List<TeacherOverviewDTO>?> searchATutor(
+      TeacherSearchDTO searchDTO) async {
+    return _dio
+        .post(
+      ApiKeys.searchTutor,
+      data: searchDTO.toJson(),
+    )
+        .then<List<TeacherOverviewDTO>?>((response) {
       dev.log(response.data!.toString());
       List<TeacherOverviewDTO> myObjects =
-          (response.data!['tutors']['rows'] as List).map((e) {
+          (response.data!['rows'] as List).map((e) {
         return TeacherOverviewDTO.fromJson(e);
       }).toList();
       for (var element in myObjects) {
@@ -41,5 +41,24 @@ class TutorSearchRepository implements ITutorSearchRepository {
       }
       return myObjects;
     }, onError: _onError);
+  }
+
+  @override
+  Future<Map<String, dynamic>?> getAll(int perPage, String page) async {
+    var response =
+        await _dio.get(ApiKeys.listTutor, queryParameters: <String, dynamic>{
+      'perPage': 1000,
+      'page': page,
+    });
+    if (response.data == null) return null;
+    return response.data;
+    //.then<List<TeacherOverviewDTO>?>((response) {
+    //   dev.log(response.data!.toString());
+    //   List<TeacherOverviewDTO> myObjects =
+    //       (response.data!['tutors']['rows'] as List).map((e) {
+    //     return TeacherOverviewDTO.fromJson(e);
+    //   }).toList();
+    //   return myObjects;
+    // }, onError: _onError);
   }
 }

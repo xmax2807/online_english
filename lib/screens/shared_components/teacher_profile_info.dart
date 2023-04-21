@@ -1,9 +1,11 @@
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'dart:developer' as dev;
 
 class TeacherProfileWidget extends StatelessWidget {
   final String teacherName, nationality, svgFlag;
@@ -28,24 +30,40 @@ class TeacherProfileWidget extends StatelessWidget {
       SizedBox.square(
         dimension: dimension,
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(10000),
-          child: SvgPicture.asset(
-            avatar,
-          ),
-        ),
+            borderRadius: BorderRadius.circular(10000),
+            child: CachedNetworkImage(
+              fit: BoxFit.cover,
+              imageUrl: avatar,
+              errorWidget: (context, url, error) {
+                dev.log(error.toString());
+                return SvgPicture.asset("assets/my_custom_icons/avatar.svg");
+              },
+            )
+            // child: Image.network(
+            //   avatar,
+            //   errorBuilder: (context, error, _) {
+            //     dev.log(error.toString());
+            //     return SvgPicture.asset("assets/my_custom_icons/avatar.svg");
+            //   },
+            // ),
+            ),
       ),
       const SizedBox(width: 10),
       SizedBox(
         height: max(dimension, 70),
+        width: 150,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text(
-              teacherName,
-              style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                  color: context.theme.colorScheme.primary,
-                  fontWeight: FontWeight.bold),
+            FittedBox(
+              fit: BoxFit.contain,
+              child: Text(
+                teacherName,
+                style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                    color: context.theme.colorScheme.primary,
+                    fontWeight: FontWeight.bold),
+              ),
             ),
             Row(
               children: [

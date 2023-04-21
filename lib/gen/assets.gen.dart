@@ -1099,12 +1099,16 @@ class $AssetsFlagsGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/empty_result.png
+  AssetGenImage get emptyResult =>
+      const AssetGenImage('assets/images/empty_result.png');
+
   /// File path: assets/images/loginScreenBG.jpg
   AssetGenImage get loginScreenBG =>
       const AssetGenImage('assets/images/loginScreenBG.jpg');
 
   /// List of all assets
-  List<AssetGenImage> get values => [loginScreenBG];
+  List<AssetGenImage> get values => [emptyResult, loginScreenBG];
 }
 
 class $AssetsMyCustomIconsGen {

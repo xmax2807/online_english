@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:online_english/screens/shared_components/complex_search_component.dart';
+import 'package:online_english/screens/tutor/tutor_detail_screen.dart';
 
 import '../../services/search_tutor_service.dart';
+import '../shared_components/empty_data.dart';
 import '../shared_components/my_drop_down.dart';
 import 'components/teacher_card.dart';
 
@@ -15,45 +17,78 @@ class TutorScreen extends ConsumerStatefulWidget {
 
 class _TutorScreenState extends ConsumerState<TutorScreen>
     with AutomaticKeepAliveClientMixin {
-  final List<Widget> filters = [
-    MyDropDownWidget<DateTime>(
-      hint: "Pick a Date",
-      dataList: [
-        DateTime.now(),
-        DateTime.now().subtract(const Duration(days: 1))
-      ],
-    ),
-    MyDropDownWidget<String>(
-      hint: "Choose a Nationality",
-      dataList: const [
-        "VietNam",
-        "England",
-        "Others",
-      ],
-    ),
-    MyDropDownWidget<String>(hint: "Choose lesson type", dataList: const [
-      "English for kids",
-      "English for bussiness",
-      "IELTS",
-      "TOEFL"
-    ]),
-    TextButton.icon(
-      onPressed: null,
-      label: const Text("Clear Filter"),
-      icon: const Icon(Icons.clear_rounded),
-    ),
+  final nationalities = const [
+    "VietNam",
+    "England",
+    "Others",
   ];
+  // final List<Widget> filters = [
+  //   MyDropDownWidget<DateTime>(
+  //     hint: "Pick a Date",
+  //     dataList: [
+  //       DateTime.now(),
+  //       DateTime.now().subtract(const Duration(days: 1))
+  //     ],
+  //   ),
+  //   MyDropDownWidget<String>(
+  //     hint: "Choose a Nationality",
+  //     dataList: const [
+  //       "VietNam",
+  //       "England",
+  //       "Others",
+  //     ],
+  //     onValueChanged: _onNationalityChanged,
+  //   ),
+  //   const MyDropDownWidget<String>(hint: "Choose lesson type", dataList: [
+  //     "English for kids",
+  //     "English for bussiness",
+  //     "IELTS",
+  //     "TOEFL"
+  //   ]),
+  //   TextButton.icon(
+  //     onPressed: null,
+  //     label: const Text("Clear Filter"),
+  //     icon: const Icon(Icons.clear_rounded),
+  //   ),
+  // ];
+
+  late final TutorSearchService _searchService;
+
+  void _handleSearchClick(String text) {
+    _searchService.searchDTO.search = text;
+    _searchService.searchTutors();
+  }
+
+  void _onNationalityChanged(int? value) {
+    if (value == null) return;
+    _searchService.searchDTO.filter.nationality.isVietNamese =
+        value == 0 ? true : null;
+    _searchService.searchDTO.filter.nationality.isNative =
+        value == 1 ? false : null;
+
+    _searchService.searchTutors();
+  }
+
+  void _onItemTapped(int i) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => TutorDetailScreen(
+                tutorId: _searchService.listTutor![i].userId,
+              )),
+    );
+  }
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    ref.read(tutorSearchServiceProvider).getList();
+    _searchService = ref.read(tutorSearchServiceProvider);
+    _searchService.getRecommendList();
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final listTutor = ref.watch(tutorSearchServiceProvider).listTutor;
     return SafeArea(
       child: Scaffold(
         body: Center(
@@ -70,14 +105,37 @@ class _TutorScreenState extends ConsumerState<TutorScreen>
                 const SizedBox(
                   height: 10,
                 ),
-                MySearchWidget(filters: filters, hintSearch: "Search a tutor"),
+                MySearchWidget(
+                  filters: [
+                    TextButton.icon(
+                      onPressed: null,
+                      label: const Text("Clear Filter"),
+                      icon: const Icon(Icons.clear_rounded),
+                    ),
+                    MyDropDownWidget<String>(
+                      hint: "Choose a Nationality",
+                      dataList: nationalities,
+                      onValueChanged: _onNationalityChanged,
+                    ),
+                    const MyDropDownWidget<String>(
+                        hint: "Choose lesson type",
+                        dataList: [
+                          "English for kids",
+                          "English for bussiness",
+                          "IELTS",
+                          "TOEFL"
+                        ]),
+                  ],
+                  hintSearch: "Search a tutor",
+                  onSearchClick: _handleSearchClick,
+                ),
                 Consumer(
                   builder: (ctx, widget, _) {
                     final listTutor =
                         widget.watch(tutorSearchServiceProvider).listTutor;
                     return Expanded(
                       child: listTutor == null || listTutor.isEmpty
-                          ? const Text('empty')
+                          ? const EmptyDataWidget()
                           : ListView.separated(
                               shrinkWrap: true,
                               physics: const BouncingScrollPhysics(),
@@ -85,8 +143,10 @@ class _TutorScreenState extends ConsumerState<TutorScreen>
                               separatorBuilder: (ctx, i) => const SizedBox(
                                 height: 10,
                               ),
-                              itemBuilder: (ctx, i) =>
-                                  TeacherCardWidget(dto: listTutor[i]),
+                              itemBuilder: (ctx, i) => TeacherCardWidget(
+                                dto: listTutor[i],
+                                onTap: () => _onItemTapped(i),
+                              ),
                             ),
                     );
                   },

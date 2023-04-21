@@ -10,6 +10,7 @@ class NationalityFilter {
   }
 
   Map<String, dynamic> toJson() {
+    if (isVietNamese == null && isNative == null) return {};
     return {
       'isVietNamese': isVietNamese,
       'isNative': isNative,

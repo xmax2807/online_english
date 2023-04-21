@@ -11,7 +11,8 @@ class CourseTopicsScreen extends StatefulWidget {
 
 class _CourseTopicsScreenState extends State<CourseTopicsScreen> {
   int currentIndex = 0;
-  void onPageChanged(int index) {
+  void onPageChanged(int? index) {
+    if (index == null) return;
     currentIndex = index;
     setState(() {});
   }
@@ -38,7 +39,7 @@ class _CourseTopicsScreenState extends State<CourseTopicsScreen> {
                 dataList: const ["Topic 1", "Topic 2"],
                 hint: "Pick a topic",
                 choosenIndex: currentIndex,
-                onValueChanged: (int value) => onPageChanged(value),
+                onValueChanged: onPageChanged,
               ),
               IconButton(
                   iconSize: 36,

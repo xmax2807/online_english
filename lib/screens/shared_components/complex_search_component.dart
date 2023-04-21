@@ -3,8 +3,12 @@ import 'package:flutter/material.dart';
 class MySearchWidget extends StatefulWidget {
   final List<Widget> filters;
   final String hintSearch;
+  final void Function(String)? onSearchClick;
   const MySearchWidget(
-      {super.key, required this.filters, required this.hintSearch});
+      {super.key,
+      required this.filters,
+      required this.hintSearch,
+      required this.onSearchClick});
 
   @override
   State<StatefulWidget> createState() => SearchWidgetState();
@@ -13,6 +17,7 @@ class MySearchWidget extends StatefulWidget {
 class SearchWidgetState extends State<MySearchWidget> {
   List<Widget> get filters => widget.filters;
   String? choosenValue;
+  final TextEditingController searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SizedBox.fromSize(
@@ -23,6 +28,7 @@ class SearchWidgetState extends State<MySearchWidget> {
           SizedBox(
             height: 60,
             child: TextFormField(
+              controller: searchController,
               decoration: InputDecoration(
                 isDense: true,
                 hintText: widget.hintSearch,
@@ -30,9 +36,13 @@ class SearchWidgetState extends State<MySearchWidget> {
                 border: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(100)),
                 ),
-                suffixIcon: const IconButton(
-                  icon: Icon(Icons.search),
-                  onPressed: null,
+                suffixIcon: IconButton(
+                  icon: const Icon(Icons.search),
+                  onPressed: () {
+                    if (widget.onSearchClick != null) {
+                      widget.onSearchClick!(searchController.text);
+                    }
+                  },
                 ),
               ),
             ),

@@ -14,7 +14,7 @@ class TeacherOverviewDTO with _$TeacherOverviewDTO {
     required String bio,
     required String specialties,
     required double? rating,
-    required bool? isfavoritetutor,
+    required String? isfavoritetutor,
   }) = _TeacherOverviewDTO;
   factory TeacherOverviewDTO.fromJson(Map<String, dynamic> json) =>
       _$TeacherOverviewDTOFromJson(json);

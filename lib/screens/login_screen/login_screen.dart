@@ -134,25 +134,22 @@ class LoginScreen extends ConsumerWidget {
                                               const MaterialStatePropertyAll(
                                                   TextStyle(fontSize: 18)),
                                         ),
-                                        onPressed: !loginValidator.isAllValid
-                                            ? null
-                                            : () {
-                                                authService
-                                                    .signInWithEmailAndPassword(
-                                                        loginValidator.email,
-                                                        loginValidator.password)
-                                                    .then((value) {
-                                                  if (authService
-                                                      .isAuthenicated) {
-                                                    Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              const HomeScreen()),
-                                                    );
-                                                  }
-                                                });
-                                              },
+                                        onPressed: () {
+                                          authService
+                                              .signInWithEmailAndPassword(
+                                                  loginValidator.email,
+                                                  loginValidator.password)
+                                              .then((value) {
+                                            if (authService.isAuthenicated) {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const HomeScreen()),
+                                              );
+                                            }
+                                          });
+                                        },
                                         child: const Text("Login")),
                                     const SizedBox(
                                       height: 10,
