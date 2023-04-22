@@ -16,7 +16,7 @@ _$_UserModel _$$_UserModelFromJson(Map<String, dynamic> json) => _$_UserModel(
       language: json['language'] as String?,
       birthday: json['birthday'] == null
           ? null
-          : DateTime.tryParse(json['birthday'] as String),
+          : DateTime.parse(json['birthday'] as String),
       isActivated: json['isActivated'] as bool,
       requireNote: json['requireNote'] as String?,
       level: $enumDecodeNullable(_$LevelEnumMap, json['level']),

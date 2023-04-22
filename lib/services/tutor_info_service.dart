@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:video_player/video_player.dart';
 
+import '../data/model/schedule_model/dto/schedule_table_dto.dart';
 import '../data/model/tutor_model/dto/detail_teacher_profile.dart';
 import '../data/providers/tutor_detail_provider.dart';
 import '../data/repositories/tutor_info_repository.dart';
@@ -24,6 +25,9 @@ class TutorInfoService extends ChangeNotifier {
   TeacherDetailDTO? get detailInfo => _detailInfo;
   TeacherDetailDTO? _detailInfo;
 
+  ScheduleTableDTO? _scheduleTable;
+  ScheduleTableDTO? get scheduleTable => _scheduleTable;
+
   Future<void> getTutorDetail(String tutorId) async {
     _detailInfo = await _repository.getDetail(tutorId);
     dev.log(_detailInfo!.video ?? 'null');
@@ -42,6 +46,11 @@ class TutorInfoService extends ChangeNotifier {
         _isVideoAvailable = false;
       }
     }
+    notifyListeners();
+  }
+
+  Future<void> getSchedulesOfTutor(String tutorId) async {
+    _scheduleTable = await _repository.getSchedules(tutorId);
     notifyListeners();
   }
 

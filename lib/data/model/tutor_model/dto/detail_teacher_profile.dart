@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:online_english/data/model/course_model/dto/course_overview_dto.dart';
 
 import '../../user_data_source/dto/public_info_dto.dart';
 

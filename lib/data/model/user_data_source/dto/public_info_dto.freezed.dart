@@ -27,6 +27,8 @@ mixin _$UserPublicInfoDTO {
   String? get country => throw _privateConstructorUsedError;
   String? get language => throw _privateConstructorUsedError;
   bool? get isPublicRecord => throw _privateConstructorUsedError;
+  @JsonKey(name: 'courses')
+  List<CourseOverviewDTO>? get courses => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -47,7 +49,8 @@ abstract class $UserPublicInfoDTOCopyWith<$Res> {
       String? name,
       String? country,
       String? language,
-      bool? isPublicRecord});
+      bool? isPublicRecord,
+      @JsonKey(name: 'courses') List<CourseOverviewDTO>? courses});
 }
 
 /// @nodoc
@@ -70,6 +73,7 @@ class _$UserPublicInfoDTOCopyWithImpl<$Res, $Val extends UserPublicInfoDTO>
     Object? country = freezed,
     Object? language = freezed,
     Object? isPublicRecord = freezed,
+    Object? courses = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -100,6 +104,10 @@ class _$UserPublicInfoDTOCopyWithImpl<$Res, $Val extends UserPublicInfoDTO>
           ? _value.isPublicRecord
           : isPublicRecord // ignore: cast_nullable_to_non_nullable
               as bool?,
+      courses: freezed == courses
+          ? _value.courses
+          : courses // ignore: cast_nullable_to_non_nullable
+              as List<CourseOverviewDTO>?,
     ) as $Val);
   }
 }
@@ -119,7 +127,8 @@ abstract class _$$User_PublicInfoDTOCopyWith<$Res>
       String? name,
       String? country,
       String? language,
-      bool? isPublicRecord});
+      bool? isPublicRecord,
+      @JsonKey(name: 'courses') List<CourseOverviewDTO>? courses});
 }
 
 /// @nodoc
@@ -140,6 +149,7 @@ class __$$User_PublicInfoDTOCopyWithImpl<$Res>
     Object? country = freezed,
     Object? language = freezed,
     Object? isPublicRecord = freezed,
+    Object? courses = freezed,
   }) {
     return _then(_$User_PublicInfoDTO(
       id: null == id
@@ -170,6 +180,10 @@ class __$$User_PublicInfoDTOCopyWithImpl<$Res>
           ? _value.isPublicRecord
           : isPublicRecord // ignore: cast_nullable_to_non_nullable
               as bool?,
+      courses: freezed == courses
+          ? _value._courses
+          : courses // ignore: cast_nullable_to_non_nullable
+              as List<CourseOverviewDTO>?,
     ));
   }
 }
@@ -184,7 +198,10 @@ class _$User_PublicInfoDTO implements User_PublicInfoDTO {
       required this.name,
       required this.country,
       required this.language,
-      required this.isPublicRecord});
+      required this.isPublicRecord,
+      @JsonKey(name: 'courses')
+          required final List<CourseOverviewDTO>? courses})
+      : _courses = courses;
 
   factory _$User_PublicInfoDTO.fromJson(Map<String, dynamic> json) =>
       _$$User_PublicInfoDTOFromJson(json);
@@ -203,10 +220,20 @@ class _$User_PublicInfoDTO implements User_PublicInfoDTO {
   final String? language;
   @override
   final bool? isPublicRecord;
+  final List<CourseOverviewDTO>? _courses;
+  @override
+  @JsonKey(name: 'courses')
+  List<CourseOverviewDTO>? get courses {
+    final value = _courses;
+    if (value == null) return null;
+    if (_courses is EqualUnmodifiableListView) return _courses;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'UserPublicInfoDTO(id: $id, level: $level, avatar: $avatar, name: $name, country: $country, language: $language, isPublicRecord: $isPublicRecord)';
+    return 'UserPublicInfoDTO(id: $id, level: $level, avatar: $avatar, name: $name, country: $country, language: $language, isPublicRecord: $isPublicRecord, courses: $courses)';
   }
 
   @override
@@ -222,13 +249,14 @@ class _$User_PublicInfoDTO implements User_PublicInfoDTO {
             (identical(other.language, language) ||
                 other.language == language) &&
             (identical(other.isPublicRecord, isPublicRecord) ||
-                other.isPublicRecord == isPublicRecord));
+                other.isPublicRecord == isPublicRecord) &&
+            const DeepCollectionEquality().equals(other._courses, _courses));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, level, avatar, name, country, language, isPublicRecord);
+  int get hashCode => Object.hash(runtimeType, id, level, avatar, name, country,
+      language, isPublicRecord, const DeepCollectionEquality().hash(_courses));
 
   @JsonKey(ignore: true)
   @override
@@ -247,13 +275,16 @@ class _$User_PublicInfoDTO implements User_PublicInfoDTO {
 
 abstract class User_PublicInfoDTO implements UserPublicInfoDTO {
   factory User_PublicInfoDTO(
-      {required final String id,
-      required final Level? level,
-      required final String? avatar,
-      required final String? name,
-      required final String? country,
-      required final String? language,
-      required final bool? isPublicRecord}) = _$User_PublicInfoDTO;
+          {required final String id,
+          required final Level? level,
+          required final String? avatar,
+          required final String? name,
+          required final String? country,
+          required final String? language,
+          required final bool? isPublicRecord,
+          @JsonKey(name: 'courses')
+              required final List<CourseOverviewDTO>? courses}) =
+      _$User_PublicInfoDTO;
 
   factory User_PublicInfoDTO.fromJson(Map<String, dynamic> json) =
       _$User_PublicInfoDTO.fromJson;
@@ -272,6 +303,9 @@ abstract class User_PublicInfoDTO implements UserPublicInfoDTO {
   String? get language;
   @override
   bool? get isPublicRecord;
+  @override
+  @JsonKey(name: 'courses')
+  List<CourseOverviewDTO>? get courses;
   @override
   @JsonKey(ignore: true)
   _$$User_PublicInfoDTOCopyWith<_$User_PublicInfoDTO> get copyWith =>

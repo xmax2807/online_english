@@ -15,22 +15,22 @@ class CourseScreen extends StatefulWidget {
 
 class _CourseScreenState extends State<CourseScreen> {
   final List<Widget> filters = [
-    MyDropDownWidget<String>(
+    const MyDropDownWidget<String>(
       hint: "Level",
-      dataList: const ["Begginer", "Intermediate", "Advanced"],
+      dataList: ["Begginer", "Intermediate", "Advanced"],
     ),
-    MyDropDownWidget<String>(
+    const MyDropDownWidget<String>(
       hint: "Choose a Nationality",
-      dataList: const [
+      dataList: [
         "Design Pattern",
         "OOP",
         "Game UI System",
         "Deep Learning",
       ],
     ),
-    MyDropDownWidget<String>(
+    const MyDropDownWidget<String>(
         hint: "Sort level order",
-        dataList: const ["Hardest to Easiest", "Easiest to Hardest"]),
+        dataList: ["Hardest to Easiest", "Easiest to Hardest"]),
   ];
   @override
   Widget build(BuildContext context) {
@@ -77,7 +77,9 @@ class _CourseScreenState extends State<CourseScreen> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                const ViewCourseScreen()),
+                                                const ViewCourseScreen(
+                                                  courseId: '',
+                                                )),
                                       );
                                     },
                                     onBuildWidget: (int index) =>

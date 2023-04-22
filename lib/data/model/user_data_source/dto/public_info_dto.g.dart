@@ -15,6 +15,9 @@ _$User_PublicInfoDTO _$$User_PublicInfoDTOFromJson(Map<String, dynamic> json) =>
       country: json['country'] as String?,
       language: json['language'] as String?,
       isPublicRecord: json['isPublicRecord'] as bool?,
+      courses: (json['courses'] as List<dynamic>?)
+          ?.map((e) => CourseOverviewDTO.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$$User_PublicInfoDTOToJson(
@@ -27,6 +30,7 @@ Map<String, dynamic> _$$User_PublicInfoDTOToJson(
       'country': instance.country,
       'language': instance.language,
       'isPublicRecord': instance.isPublicRecord,
+      'courses': instance.courses,
     };
 
 const _$LevelEnumMap = {

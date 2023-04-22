@@ -64,7 +64,7 @@ class _TutorScreenState extends ConsumerState<TutorScreen>
     _searchService.searchDTO.filter.nationality.isVietNamese =
         value == 0 ? true : null;
     _searchService.searchDTO.filter.nationality.isNative =
-        value == 1 ? false : null;
+        value == 1 ? true : null;
 
     _searchService.searchTutors();
   }
@@ -113,13 +113,14 @@ class _TutorScreenState extends ConsumerState<TutorScreen>
                       icon: const Icon(Icons.clear_rounded),
                     ),
                     MyDropDownWidget<String>(
-                      hint: "Choose a Nationality",
+                      hint: "Nationality",
                       dataList: nationalities,
                       onValueChanged: _onNationalityChanged,
                     ),
-                    const MyDropDownWidget<String>(
-                        hint: "Choose lesson type",
-                        dataList: [
+                    MyDropDownWidget<String>(
+                        hint: "Lesson type",
+                        minWidth: 150,
+                        dataList: const [
                           "English for kids",
                           "English for bussiness",
                           "IELTS",

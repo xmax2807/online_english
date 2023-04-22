@@ -12,6 +12,9 @@ abstract class IAuthRepository {
 
 class AuthRepository implements IAuthRepository {
   final Dio _dio;
+  void _retrieveToken(String accessToken) {
+    _dio.options.headers['Authorization'] = 'Bearer $accessToken';
+  }
 
   AuthRepository(this._dio);
   UserModel? _onError(dynamic error) {
@@ -33,8 +36,11 @@ class AuthRepository implements IAuthRepository {
             },
             options: Options(method: 'POST', contentType: 'application/json'))
         .then<UserModel?>((response) {
+      if (response.data == null) return null;
+
       String accessToken = response.data!['tokens']['access']['token'];
-      _dio.options.headers['Authorization'] = 'Bearer $accessToken';
+      _retrieveToken(accessToken);
+
       return UserModel.fromJson(response.data!['user']);
     }, onError: _onError);
   }

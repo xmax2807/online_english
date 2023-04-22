@@ -1,4 +1,5 @@
 import 'package:flick_video_player/flick_video_player.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:online_english/screens/shared_components/teacher_profile_info.dart';
@@ -9,6 +10,7 @@ import '../../data/model/tutor_model/dto/detail_teacher_profile.dart';
 import '../../gen/assets.gen.dart';
 import '../../services/tutor_info_service.dart';
 import '../../utils/theme/my_theme.dart';
+import '../view_course_screen/view_course_screen.dart';
 import 'components/button_group.dart';
 
 class TutorDetailScreen extends ConsumerStatefulWidget {
@@ -99,42 +101,75 @@ class _TutorDetailScreen extends ConsumerState<TutorDetailScreen> {
                   "Teaching Experience",
                   style: Theme.of(context).textTheme.headlineMedium,
                 ),
-                subtitle:
-                    data.experience == null ? null : Text(data.experience!),
+                subtitle: Text(data.experience ?? ''),
               ),
-              _service.isVideoAvailable
-                  ? SizedBox(
-                      height: 540,
-                      child: FlickVideoPlayer(
-                          flickManager: _service.flickManager,
-                          flickVideoWithControls: const FlickVideoWithControls(
-                            videoFit: BoxFit.contain,
-                            controls: FlickPortraitControls(),
-                          )),
-                    )
-                  : const Text("No Video Available"),
-              ListTile(
-                contentPadding: const EdgeInsets.all(8),
-                minVerticalPadding: 8,
-                title: Text(
-                  "Languages",
-                  style: Theme.of(context).textTheme.headlineMedium,
+              if (data.user.courses != null)
+                ListTile(
+                  contentPadding: const EdgeInsets.all(8),
+                  minVerticalPadding: 8,
+                  title: Text(
+                    "My Courses",
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: data.user.courses!
+                        .map<RichText>(
+                          (e) => RichText(
+                            text: TextSpan(
+                                text: e.name,
+                                style: TextStyle(
+                                    decoration: TextDecoration.underline,
+                                    fontSize: 16,
+                                    color:
+                                        Theme.of(context).colorScheme.primary),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ViewCourseScreen(
+                                                courseId: e.id,
+                                              )),
+                                    );
+                                  }),
+                          ),
+                        )
+                        .toList(),
+                  ),
                 ),
-                subtitle: data.languages == null
-                    ? null
-                    : Wrap(
-                        spacing: 8,
-                        runSpacing: 8,
-                        children: [
-                          for (String lang in data.languages!.split(','))
-                            TextButton(
-                              onPressed: () {},
-                              style: MyTheme.tagButtonStyle,
-                              child: Text(lang),
-                            ),
-                        ],
-                      ),
-              ),
+              if (_service.isVideoAvailable)
+                SizedBox(
+                  height: 360,
+                  child: FlickVideoPlayer(
+                      flickManager: _service.flickManager,
+                      flickVideoWithControls: const FlickVideoWithControls(
+                        videoFit: BoxFit.contain,
+                        controls: FlickPortraitControls(),
+                      )),
+                ),
+              if (data.languages != null)
+                ListTile(
+                  contentPadding: const EdgeInsets.all(8),
+                  minVerticalPadding: 8,
+                  title: Text(
+                    "Languages",
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
+                  subtitle: Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: [
+                      for (String lang in data.languages!.split(','))
+                        TextButton(
+                          onPressed: () {},
+                          style: MyTheme.tagButtonStyle,
+                          child: Text(lang),
+                        ),
+                    ],
+                  ),
+                ),
               ListTile(
                 contentPadding: const EdgeInsets.all(8),
                 minVerticalPadding: 8,
