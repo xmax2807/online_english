@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -15,14 +14,28 @@ class TutorSearchService extends ChangeNotifier {
   final TutorSearchRepository _repository;
   late TeacherSearchDTO _searchDTO;
   TeacherSearchDTO get searchDTO => _searchDTO;
-  TutorSearchService(this._repository) {
-    _searchDTO = TeacherSearchDTO();
+
+  late final TextEditingController searchController;
+
+  bool get hasFiltered => searchDTO.hasFiltered;
+  void resetFilter() {
+    searchDTO.reset();
+    searchController.text = '';
+    getRecommendList();
   }
+
+  int? nationalityIndex() => _searchDTO.filter.nationality.getFilterIndex();
+
   List<TeacherOverviewDTO>? _cache;
   List<TeacherOverviewDTO>? _listTutor;
   List<TeacherOverviewDTO>? get listTutor => _listTutor;
   int get listCount => _listTutor == null ? 0 : _listTutor!.length;
   bool get hasData => _listTutor != null && _listTutor!.isNotEmpty;
+
+  TutorSearchService(this._repository) {
+    _searchDTO = TeacherSearchDTO();
+    searchController = TextEditingController(text: _searchDTO.search);
+  }
 
   int _mapComparer<T extends Comparable>(
       Map<String, dynamic> a, Map<String, dynamic> b, String field) {

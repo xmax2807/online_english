@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../gen/assets.gen.dart';
 
@@ -8,13 +11,17 @@ class EmptyDataWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 200,
+      width: min(250, context.width),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image(image: Assets.images.emptyResult.provider()),
-          Text(
-            "No data found",
-            style: Theme.of(context).textTheme.headlineLarge,
+          FittedBox(
+            fit: BoxFit.fitWidth,
+            child: Text(
+              "No data found",
+              style: Theme.of(context).textTheme.headlineLarge,
+            ),
           )
         ],
       ),

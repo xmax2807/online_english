@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:online_english/screens/shared_components/my_stateless_listview_widget.dart';
 import 'package:readmore/readmore.dart';
 
+import '../../data/model/course_model/category_model/category_key.dart';
 import '../../data/model/course_model/course_model.dart';
-import '../../data/model/user_data_source/user_enum.dart';
 import '../../utils/theme/my_theme.dart';
 
 class AboutCourse extends StatelessWidget {
@@ -95,8 +95,7 @@ class AboutCourse extends StatelessWidget {
           ),
           subtitle: ListTile(
             title: Text(
-              (Level.values.elementAt(data.level == null ? 0 : data.level! - 1))
-                  .toString(),
+              categoryLevel.elementAt(data.level == null ? 0 : data.level!),
               style: Theme.of(context).textTheme.headlineSmall,
             ),
             leading: const Icon(Icons.stars_outlined),

@@ -43,4 +43,15 @@ class MyButtonTheme {
           backgroundColor: const MaterialStatePropertyAll(Colors.transparent),
           overlayColor: const MaterialStatePropertyAll(Colors.transparent))
       .merge(tagButtonStyle);
+
+  static final ButtonStyle errorTextOnlyStyle = ButtonStyle(
+    foregroundColor: MaterialStateProperty.resolveWith<Color?>(
+      (Set<MaterialState> states) {
+        if (states.contains(MaterialState.disabled)) {
+          return colors.red.withOpacity(0.2);
+        }
+        return colors.red; // Use the component's default.
+      },
+    ),
+  ).merge(textOnlyStyle);
 }

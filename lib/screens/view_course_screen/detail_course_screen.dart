@@ -46,7 +46,7 @@ class _CourseTopicsScreenState extends State<CourseTopicsScreen> {
                 hint: "Pick a topic",
                 choosenIndex: currentIndex,
                 onValueChanged: onPageChanged,
-                minWidth: 200,
+                minWidth: 150,
                 onPrevPress: () => onPageChanged(currentIndex - 1),
                 onNextPress: () => onPageChanged(currentIndex + 1),
               ),

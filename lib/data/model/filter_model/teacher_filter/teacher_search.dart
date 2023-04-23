@@ -1,6 +1,8 @@
+import 'package:online_english/data/model/filter_model/filter_interface.dart';
+
 import 'filter_teacher_model.dart';
 
-class TeacherSearchDTO {
+class TeacherSearchDTO implements IFilter {
   late FilterModel filter;
   late String page;
   late int perPage;
@@ -32,5 +34,15 @@ class TeacherSearchDTO {
   int getPage() {
     int? result = int.tryParse(page);
     return result ?? 0;
+  }
+
+  @override
+  // TODO: implement hasFiltered
+  bool get hasFiltered => search.isNotEmpty || filter.hasFiltered;
+
+  @override
+  void reset() {
+    search = '';
+    filter.reset();
   }
 }

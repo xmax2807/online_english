@@ -15,7 +15,7 @@ class ApiKeys {
   static const String searchTutor = "tutor/search";
   static const String addToFav = "user/manageFavoriteTutor";
   // Course
-  static const String listCourse = "course?page=1&size=100";
+  static const String listCourse = "course";
   static const String courseDetail = "course/";
   //Scedule
   static const String ownSchedule = "schedule";

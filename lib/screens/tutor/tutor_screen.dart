@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:online_english/screens/shared_components/complex_search_component.dart';
 import 'package:online_english/screens/tutor/tutor_detail_screen.dart';
+import 'package:online_english/utils/theme/my_theme.dart';
 
 import '../../services/search_tutor_service.dart';
 import '../shared_components/empty_data.dart';
@@ -61,6 +62,11 @@ class _TutorScreenState extends ConsumerState<TutorScreen>
 
   void _onNationalityChanged(int? value) {
     if (value == null) return;
+    if (value == 2) {
+      _searchService.searchDTO.filter.nationality.isOther();
+      _searchService.searchTutors();
+      return;
+    }
     _searchService.searchDTO.filter.nationality.isVietNamese =
         value == 0 ? true : null;
     _searchService.searchDTO.filter.nationality.isNative =
@@ -105,31 +111,45 @@ class _TutorScreenState extends ConsumerState<TutorScreen>
                 const SizedBox(
                   height: 10,
                 ),
-                MySearchWidget(
-                  filters: [
-                    TextButton.icon(
-                      onPressed: null,
-                      label: const Text("Clear Filter"),
-                      icon: const Icon(Icons.clear_rounded),
-                    ),
-                    MyDropDownWidget<String>(
-                      hint: "Nationality",
-                      dataList: nationalities,
-                      onValueChanged: _onNationalityChanged,
-                    ),
-                    MyDropDownWidget<String>(
-                        hint: "Lesson type",
-                        minWidth: 150,
-                        dataList: const [
-                          "English for kids",
-                          "English for bussiness",
-                          "IELTS",
-                          "TOEFL"
-                        ]),
-                  ],
-                  hintSearch: "Search a tutor",
-                  onSearchClick: _handleSearchClick,
-                ),
+                Consumer(builder: (ctx, ref, _) {
+                  final TextEditingController searchController =
+                      ref.watch(tutorSearchServiceProvider).searchController;
+                  final bool hasFiltered =
+                      ref.watch(tutorSearchServiceProvider).hasFiltered;
+                  final int? nationalityIndex =
+                      ref.watch(tutorSearchServiceProvider).nationalityIndex();
+
+                  return MySearchWidget(
+                    searchController: searchController,
+                    filters: [
+                      TextButton.icon(
+                        style: MyTheme.errorTextOnlyStyle,
+                        onPressed:
+                            hasFiltered ? _searchService.resetFilter : null,
+                        label: const Text("Clear Filter"),
+                        icon: const Icon(Icons.clear_rounded),
+                      ),
+                      MyDropDownWidget<String>(
+                        hint: "Nationality",
+                        dataList: nationalities,
+                        choosenIndex: nationalityIndex,
+                        isForceChangeValue: true,
+                        onValueChanged: _onNationalityChanged,
+                      ),
+                      const MyDropDownWidget<String>(
+                          hint: "Lesson type",
+                          minWidth: 150,
+                          dataList: [
+                            "English for kids",
+                            "English for bussiness",
+                            "IELTS",
+                            "TOEFL"
+                          ]),
+                    ],
+                    hintSearch: "Search a tutor",
+                    onSearchClick: _handleSearchClick,
+                  );
+                }),
                 Consumer(
                   builder: (ctx, widget, _) {
                     final listTutor =

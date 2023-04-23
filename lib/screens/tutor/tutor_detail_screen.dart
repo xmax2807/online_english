@@ -52,7 +52,9 @@ class _TutorDetailScreen extends ConsumerState<TutorDetailScreen> {
                 dimension: 100,
                 rating: data.avgRating,
               ),
-              const TutorButtonGroup(),
+              TutorButtonGroup(
+                isFav: data.isFavorite != null,
+              ),
               const SizedBox(
                 height: 10,
               ),

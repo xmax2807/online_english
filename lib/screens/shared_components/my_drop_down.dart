@@ -8,11 +8,13 @@ class MyDropDownWidget<T> extends StatefulWidget {
       required this.dataList,
       this.choosenIndex,
       this.onValueChanged,
-      this.minWidth = 100})
+      this.minWidth = 100,
+      this.isForceChangeValue = false})
       : super(key: key);
   final String hint;
   final void Function(int? index)? onValueChanged;
   final int? choosenIndex;
+  final bool isForceChangeValue;
   final List<T> dataList;
   final double minWidth;
   @override
@@ -65,6 +67,9 @@ class MyDropDownWidgetState<TWidget extends MyDropDownWidget<T>, T>
 
   @override
   Widget build(BuildContext context) {
+    if (widget.isForceChangeValue) {
+      _initValue(widget.choosenIndex);
+    }
     return DecoratedBox(
       decoration: isChosen ? chosen : notChosen,
       child: Padding(
@@ -78,7 +83,7 @@ class MyDropDownWidgetState<TWidget extends MyDropDownWidget<T>, T>
           child: SizedBox(
             width: widget.minWidth,
             child: FittedBox(
-              fit: BoxFit.fitWidth,
+              fit: BoxFit.fitHeight,
               child: DropdownButtonHideUnderline(
                 child: ButtonTheme(
                   alignedDropdown: true,
@@ -89,14 +94,11 @@ class MyDropDownWidgetState<TWidget extends MyDropDownWidget<T>, T>
                     selectedItemBuilder: (context) => widget.dataList
                         .map<Widget>((T item) => Container(
                               alignment: Alignment.center,
-                              child: FittedBox(
-                                fit: BoxFit.fitWidth,
-                                child: Text(
-                                  item.toString(),
-                                  style: isChosen
-                                      ? chosenTextStyle
-                                      : notChosenTextStyle,
-                                ),
+                              child: Text(
+                                item.toString(),
+                                style: isChosen
+                                    ? chosenTextStyle
+                                    : notChosenTextStyle,
                               ),
                             ))
                         .toList(),
@@ -105,14 +107,11 @@ class MyDropDownWidgetState<TWidget extends MyDropDownWidget<T>, T>
                     items: widget.dataList.map<DropdownMenuItem<T>>((e) {
                       return DropdownMenuItem(
                         value: e,
-                        child: FittedBox(
-                          fit: BoxFit.fitWidth,
-                          child: Text(
-                            e.toString(),
-                            style: choosenValue == e
-                                ? chosenTextStyleInMenu
-                                : notChosenTextStyle,
-                          ),
+                        child: Text(
+                          e.toString(),
+                          style: choosenValue == e
+                              ? chosenTextStyleInMenu
+                              : notChosenTextStyle,
                         ),
                       );
                     }).toList(),

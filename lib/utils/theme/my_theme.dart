@@ -25,6 +25,7 @@ class MyTheme {
   static ButtonStyle iconButtonStyle = MyButtonTheme.iconButtonStyle;
   static ButtonStyle tagButtonStyle = MyButtonTheme.tagButtonStyle;
   static ButtonStyle textOnlyStyle = MyButtonTheme.textOnlyStyle;
+  static ButtonStyle errorTextOnlyStyle = MyButtonTheme.errorTextOnlyStyle;
 
   static TextStyle linkTextSyle = TextStyle(
       color: colors.secondaryColor, decoration: TextDecoration.underline);
