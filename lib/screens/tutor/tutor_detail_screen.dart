@@ -71,7 +71,9 @@ class _TutorDetailScreen extends ConsumerState<TutorDetailScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const TutorBookingScreen()),
+                              builder: (context) => TutorBookingScreen(
+                                    tutorId: widget.tutorId,
+                                  )),
                         );
                       },
                       style: MyTheme.flatButtonStyle,

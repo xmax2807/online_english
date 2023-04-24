@@ -27,6 +27,7 @@ mixin _$ScheduleDetailModel {
   String get startPeriod => throw _privateConstructorUsedError;
   String get endPeriod => throw _privateConstructorUsedError;
   bool get isBooked => throw _privateConstructorUsedError;
+  List<BookingInfoModel> get bookingInfo => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -47,7 +48,8 @@ abstract class $ScheduleDetailModelCopyWith<$Res> {
       int endPeriodTimestamp,
       String startPeriod,
       String endPeriod,
-      bool isBooked});
+      bool isBooked,
+      List<BookingInfoModel> bookingInfo});
 }
 
 /// @nodoc
@@ -70,6 +72,7 @@ class _$ScheduleDetailModelCopyWithImpl<$Res, $Val extends ScheduleDetailModel>
     Object? startPeriod = null,
     Object? endPeriod = null,
     Object? isBooked = null,
+    Object? bookingInfo = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -100,6 +103,10 @@ class _$ScheduleDetailModelCopyWithImpl<$Res, $Val extends ScheduleDetailModel>
           ? _value.isBooked
           : isBooked // ignore: cast_nullable_to_non_nullable
               as bool,
+      bookingInfo: null == bookingInfo
+          ? _value.bookingInfo
+          : bookingInfo // ignore: cast_nullable_to_non_nullable
+              as List<BookingInfoModel>,
     ) as $Val);
   }
 }
@@ -119,7 +126,8 @@ abstract class _$$_ScheduleDetailModelCopyWith<$Res>
       int endPeriodTimestamp,
       String startPeriod,
       String endPeriod,
-      bool isBooked});
+      bool isBooked,
+      List<BookingInfoModel> bookingInfo});
 }
 
 /// @nodoc
@@ -140,6 +148,7 @@ class __$$_ScheduleDetailModelCopyWithImpl<$Res>
     Object? startPeriod = null,
     Object? endPeriod = null,
     Object? isBooked = null,
+    Object? bookingInfo = null,
   }) {
     return _then(_$_ScheduleDetailModel(
       id: null == id
@@ -170,6 +179,10 @@ class __$$_ScheduleDetailModelCopyWithImpl<$Res>
           ? _value.isBooked
           : isBooked // ignore: cast_nullable_to_non_nullable
               as bool,
+      bookingInfo: null == bookingInfo
+          ? _value._bookingInfo
+          : bookingInfo // ignore: cast_nullable_to_non_nullable
+              as List<BookingInfoModel>,
     ));
   }
 }
@@ -184,7 +197,9 @@ class _$_ScheduleDetailModel implements _ScheduleDetailModel {
       required this.endPeriodTimestamp,
       required this.startPeriod,
       required this.endPeriod,
-      required this.isBooked});
+      required this.isBooked,
+      required final List<BookingInfoModel> bookingInfo})
+      : _bookingInfo = bookingInfo;
 
   factory _$_ScheduleDetailModel.fromJson(Map<String, dynamic> json) =>
       _$$_ScheduleDetailModelFromJson(json);
@@ -203,10 +218,17 @@ class _$_ScheduleDetailModel implements _ScheduleDetailModel {
   final String endPeriod;
   @override
   final bool isBooked;
+  final List<BookingInfoModel> _bookingInfo;
+  @override
+  List<BookingInfoModel> get bookingInfo {
+    if (_bookingInfo is EqualUnmodifiableListView) return _bookingInfo;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_bookingInfo);
+  }
 
   @override
   String toString() {
-    return 'ScheduleDetailModel(id: $id, scheduleId: $scheduleId, startPeriodTimestamp: $startPeriodTimestamp, endPeriodTimestamp: $endPeriodTimestamp, startPeriod: $startPeriod, endPeriod: $endPeriod, isBooked: $isBooked)';
+    return 'ScheduleDetailModel(id: $id, scheduleId: $scheduleId, startPeriodTimestamp: $startPeriodTimestamp, endPeriodTimestamp: $endPeriodTimestamp, startPeriod: $startPeriod, endPeriod: $endPeriod, isBooked: $isBooked, bookingInfo: $bookingInfo)';
   }
 
   @override
@@ -226,7 +248,9 @@ class _$_ScheduleDetailModel implements _ScheduleDetailModel {
             (identical(other.endPeriod, endPeriod) ||
                 other.endPeriod == endPeriod) &&
             (identical(other.isBooked, isBooked) ||
-                other.isBooked == isBooked));
+                other.isBooked == isBooked) &&
+            const DeepCollectionEquality()
+                .equals(other._bookingInfo, _bookingInfo));
   }
 
   @JsonKey(ignore: true)
@@ -239,7 +263,8 @@ class _$_ScheduleDetailModel implements _ScheduleDetailModel {
       endPeriodTimestamp,
       startPeriod,
       endPeriod,
-      isBooked);
+      isBooked,
+      const DeepCollectionEquality().hash(_bookingInfo));
 
   @JsonKey(ignore: true)
   @override
@@ -258,13 +283,15 @@ class _$_ScheduleDetailModel implements _ScheduleDetailModel {
 
 abstract class _ScheduleDetailModel implements ScheduleDetailModel {
   factory _ScheduleDetailModel(
-      {required final String id,
-      required final String scheduleId,
-      required final int startPeriodTimestamp,
-      required final int endPeriodTimestamp,
-      required final String startPeriod,
-      required final String endPeriod,
-      required final bool isBooked}) = _$_ScheduleDetailModel;
+          {required final String id,
+          required final String scheduleId,
+          required final int startPeriodTimestamp,
+          required final int endPeriodTimestamp,
+          required final String startPeriod,
+          required final String endPeriod,
+          required final bool isBooked,
+          required final List<BookingInfoModel> bookingInfo}) =
+      _$_ScheduleDetailModel;
 
   factory _ScheduleDetailModel.fromJson(Map<String, dynamic> json) =
       _$_ScheduleDetailModel.fromJson;
@@ -283,6 +310,8 @@ abstract class _ScheduleDetailModel implements ScheduleDetailModel {
   String get endPeriod;
   @override
   bool get isBooked;
+  @override
+  List<BookingInfoModel> get bookingInfo;
   @override
   @JsonKey(ignore: true)
   _$$_ScheduleDetailModelCopyWith<_$_ScheduleDetailModel> get copyWith =>

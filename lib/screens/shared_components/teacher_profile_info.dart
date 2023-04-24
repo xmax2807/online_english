@@ -75,9 +75,12 @@ class TeacherProfileWidget extends StatelessWidget {
                     fit: BoxFit.contain,
                   ),
                 ),
-                Text(
-                  nationality,
-                  style: const TextStyle(fontSize: 16),
+                FittedBox(
+                  fit: BoxFit.fitWidth,
+                  child: Text(
+                    nationality,
+                    style: const TextStyle(fontSize: 12),
+                  ),
                 ),
               ],
             ),

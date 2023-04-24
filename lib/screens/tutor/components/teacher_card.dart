@@ -77,9 +77,10 @@ class TeacherCardState extends State<TeacherCardWidget> {
                     children: [
                       for (String tag in currentDTO.specialties.split(','))
                         TextButton(
-                            style: MyTheme.tagButtonStyle,
-                            onPressed: () {},
-                            child: Text(tag)),
+                          style: MyTheme.tagButtonStyle,
+                          onPressed: () {},
+                          child: Text(tag),
+                        ),
                     ],
                   ),
                   const SizedBox(
@@ -104,7 +105,9 @@ class TeacherCardState extends State<TeacherCardWidget> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const TutorBookingScreen()),
+                              builder: (context) => TutorBookingScreen(
+                                    tutorId: widget.dto.userId,
+                                  )),
                         );
                       },
                     ),

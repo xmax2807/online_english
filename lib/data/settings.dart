@@ -2,6 +2,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AppSetting {
   late DotEnv dotEnv;
+  late String userId;
   AppSetting._() {
     dotEnv = DotEnv();
   }

@@ -16,6 +16,9 @@ _$_ScheduleDetailModel _$$_ScheduleDetailModelFromJson(
       startPeriod: json['startPeriod'] as String,
       endPeriod: json['endPeriod'] as String,
       isBooked: json['isBooked'] as bool,
+      bookingInfo: (json['bookingInfo'] as List<dynamic>)
+          .map((e) => BookingInfoModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$$_ScheduleDetailModelToJson(
@@ -28,4 +31,5 @@ Map<String, dynamic> _$$_ScheduleDetailModelToJson(
       'startPeriod': instance.startPeriod,
       'endPeriod': instance.endPeriod,
       'isBooked': instance.isBooked,
+      'bookingInfo': instance.bookingInfo,
     };

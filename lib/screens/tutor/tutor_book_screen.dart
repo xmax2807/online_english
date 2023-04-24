@@ -1,66 +1,140 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-class TutorBookingScreen extends StatefulWidget {
-  const TutorBookingScreen({super.key});
+import '../../services/schedule_booking_service.dart';
+import '../../utils/extension_methods/datetime_extension_methods.dart';
+
+class TutorBookingScreen extends ConsumerStatefulWidget {
+  final String tutorId;
+  const TutorBookingScreen({super.key, required this.tutorId});
 
   @override
-  State<TutorBookingScreen> createState() => _TutorBookingScreenState();
+  ConsumerState<TutorBookingScreen> createState() => _TutorBookingScreenState();
 }
 
-class _TutorBookingScreenState extends State<TutorBookingScreen> {
+class _TutorBookingScreenState extends ConsumerState<TutorBookingScreen> {
+  late final ScheduleBookingService _service;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _service = ref.read(scheduleBookingService);
+    _service.getTableSchedules(widget.tutorId);
+  }
+
+  void _showDialog(BuildContext context) {
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text('Booking detail'),
+        content: const Text('Book this lesson?'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'Cancel'),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'Book'),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _onBuildAppointment(
+      BuildContext context, CalendarAppointmentDetails details) {
+    final Appointment appointment = details.appointments.first;
+    final data = _service.findSchedule(appointment.id as String);
+    if (data == null) return Container();
+    return Container(
+      width: details.bounds.width,
+      decoration: BoxDecoration(
+          color: appointment.color,
+          borderRadius: const BorderRadius.all(Radius.circular(6))),
+      alignment: Alignment.center,
+      child: Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: FittedBox(
+          fit: BoxFit.fitHeight,
+          child: Text(
+            appointment.subject,
+            style: TextStyle(
+                color: data.isBooked
+                    ? _service.isBookedByOther(data)
+                        ? Colors.grey
+                        : Colors.green
+                    : Colors.white),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final listData = ref.watch(scheduleBookingService).schedules;
     return Scaffold(
         appBar: AppBar(),
         body: Container(
           padding: const EdgeInsets.all(16),
-          child: SfCalendar(
-            minDate: DateTime.now(),
-            showCurrentTimeIndicator: false,
-            onTap: (calendarTapDetails) {
-              if (calendarTapDetails.targetElement ==
-                  CalendarElement.appointment) {
-                showDialog<String>(
-                  context: context,
-                  builder: (BuildContext context) => AlertDialog(
-                    title: const Text('Booking detail'),
-                    content: const Text('Book this lesson?'),
-                    actions: <Widget>[
-                      TextButton(
-                        onPressed: () => Navigator.pop(context, 'Cancel'),
-                        child: const Text('Cancel'),
-                      ),
-                      TextButton(
-                        onPressed: () => Navigator.pop(context, 'Book'),
-                        child: const Text('OK'),
-                      ),
-                    ],
-                  ),
-                );
-              }
-            },
-            dataSource: _getCalendarDataSource(),
-            showDatePickerButton: true,
-            view: CalendarView.week,
-            timeSlotViewSettings: const TimeSlotViewSettings(
-                startHour: 8, endHour: 23, timeInterval: Duration(minutes: 45)),
-          ),
+          child: listData == null
+              ? const Center(child: CircularProgressIndicator())
+              : SfCalendar(
+                  minDate: DateTimeExtension.getBeginningOfToday(),
+                  appointmentBuilder: _onBuildAppointment,
+                  onTap: (calendarTapDetails) {
+                    if (calendarTapDetails.targetElement ==
+                        CalendarElement.appointment) {
+                      Appointment appointment =
+                          calendarTapDetails.appointments!.first;
+                      final detail =
+                          _service.findSchedule(appointment.id as String);
+                      if (detail != null && detail.isBooked) {
+                        return;
+                      }
+                      _showDialog(context);
+                    }
+                  },
+                  dataSource: _getCalendarDataSource(),
+                  showDatePickerButton: true,
+                  view: CalendarView.week,
+                  timeSlotViewSettings: const TimeSlotViewSettings(
+                      timeFormat: 'HH:mm',
+                      startHour: 8,
+                      endHour: 23,
+                      timeInterval: Duration(minutes: 30)),
+                ),
         ));
   }
-}
 
-_AppointmentDataSource _getCalendarDataSource() {
-  List<Appointment> appointments = <Appointment>[];
+  CalendarDataSource _getCalendarDataSource() {
+    final listData = _service.schedules!;
+    List<Appointment> appointments = <Appointment>[];
 
-  appointments.add(Appointment(
-    startTime: DateTime.now(),
-    endTime: DateTime.now().add(const Duration(hours: 1)),
-    subject: 'Meeting',
-    color: Colors.blue,
-  ));
+    for (final data in listData) {
+      for (final detail in data.scheduleDetails) {
+        appointments.add(
+          Appointment(
+            id: detail.id,
+            startTime: DateTime.fromMillisecondsSinceEpoch(
+                detail.startPeriodTimestamp),
+            endTime:
+                DateTime.fromMillisecondsSinceEpoch(detail.endPeriodTimestamp),
+            subject: detail.isBooked
+                ? _service.isBookedByOther(detail)
+                    ? 'Reserved'
+                    : 'Booked'
+                : 'Book',
+            color: detail.isBooked ? Colors.transparent : Colors.blue,
+          ),
+        );
+      }
+    }
 
-  return _AppointmentDataSource(appointments);
+    return _AppointmentDataSource(appointments);
+  }
 }
 
 class _AppointmentDataSource extends CalendarDataSource {

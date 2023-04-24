@@ -102,7 +102,7 @@ class _TutorScreenState extends ConsumerState<TutorScreen>
             widthFactor: 0.9,
             child: Column(
               // mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+              //crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
                   "Search a Tutor",
@@ -121,6 +121,8 @@ class _TutorScreenState extends ConsumerState<TutorScreen>
 
                   return MySearchWidget(
                     searchController: searchController,
+                    hintSearch: "Search a tutor",
+                    onSearchClick: _handleSearchClick,
                     filters: [
                       TextButton.icon(
                         style: MyTheme.errorTextOnlyStyle,
@@ -137,27 +139,31 @@ class _TutorScreenState extends ConsumerState<TutorScreen>
                         onValueChanged: _onNationalityChanged,
                       ),
                       const MyDropDownWidget<String>(
-                          hint: "Lesson type",
-                          minWidth: 150,
-                          dataList: [
-                            "English for kids",
-                            "English for bussiness",
-                            "IELTS",
-                            "TOEFL"
-                          ]),
+                        hint: "Lesson type",
+                        minWidth: 150,
+                        dataList: [
+                          "English for kids",
+                          "English for bussiness",
+                          "IELTS",
+                          "TOEFL"
+                        ],
+                      ),
                     ],
-                    hintSearch: "Search a tutor",
-                    onSearchClick: _handleSearchClick,
                   );
                 }),
                 Consumer(
                   builder: (ctx, widget, _) {
                     final listTutor =
                         widget.watch(tutorSearchServiceProvider).listTutor;
+                    if (listTutor == null) {
+                      return const Expanded(
+                          child: Center(child: CircularProgressIndicator()));
+                    }
                     return Expanded(
-                      child: listTutor == null || listTutor.isEmpty
+                      child: listTutor.isEmpty
                           ? const EmptyDataWidget()
                           : ListView.separated(
+                              controller: _searchService.scrollController,
                               shrinkWrap: true,
                               physics: const BouncingScrollPhysics(),
                               itemCount: listTutor.length,

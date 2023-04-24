@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -5,7 +7,6 @@ import 'package:online_english/data/model/filter_model/teacher_filter/teacher_se
 import 'package:online_english/data/model/tutor_model/dto/overview_teacher_profile.dart';
 import 'package:online_english/data/providers/tutor_search_provider.dart';
 import 'package:online_english/data/repositories/tutor_search_repository.dart';
-import 'dart:developer' as dev;
 
 final tutorSearchServiceProvider = ChangeNotifierProvider(
     (ref) => TutorSearchService(ref.read(tutorSearchProvider)));
@@ -16,6 +17,7 @@ class TutorSearchService extends ChangeNotifier {
   TeacherSearchDTO get searchDTO => _searchDTO;
 
   late final TextEditingController searchController;
+  late final ScrollController scrollController;
 
   bool get hasFiltered => searchDTO.hasFiltered;
   void resetFilter() {
@@ -35,6 +37,7 @@ class TutorSearchService extends ChangeNotifier {
   TutorSearchService(this._repository) {
     _searchDTO = TeacherSearchDTO();
     searchController = TextEditingController(text: _searchDTO.search);
+    scrollController = ScrollController()..addListener(_handleScrolling);
   }
 
   int _mapComparer<T extends Comparable>(
@@ -63,34 +66,25 @@ class TutorSearchService extends ChangeNotifier {
     return isContainA ? 1 : -1;
   }
 
-  Future<void> getList() async {
-    var result = await _repository.searchATutor(_searchDTO);
-
-    if (result != null) {
-      _listTutor = result;
-    }
-    notifyListeners();
-  }
-
   Future<void> getRecommendList() async {
-    if (_cache == null) {
-      await initList();
-      if (_cache == null) {
-        return;
-      }
+    _listTutor = null;
+    notifyListeners();
+    var result = await _repository.getAll();
+    if (result == null) {
+      _listTutor = [];
+      notifyListeners();
+      return;
     }
+
+    await sortList(result);
 
     int start = (_searchDTO.getPage() - 1) * _searchDTO.perPage;
-    dev.log(start.toString());
-    dev.log(_cache!.length.toString());
-    _listTutor = _cache!.getRange(start, start + _searchDTO.perPage).toList();
+    int end = min(start + _searchDTO.perPage, _cache!.length);
+    _listTutor = _cache!.getRange(0, end).toList();
     notifyListeners();
   }
 
-  Future<void> initList() async {
-    var result = await _repository.getAll(1000, '1');
-    if (result == null) return;
-
+  Future<void> sortList(Map<String, dynamic> result) async {
     var tutors = result['tutors']['rows'] as List<dynamic>;
     var favTutors = result['favoriteTutor'] as List<dynamic>;
     tutors.sort((a, b) {
@@ -108,11 +102,30 @@ class TutorSearchService extends ChangeNotifier {
   }
 
   Future<void> searchTutors() async {
+    _listTutor = null;
+    notifyListeners();
     var result = await _repository.searchATutor(_searchDTO);
 
     if (result != null) {
-      _listTutor = result;
+      _cache = result.map((e) => TeacherOverviewDTO.fromJson(e)).toList();
+
+      int start = (_searchDTO.getPage() - 1) * _searchDTO.perPage;
+      int end = min(start + _searchDTO.perPage, _cache!.length);
+      _listTutor = _cache!.getRange(0, end).toList();
+    } else {
+      _listTutor = [];
     }
     notifyListeners();
+  }
+
+  void _handleScrolling() {
+    if (scrollController.offset >= scrollController.position.maxScrollExtent) {
+      int currentPage = _searchDTO.getPage();
+
+      currentPage += 1;
+      int start = (currentPage - 1) * _searchDTO.perPage;
+      _listTutor = _cache!.getRange(0, start + _searchDTO.perPage).toList();
+      notifyListeners();
+    }
   }
 }

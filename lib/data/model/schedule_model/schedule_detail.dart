@@ -1,5 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'booking_info/booking_info_model.dart';
+
 part 'schedule_detail.freezed.dart';
 part 'schedule_detail.g.dart';
 
@@ -13,6 +15,7 @@ abstract class ScheduleDetailModel implements _$ScheduleDetailModel {
     required String startPeriod,
     required String endPeriod,
     required bool isBooked,
+    required List<BookingInfoModel> bookingInfo,
   }) = _ScheduleDetailModel;
   factory ScheduleDetailModel.fromJson(Map<String, dynamic> json) =>
       _$ScheduleDetailModelFromJson(json);

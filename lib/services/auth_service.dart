@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:online_english/data/model/user_data_source/user_model.dart';
 import 'package:online_english/data/repositories/auth_repository.dart';
+import 'package:online_english/data/settings.dart';
 
 import '../data/providers/auth_repos_provider.dart';
 
@@ -22,6 +23,7 @@ class AuthenicationService extends ChangeNotifier {
         .then((result) {
       if (result != null) {
         _user = result;
+        AppSetting.instance.userId = result.id;
       }
     });
   }
