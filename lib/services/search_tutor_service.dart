@@ -67,8 +67,11 @@ class TutorSearchService extends ChangeNotifier {
   }
 
   Future<void> getRecommendList() async {
-    _listTutor = null;
-    notifyListeners();
+    if (_listTutor != null) {
+      _listTutor = null;
+      notifyListeners();
+    }
+
     var result = await _repository.getAll();
     if (result == null) {
       _listTutor = [];

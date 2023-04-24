@@ -6,6 +6,7 @@ import '../../utils/extension_methods/datetime_extension_methods.dart';
 
 abstract class ITutorTableScheduleRepository {
   Future<List<ScheduleTableDTO>?> getAllSchedules(String tutorId);
+  Future<bool> bookASchedule(String id, String? note);
 }
 
 class TutorTableScheduleRepository implements ITutorTableScheduleRepository {
@@ -24,5 +25,13 @@ class TutorTableScheduleRepository implements ITutorTableScheduleRepository {
       final listData = response.data!['scheduleOfTutor'] as List;
       return listData.map((e) => ScheduleTableDTO.fromJson(e)).toList();
     });
+  }
+
+  @override
+  Future<bool> bookASchedule(String id, String? note) {
+    return _dio.post(ApiKeys.bookAClass, data: {
+      'note': note ?? '',
+      'scheduleDetailIds': [id],
+    }).then((reponse) => reponse.statusCode == 200);
   }
 }

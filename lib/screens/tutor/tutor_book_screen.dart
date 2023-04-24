@@ -4,6 +4,7 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import '../../services/schedule_booking_service.dart';
 import '../../utils/extension_methods/datetime_extension_methods.dart';
+import 'components/booking_dialog.dart';
 
 class TutorBookingScreen extends ConsumerStatefulWidget {
   final String tutorId;
@@ -21,26 +22,6 @@ class _TutorBookingScreenState extends ConsumerState<TutorBookingScreen> {
     super.initState();
     _service = ref.read(scheduleBookingService);
     _service.getTableSchedules(widget.tutorId);
-  }
-
-  void _showDialog(BuildContext context) {
-    showDialog<String>(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        title: const Text('Booking detail'),
-        content: const Text('Book this lesson?'),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () => Navigator.pop(context, 'Cancel'),
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, 'Book'),
-            child: const Text('OK'),
-          ),
-        ],
-      ),
-    );
   }
 
   Widget _onBuildAppointment(
@@ -91,10 +72,16 @@ class _TutorBookingScreenState extends ConsumerState<TutorBookingScreen> {
                           calendarTapDetails.appointments!.first;
                       final detail =
                           _service.findSchedule(appointment.id as String);
-                      if (detail != null && detail.isBooked) {
+                      if (detail == null || detail.isBooked) {
                         return;
                       }
-                      _showDialog(context);
+                      bookingPopup(
+                          context,
+                          DateTime.fromMillisecondsSinceEpoch(
+                              detail.startPeriodTimestamp),
+                          DateTime.fromMillisecondsSinceEpoch(
+                              detail.endPeriodTimestamp),
+                          (note) => _handleBook(detail.id, note));
                     }
                   },
                   dataSource: _getCalendarDataSource(),
@@ -134,6 +121,13 @@ class _TutorBookingScreenState extends ConsumerState<TutorBookingScreen> {
     }
 
     return _AppointmentDataSource(appointments);
+  }
+
+  Future<void> _handleBook(String id, String? note) async {
+    bool result = await _service.bookSchedule(id, note);
+    //TODO pop success
+    if (context.mounted) successPopup(context);
+    _service.getTableSchedules(widget.tutorId);
   }
 }
 

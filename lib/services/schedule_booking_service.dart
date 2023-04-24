@@ -24,6 +24,10 @@ class ScheduleBookingService extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<bool> bookSchedule(String id, String? note) async {
+    return await _repository.bookASchedule(id, note);
+  }
+
   ScheduleDetailModel? findSchedule(String id) {
     if (_schedules == null) return null;
     for (var schedule in _schedules!) {
