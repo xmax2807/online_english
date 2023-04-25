@@ -5,10 +5,12 @@ class BasicTeacherInfo {
   String id;
   String name;
   String avatar;
+  String country;
   BasicTeacherInfo({
     required this.id,
     required this.name,
     required this.avatar,
+    required this.country,
   });
 
   Map<String, dynamic> toJson() {
@@ -16,6 +18,7 @@ class BasicTeacherInfo {
       'id': id,
       'name': name,
       'avatar': avatar,
+      'country': country,
     };
   }
 
@@ -24,6 +27,7 @@ class BasicTeacherInfo {
       id: json['id'],
       name: json['name'],
       avatar: json['avatar'],
+      country: json['country'],
     );
   }
 }

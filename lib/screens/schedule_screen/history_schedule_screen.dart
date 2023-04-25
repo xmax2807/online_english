@@ -15,6 +15,7 @@ class LessonResultsScreen extends StatelessWidget {
           recordvideoLink: "Record",
         ),
         additionText: "6 hours ago",
+        data: null,
       ),
       separatorBuilder: (BuildContext context, int index) => const Divider(
         indent: 16,

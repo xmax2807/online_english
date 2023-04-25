@@ -18,11 +18,11 @@ class ApiKeys {
   static const String listCourse = "course";
   static const String courseDetail = "course/";
   //Scedule
+  static const String cancelReasons = 'booking/cancel-reason';
   static const String ownSchedule = "schedule";
   static const String schedulesWithTutorId = "schedule";
-  static const String bookedClasses =
-      "booking/list/student?page=1&perPage=20&dateTimeLte=1639805436469&orderBy=meeting&sortBy=desc";
+  static const String bookedClasses = "booking/list/student";
   static const String bookAClass = "booking";
-  static const String cancelBooking = "booking";
+  static const String cancelBooking = "booking/schedule-detail";
   static const String updateStudentReq = "booking/student-request/:bookedId";
 }

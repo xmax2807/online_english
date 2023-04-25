@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:online_english/screens/schedule_screen/schedule_screen.dart';
 import 'package:online_english/utils/extension_methods/datetime_extension_methods.dart';
+
+import '../../../utils/theme/my_theme.dart';
 
 Future successPopup(BuildContext context) {
   return showDialog<String>(
@@ -10,10 +13,29 @@ Future successPopup(BuildContext context) {
         'Booking details',
         style: Theme.of(context).textTheme.headlineMedium,
       ),
-      content: const SizedBox(
+      content: SizedBox(
         height: 200,
         child: Center(
-          child: Text('Booked Successfully'),
+          child: Column(
+            children: [
+              const Text('Booked Successfully'),
+              OutlinedButton.icon(
+                onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ScheduleScreen(),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.calendar_month),
+                label: const Text('Your schedule'),
+                style: MyTheme.outlineButtonStyle.copyWith(
+                    minimumSize: const MaterialStatePropertyAll(Size(30, 30))),
+              ),
+            ],
+          ),
         ),
       ),
       actions: <Widget>[

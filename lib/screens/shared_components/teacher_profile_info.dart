@@ -13,12 +13,14 @@ class TeacherProfileWidget extends StatelessWidget {
   final double? rating;
   final String avatar;
   final double dimension;
+  final double maxWidth;
   const TeacherProfileWidget({
     super.key,
     required this.teacherName,
     required this.nationality,
     required this.svgFlag,
     this.dimension = 80,
+    this.maxWidth = 150,
     this.flag,
     this.rating = 0,
     this.avatar = "assets/my_custom_icons/avatar.svg",
@@ -51,7 +53,7 @@ class TeacherProfileWidget extends StatelessWidget {
       const SizedBox(width: 10),
       SizedBox(
         height: max(dimension, 70),
-        width: 150,
+        width: maxWidth,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

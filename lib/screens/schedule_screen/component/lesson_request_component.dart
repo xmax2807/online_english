@@ -1,45 +1,89 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:online_english/utils/theme/my_theme.dart';
 
-class LessonRequestContainer extends StatefulWidget {
-  const LessonRequestContainer({super.key});
+import '../../../data/model/schedule_model/upcoming_schedule_model/dto/group_schedule_dto.dart';
+import '../../../services/upcoming_schedule_service.dart';
+import 'cancel_popup.dart';
+
+class LessonRequestContainer extends ConsumerWidget {
+  final UpcomingScheduleService _service;
+  final GroupScheduleDTO _groupData;
+
+  const LessonRequestContainer(this._service, this._groupData, {super.key});
+
+  void _handleCancel(BuildContext context, ScheduleTime timeData) {
+    cancelPopup(
+      context,
+      timeData.from,
+      timeData.to,
+      _service.cancelReasons!,
+      (reasonId, note) async {
+        String result =
+            await _service.cancelLesson(timeData.id, reasonId, note);
+        if (context.mounted) {
+          resultPopup(context, 'Schedule Deleting Result', result);
+        }
+      },
+    );
+  }
+
+  List<Widget> getLessonWidgets(BuildContext context) {
+    return List.generate(_groupData.lessonTimes.length,
+        (index) => onBuildSession(context, index));
+  }
+
+  Widget onBuildSession(BuildContext context, int index) {
+    ScheduleTime timeData = _groupData.lessonTimes[index];
+    return SizedBox(
+      height: 35,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            'Session ${index + 1} : ${timeData.durationTime}',
+            style: const TextStyle(fontSize: 16),
+          ),
+          Container(
+            height: 24,
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.red, width: 1),
+              shape: BoxShape.circle,
+            ),
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: IconButton(
+                onPressed: () => _handleCancel(context, timeData),
+                icon: const Icon(
+                  Icons.clear_rounded,
+                ),
+                color: MyTheme.colors.red,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
-  State<LessonRequestContainer> createState() => _LessonRequestContainerState();
-}
-
-class _LessonRequestContainerState extends State<LessonRequestContainer> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Card(
       elevation: 4,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Time",
-                style: Theme.of(context)
-                    .textTheme
-                    .headlineLarge!
-                    .copyWith(fontSize: 24, color: MyTheme.colors.primaryColor),
-              ),
-              OutlinedButton.icon(
-                  style: OutlinedButton.styleFrom(
-                    minimumSize: const Size(50, 40),
-                    surfaceTintColor: MyTheme.colors.red,
-                    foregroundColor: MyTheme.colors.red,
-                    side: BorderSide(color: MyTheme.colors.red, width: 1),
-                  ).merge(MyTheme.outlineButtonStyle),
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.clear_rounded,
-                    size: 16,
-                  ),
-                  label: const Text("Cancel"))
-            ],
+          ListTile(
+            title: Text(
+              _groupData.getGroupTime(),
+              style: Theme.of(context)
+                  .textTheme
+                  .headlineLarge!
+                  .copyWith(fontSize: 24, color: MyTheme.colors.primaryColor),
+            ),
+            subtitle: Column(
+              children: getLessonWidgets(context),
+            ),
           ),
           const SizedBox(
             height: 10,
