@@ -1,24 +1,70 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:online_english/data/model/schedule_model/upcoming_schedule_model/dto/group_schedule_dto.dart';
 import 'package:online_english/data/model/tutor_lesson_review/tutor_lesson_review.dart';
 import 'package:online_english/screens/schedule_screen/component/lesson_tutor_review.dart';
 
+import '../../../services/history_schedule_service.dart';
 import '../../../utils/theme/my_theme.dart';
 
-class LessonResultContainer extends StatelessWidget {
+class LessonResultContainer extends ConsumerWidget {
   final String? recordvideoLink;
-  final Widget lessonReview = LessonTutorReview(
-      model: TutorLessonReviewModel.convert(
-    behaviourVal: 1,
-    listenVal: 1,
-    speakValue: 1,
-    vocabVal: 1,
-    comment:
-        'Quang Huy, you are such an idiot. Please do not attend my class ever again !!!',
-  ));
-  LessonResultContainer({super.key, this.recordvideoLink});
+  final HistoryScheduleGroup groupData;
+  final HistoryScheduleService service;
+
+  const LessonResultContainer(
+      {super.key,
+      this.recordvideoLink,
+      required this.groupData,
+      required this.service});
+
+  Widget onBuildSession(BuildContext context, int index) {
+    final ScheduleTime timeData = groupData.lessonTimes[index];
+    final review = groupData.lessonTimes[index].review;
+    if (review == null) {
+      return ListTile(
+        title: Text(
+          'Session ${index + 1} : ${timeData.durationTime}',
+          style: const TextStyle(fontSize: 16),
+          textAlign: TextAlign.start,
+        ),
+      );
+    }
+    return ExpansionTile(
+      title: Text(
+        'Session ${index + 1} : ${timeData.durationTime}',
+        style: const TextStyle(fontSize: 16),
+      ),
+      expandedCrossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Lesson status: ${review.lessonStatus!.status}'),
+        FittedBox(
+            fit: BoxFit.fitWidth,
+            child: Text(
+                'Book: ${review.book} - Unit: ${review.unit} - Lesson: ${review.lesson} - Page: ${review.page}')),
+        Text('Lesson progress: ${review.lessonProgress}'),
+        const Divider(),
+        review.behaviorRating == null
+            ? const Text('Not review yet')
+            : LessonTutorReview(
+                model: TutorLessonReviewModel.convert(
+                  behaviourVal: review.behaviorRating!.toDouble(),
+                  behaviourComment: review.behaviorComment!,
+                  listenVal: review.listeningRating!.toDouble(),
+                  listenComment: review.listeningComment!,
+                  speakValue: review.speakingRating!.toDouble(),
+                  speakComment: review.speakingComment!,
+                  vocabVal: review.vocabularyRating!.toDouble(),
+                  vocabComment: review.vocabularyComment!,
+                  comment: review.overallComment!,
+                ),
+              ),
+      ],
+    );
+  }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Card(
       elevation: 4,
       child: Padding(
@@ -28,7 +74,7 @@ class LessonResultContainer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Time",
+                groupData.getGroupTime(),
                 style: Theme.of(context)
                     .textTheme
                     .headlineLarge!
@@ -56,9 +102,8 @@ class LessonResultContainer extends StatelessWidget {
               "Tutor's review",
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
-            children: <Widget>[
-              lessonReview,
-            ],
+            children: List.generate(groupData.lessonTimes.length,
+                (index) => onBuildSession(context, index)),
           ),
           const SizedBox(
             height: 10,

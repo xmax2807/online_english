@@ -4,10 +4,10 @@ import '../../../data/model/schedule_model/upcoming_schedule_model/dto/group_sch
 import '../../../gen/assets.gen.dart';
 import '../../shared_components/teacher_profile_info.dart';
 
-class LessonContainer extends StatelessWidget {
+class LessonContainer<T extends ScheduleTime> extends StatelessWidget {
   final Widget? additionWidget;
   final String? additionText;
-  final GroupScheduleDTO? data;
+  final GroupScheduleDTO<T>? data;
   const LessonContainer(
       {super.key, this.additionWidget, this.additionText, required this.data});
 

@@ -11,15 +11,35 @@ class TutorLessonReviewModel with _$TutorLessonReviewModel {
 
   static TutorLessonReviewModel convert(
       {required double listenVal,
+      required String listenComment,
       required double behaviourVal,
+      required String behaviourComment,
       required double speakValue,
+      required String speakComment,
       required double vocabVal,
+      required String vocabComment,
       required String comment}) {
     return TutorLessonReviewModel(
-        listening: RatingData(label: "Listening", value: listenVal),
-        behaviour: RatingData(label: "Behaviour", value: behaviourVal),
-        speaking: RatingData(label: "Speaking", value: speakValue),
-        vocabulary: RatingData(label: "Vocabulary", value: vocabVal),
+        listening: RatingData(
+          label: "Listening",
+          value: listenVal,
+          comment: listenComment,
+        ),
+        behaviour: RatingData(
+          label: "Behaviour",
+          value: behaviourVal,
+          comment: behaviourComment,
+        ),
+        speaking: RatingData(
+          label: "Speaking",
+          value: speakValue,
+          comment: speakComment,
+        ),
+        vocabulary: RatingData(
+          label: "Vocabulary",
+          value: vocabVal,
+          comment: vocabComment,
+        ),
         comments: comment);
   }
 

@@ -8,7 +8,7 @@ import 'cancel_popup.dart';
 
 class LessonRequestContainer extends ConsumerWidget {
   final UpcomingScheduleService _service;
-  final GroupScheduleDTO _groupData;
+  final UpcomingScheduleGroup _groupData;
 
   const LessonRequestContainer(this._service, this._groupData, {super.key});
 
@@ -35,6 +35,7 @@ class LessonRequestContainer extends ConsumerWidget {
 
   Widget onBuildSession(BuildContext context, int index) {
     ScheduleTime timeData = _groupData.lessonTimes[index];
+    bool canCancel = _service.canCancel(timeData.from);
     return SizedBox(
       height: 35,
       child: Row(
@@ -47,17 +48,21 @@ class LessonRequestContainer extends ConsumerWidget {
           Container(
             height: 24,
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.red, width: 1),
+              border: Border.all(
+                  color: !canCancel ? MyTheme.colors.lightGray : Colors.red,
+                  width: 1),
               shape: BoxShape.circle,
             ),
             child: FittedBox(
               fit: BoxFit.scaleDown,
               child: IconButton(
-                onPressed: () => _handleCancel(context, timeData),
+                onPressed:
+                    !canCancel ? null : () => _handleCancel(context, timeData),
                 icon: const Icon(
                   Icons.clear_rounded,
                 ),
                 color: MyTheme.colors.red,
+                disabledColor: MyTheme.colors.lightGray,
               ),
             ),
           ),
@@ -119,9 +124,13 @@ class LessonRequestContainer extends ConsumerWidget {
                 TextButton(
                     style: TextButton.styleFrom(
                       backgroundColor: MyTheme.colors.secondaryColor,
+                      disabledBackgroundColor:
+                          MyTheme.colors.lightGray.withOpacity(0.5),
                       foregroundColor: MyTheme.colors.onSecondaryColor,
                     ).merge(MyTheme.flatButtonStyle),
-                    onPressed: () {},
+                    onPressed: !_service.canGoToMeeting(_groupData)
+                        ? null
+                        : () => _service.goToMeeting(_groupData),
                     child: const Text(
                       "Go to meeting",
                       style: TextStyle(fontWeight: FontWeight.bold),

@@ -48,4 +48,8 @@ extension DateTimeExtension on DateTime {
     bool isSameYear = year == other.year;
     return isSameYear && isSameMonth && isSameDay;
   }
+
+  bool isInRange(DateTime from, DateTime to) {
+    return from.isBefore(this) && to.isAfter(this);
+  }
 }

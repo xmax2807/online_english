@@ -3,6 +3,24 @@ import 'package:flutter/material.dart';
 import '../my_theme.dart';
 
 class MyButtonTheme {
+  static Color onEachStateBackgroundColor(Set<MaterialState> states) {
+    for (var state in states) {
+      if (state == MaterialState.disabled) {
+        return colors.lightGray;
+      }
+    }
+    return colors.primaryColor;
+  }
+
+  static Color onEachStateForgroundColor(Set<MaterialState> states) {
+    for (var state in states) {
+      if (state == MaterialState.disabled) {
+        return Colors.grey[400]!;
+      }
+    }
+    return colors.onPrimaryColor;
+  }
+
   static const colors = AppColors();
   static final ButtonStyle baseButtonStyle = TextButton.styleFrom(
     minimumSize: const Size(50, 50),
@@ -12,8 +30,10 @@ class MyButtonTheme {
     ),
   );
   static final ButtonStyle flatButtonStyle = baseButtonStyle.copyWith(
-    backgroundColor: MaterialStatePropertyAll(colors.primaryColor),
-    foregroundColor: MaterialStatePropertyAll(colors.onPrimaryColor),
+    backgroundColor:
+        MaterialStateProperty.resolveWith(onEachStateBackgroundColor),
+    foregroundColor:
+        MaterialStateProperty.resolveWith(onEachStateForgroundColor),
   );
   static final ButtonStyle outlineButtonStyle = OutlinedButton.styleFrom(
     surfaceTintColor: colors.secondaryColor,

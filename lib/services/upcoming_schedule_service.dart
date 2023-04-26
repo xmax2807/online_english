@@ -4,7 +4,7 @@ import 'package:online_english/data/model/schedule_model/upcoming_schedule_model
 
 import '../data/model/schedule_model/upcoming_schedule_model/cancel_reason_model.dart';
 import '../data/model/schedule_model/upcoming_schedule_model/dto/group_schedule_dto.dart';
-import '../data/providers/upcoming_schedult_repos_provider.dart';
+import '../data/providers/upcoming_schedule_repos_provider.dart';
 import '../data/repositories/upcoming_schedule_repository.dart';
 
 final upcomingScheduleService = ChangeNotifierProvider.autoDispose(
@@ -17,8 +17,8 @@ class UpcomingScheduleService extends ChangeNotifier {
     paging = UpcomingSchedultPagingDTO();
   }
 
-  List<GroupScheduleDTO>? _dataList;
-  List<GroupScheduleDTO>? get dataList => _dataList;
+  List<UpcomingScheduleGroup>? _dataList;
+  List<UpcomingScheduleGroup>? get dataList => _dataList;
 
   Future<void> getUpcomingSchedules() async {
     if (_dataList != null) {
@@ -34,7 +34,7 @@ class UpcomingScheduleService extends ChangeNotifier {
       return;
     }
 
-    _dataList = GroupScheduleFactory.createListFrom(result);
+    _dataList = GroupScheduleFactory.createListFromUpcoming(result);
     notifyListeners();
   }
 
@@ -44,7 +44,7 @@ class UpcomingScheduleService extends ChangeNotifier {
 
     if (result == null) return;
 
-    final appendList = GroupScheduleFactory.createListFrom(result);
+    final appendList = GroupScheduleFactory.createListFromUpcoming(result);
     _dataList ??= [];
     _dataList!.addAll(appendList);
 
@@ -58,10 +58,12 @@ class UpcomingScheduleService extends ChangeNotifier {
   }
 
   //cancelRegion
-  bool canCancel(int startTimestamp) {
-    return DateTime.fromMillisecondsSinceEpoch(startTimestamp)
-        .subtract(const Duration(hours: 2))
-        .isAfter(DateTime.now());
+  bool canCancelTimestamp(int startTimestamp) {
+    return canCancel(DateTime.fromMillisecondsSinceEpoch(startTimestamp));
+  }
+
+  bool canCancel(DateTime startTime) {
+    return startTime.subtract(const Duration(hours: 2)).isAfter(DateTime.now());
   }
 
   Future<String> cancelLesson(
@@ -73,4 +75,19 @@ class UpcomingScheduleService extends ChangeNotifier {
     }
     return 'Something went wrong, please try again later';
   }
+
+  //go to meeting region
+  bool canGoToMeetingIndex(int index, [DateTime? when]) {
+    if (_dataList == null) return false;
+    if (index >= _dataList!.length) return false;
+
+    return canGoToMeeting(_dataList![index]);
+  }
+
+  bool canGoToMeeting(UpcomingScheduleGroup group, [DateTime? when]) {
+    when ??= DateTime.now();
+    return group.isInRange(when);
+  }
+
+  void goToMeeting(UpcomingScheduleGroup group) {}
 }

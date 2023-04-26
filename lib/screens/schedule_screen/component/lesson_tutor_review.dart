@@ -14,8 +14,6 @@ class LessonTutorReview extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text("Lesson status: Completed - 40 pages"),
-          const Divider(),
           ListTile(
               contentPadding: const EdgeInsets.only(left: 0, right: 0),
               title: const Padding(
