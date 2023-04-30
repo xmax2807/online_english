@@ -45,7 +45,7 @@ class LessonResultContainer extends ConsumerWidget {
         Text('Lesson progress: ${review.lessonProgress}'),
         const Divider(),
         review.behaviorRating == null
-            ? const Text('Not review yet')
+            ? const Text('Not reviewed yet')
             : LessonTutorReview(
                 model: TutorLessonReviewModel.convert(
                   behaviourVal: review.behaviorRating!.toDouble(),
@@ -93,15 +93,18 @@ class LessonResultContainer extends ConsumerWidget {
           const SizedBox(
             height: 10,
           ),
-          ExpansionTile(
-            collapsedShape: RoundedRectangleBorder(
-                side: BorderSide(color: MyTheme.colors.primaryColor),
-                borderRadius: BorderRadius.circular(10)),
-            backgroundColor: MyTheme.colors.onPrimaryColor,
-            title: const Text(
-              "Tutor's review",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
+          // ExpansionTile(
+          //   collapsedShape: RoundedRectangleBorder(
+          //       side: BorderSide(color: MyTheme.colors.primaryColor),
+          //       borderRadius: BorderRadius.circular(10)),
+          //   backgroundColor: MyTheme.colors.onPrimaryColor,
+          //   title: const Text(
+          //     "Tutor's review",
+          //     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          //   ),
+
+          // ),
+          Column(
             children: List.generate(groupData.lessonTimes.length,
                 (index) => onBuildSession(context, index)),
           ),

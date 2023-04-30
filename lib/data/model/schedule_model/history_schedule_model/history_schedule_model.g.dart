@@ -19,6 +19,7 @@ HistoryScheduleModel _$HistoryScheduleModelFromJson(
           ? null
           : TutorReviewModel.fromJson(
               json['classReview'] as Map<String, dynamic>),
+      json['recordUrl'] as String?,
     );
 
 Map<String, dynamic> _$HistoryScheduleModelToJson(
@@ -30,4 +31,5 @@ Map<String, dynamic> _$HistoryScheduleModelToJson(
       'studentRequest': instance.studentRequest,
       'scheduleInfo': instance.scheduleInfo,
       'classReview': instance.classReview,
+      'recordUrl': instance.recordUrl,
     };

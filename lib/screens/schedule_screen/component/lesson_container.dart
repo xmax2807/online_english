@@ -34,7 +34,7 @@ class LessonContainer<T extends ScheduleTime> extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    data!.getDate(),
+                    data!.getDateString(),
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),
                   if (additionText != null) Text(additionText!),

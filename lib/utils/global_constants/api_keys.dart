@@ -25,4 +25,8 @@ class ApiKeys {
   static const String bookAClass = "booking";
   static const String cancelBooking = "booking/schedule-detail";
   static const String updateStudentReq = "booking/student-request/:bookedId";
+  //UserProfile
+  static const String userProfile = "user/info";
+  static const String updateInfo = "user/info";
+  static const String updateAvatar = "user/uploadAvatar";
 }

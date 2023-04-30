@@ -13,6 +13,7 @@ class HistoryScheduleModel {
   final String? studentRequest;
   final ScheduleWithTutorDTO scheduleInfo;
   final TutorReviewModel? classReview;
+  final String? recordUrl;
   HistoryScheduleModel(
     this.id,
     this.userId,
@@ -20,6 +21,7 @@ class HistoryScheduleModel {
     this.studentRequest,
     this.scheduleInfo,
     this.classReview,
+    this.recordUrl,
   );
   factory HistoryScheduleModel.fromJson(Map<String, dynamic> json) =>
       _$HistoryScheduleModelFromJson(json);

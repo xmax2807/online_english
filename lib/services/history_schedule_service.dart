@@ -39,24 +39,28 @@ class HistoryScheduleService extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool isLoadingMore = false;
   Future<void> loadMore() async {
     paging.page += 1;
     final result = await _repository.getHistorySchedules(paging);
 
+    isLoadingMore = false;
     if (result == null) {
       paging.page -= 1;
+      notifyListeners();
       return;
     }
 
     final appendList = GroupScheduleFactory.createListFromHistory(result);
     _dataList ??= [];
     _dataList!.addAll(appendList);
-
     notifyListeners();
   }
 
   void _handleScroll() {
     if (scrollController.offset >= scrollController.position.maxScrollExtent) {
+      isLoadingMore = true;
+      notifyListeners();
       loadMore();
     }
   }

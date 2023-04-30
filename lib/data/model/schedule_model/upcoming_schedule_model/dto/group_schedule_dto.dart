@@ -98,7 +98,8 @@ abstract class GroupScheduleDTO<T extends ScheduleTime> {
     return '${first.from.toStringFormat(format: 'hh:mm')} - ${last.to.toStringFormat(format: 'hh:mm')}';
   }
 
-  String getDate() => _date.toStringFormat();
+  String getDateString() => _date.toStringFormat();
+  DateTime getDate() => _date;
 }
 
 class UpcomingScheduleGroup extends GroupScheduleDTO<ScheduleTime> {
@@ -154,11 +155,13 @@ class UpcomingScheduleGroup extends GroupScheduleDTO<ScheduleTime> {
 }
 
 class HistoryScheduleGroup extends GroupScheduleDTO<ScheduleTimeWithReview> {
+  final String? recordUrl;
   HistoryScheduleGroup.fromElement(
     super.first,
     super.date,
     super.teacherInfo,
     super.studentRequest,
+    this.recordUrl,
   ) : super.fromElement();
 
   HistoryScheduleGroup(
@@ -166,10 +169,12 @@ class HistoryScheduleGroup extends GroupScheduleDTO<ScheduleTimeWithReview> {
     super.teacherInfo,
     super.date,
     super.studentRequest,
+    this.recordUrl,
   );
 
   HistoryScheduleGroup clone(List<ScheduleTime> list) {
-    return HistoryScheduleGroup(list, teacherInfo, _date, studentRequest);
+    return HistoryScheduleGroup(
+        list, teacherInfo, _date, studentRequest, recordUrl);
   }
 
   bool equalToHistory(HistoryScheduleModel model) {
@@ -276,7 +281,8 @@ class GroupScheduleFactory {
               DateTime.fromMillisecondsSinceEpoch(
                   model.scheduleInfo.endTimestamp),
               model.scheduleInfo.tutorInfo,
-              model.studentRequest),
+              model.studentRequest,
+              model.recordUrl),
         );
       }
     }
