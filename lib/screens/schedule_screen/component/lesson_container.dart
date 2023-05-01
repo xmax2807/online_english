@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../data/model/schedule_model/upcoming_schedule_model/dto/group_schedule_dto.dart';
-import '../../../gen/assets.gen.dart';
 import '../../shared_components/teacher_profile_info.dart';
 
 class LessonContainer<T extends ScheduleTime> extends StatelessWidget {
@@ -22,7 +21,8 @@ class LessonContainer<T extends ScheduleTime> extends StatelessWidget {
               teacherName: data!.teacherInfo.name,
               nationality: data!.teacherInfo.country,
               avatar: data!.teacherInfo.avatar,
-              svgFlag: Assets.flags.fr,
+              svgFlag:
+                  'assets/flags/${data!.teacherInfo.country.toLowerCase()}.svg',
               dimension: 50,
               maxWidth: 100,
             ),

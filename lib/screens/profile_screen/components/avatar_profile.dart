@@ -29,20 +29,29 @@ class AvatarProfile extends StatelessWidget {
       children: [
         SizedBox.square(
           dimension: dimension,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(10000),
-            child: CachedNetworkImage(
-              fit: BoxFit.cover,
-              imageUrl: avatarUrl,
-              errorWidget: (context, url, error) {
-                return SvgPicture.asset("assets/my_custom_icons/avatar.svg");
-              },
+          child: Container(
+            padding: const EdgeInsets.all(4),
+            decoration: BoxDecoration(
+                border:
+                    Border.all(width: 4, color: MyTheme.colors.secondaryColor),
+                shape: BoxShape.circle),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10000),
+              child: CachedNetworkImage(
+                fit: BoxFit.cover,
+                imageUrl: avatarUrl,
+                errorWidget: (context, url, error) {
+                  return SvgPicture.asset("assets/my_custom_icons/avatar.svg");
+                },
+              ),
             ),
           ),
         ),
         Positioned(
           bottom: 0,
           right: 0,
+          width: 30,
+          height: 30,
           child: Container(
             decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(50)),
@@ -56,13 +65,11 @@ class AvatarProfile extends StatelessWidget {
                     blurRadius: 3,
                   ),
                 ]),
-            child: Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: IconButton(
-                icon: const Icon(Icons.add_a_photo),
-                color: MyTheme.colors.onSecondaryColor,
-                onPressed: _pickImage,
-              ),
+            child: IconButton(
+              iconSize: 14,
+              icon: const Icon(Icons.add_a_photo),
+              color: MyTheme.colors.onSecondaryColor,
+              onPressed: _pickImage,
             ),
           ),
         ),

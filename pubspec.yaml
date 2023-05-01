@@ -57,6 +57,7 @@ dependencies:
   syncfusion_flutter_pdfviewer: ^20.4.54
   timeago: ^3.3.0
   image_picker: ^0.8.7+4
+  path_provider: ^2.0.14
 
 dev_dependencies:
   flutter_test:
@@ -91,6 +92,7 @@ flutter:
     - assets/flags/
     - assets/my_custom_icons/hearts/
     - assets/my_custom_icons/
+    - assets/json/
     - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see

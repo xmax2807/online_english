@@ -8,6 +8,9 @@ import 'package:online_english/data/model/tutor_model/dto/overview_teacher_profi
 import 'package:online_english/data/providers/tutor_search_provider.dart';
 import 'package:online_english/data/repositories/tutor_search_repository.dart';
 
+import '../data/model/key_value_models/learn_topic_model.dart';
+import '../data/model/key_value_models/specialty_model.dart';
+
 final tutorSearchServiceProvider = ChangeNotifierProvider(
     (ref) => TutorSearchService(ref.read(tutorSearchProvider)));
 
@@ -130,5 +133,35 @@ class TutorSearchService extends ChangeNotifier {
       _listTutor = _cache!.getRange(0, start + _searchDTO.perPage).toList();
       notifyListeners();
     }
+  }
+
+  Future<Map<String, LearnTopicModel>> getLearnTopics() async {
+    Map<String, LearnTopicModel> result = {};
+
+    List<LearnTopicModel>? listData = await _repository.getLearnTopics();
+
+    if (listData == null) return result;
+
+    for (var model in listData) {
+      if (!result.containsKey(model.key)) {
+        result[model.key] = model;
+      }
+    }
+    return result;
+  }
+
+  Future<Map<String, SpecialtyModel>> getSpecialties() async {
+    Map<String, SpecialtyModel> result = {};
+
+    List<SpecialtyModel>? listData = await _repository.getSpecialties();
+
+    if (listData == null) return result;
+
+    for (var model in listData) {
+      if (!result.containsKey(model.key)) {
+        result[model.key] = model;
+      }
+    }
+    return result;
   }
 }

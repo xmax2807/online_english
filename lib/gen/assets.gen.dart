@@ -1111,6 +1111,16 @@ class $AssetsImagesGen {
   List<AssetGenImage> get values => [emptyResult, loginScreenBG];
 }
 
+class $AssetsJsonGen {
+  const $AssetsJsonGen();
+
+  /// File path: assets/json/countries.json
+  String get countries => 'assets/json/countries.json';
+
+  /// List of all assets
+  List<String> get values => [countries];
+}
+
 class $AssetsMyCustomIconsGen {
   const $AssetsMyCustomIconsGen();
 
@@ -1178,6 +1188,7 @@ class Assets {
   static const $AssetsAppIconGen appIcon = $AssetsAppIconGen();
   static const $AssetsFlagsGen flags = $AssetsFlagsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
+  static const $AssetsJsonGen json = $AssetsJsonGen();
   static const $AssetsMyCustomIconsGen myCustomIcons =
       $AssetsMyCustomIconsGen();
 }

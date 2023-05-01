@@ -13,6 +13,7 @@ void main() {
   //   ],
   //   builder: (context) => const ProviderScope(child: MyApp()),
   // ));
+
   runApp(const ProviderScope(child: MyApp()));
 }
 

@@ -7,7 +7,6 @@ import 'package:online_english/screens/tutor/tutor_book_screen.dart';
 import 'package:readmore/readmore.dart';
 
 import '../../data/model/tutor_model/dto/detail_teacher_profile.dart';
-import '../../gen/assets.gen.dart';
 import '../../services/tutor_info_service.dart';
 import '../../utils/theme/my_theme.dart';
 import '../view_course_screen/view_course_screen.dart';
@@ -47,7 +46,7 @@ class _TutorDetailScreen extends ConsumerState<TutorDetailScreen> {
               TeacherProfileWidget(
                 teacherName: data.user.name ?? 'Unknown',
                 nationality: data.user.country ?? '',
-                svgFlag: Assets.flags.fr,
+                svgFlag: 'assets/flags/${data.user.country?.toLowerCase()}.svg',
                 avatar: data.user.avatar ?? '',
                 dimension: 100,
                 rating: data.avgRating,

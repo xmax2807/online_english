@@ -29,4 +29,10 @@ class ApiKeys {
   static const String userProfile = "user/info";
   static const String updateInfo = "user/info";
   static const String updateAvatar = "user/uploadAvatar";
+
+  //specialties
+  static const String specialties = 'major';
+  static const String learnTopic = 'learn-topic';
+  //video call
+  static const String totalCallTime = 'call/total';
 }

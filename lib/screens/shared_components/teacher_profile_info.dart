@@ -7,6 +7,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'dart:developer' as dev;
 
+import '../../data/settings.dart';
+
 class TeacherProfileWidget extends StatelessWidget {
   final String teacherName, nationality, svgFlag;
   final SvgPicture? flag;
@@ -80,7 +82,8 @@ class TeacherProfileWidget extends StatelessWidget {
                 FittedBox(
                   fit: BoxFit.fitWidth,
                   child: Text(
-                    nationality,
+                    AppSetting.instance.countryHelper
+                        .getCountryName(nationality),
                     style: const TextStyle(fontSize: 12),
                   ),
                 ),

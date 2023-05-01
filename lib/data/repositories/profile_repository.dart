@@ -33,9 +33,10 @@ class ProfileRepository implements IProfileRepository {
   @override
   Future<String?> updateAvatar(String filePath) async {
     final MultipartFile data = await MultipartFile.fromFile(filePath);
+    final formData = FormData.fromMap({'avatar': data});
     return _dio
         .post(ApiKeys.updateAvatar,
-            data: {'avatar': data},
+            data: formData,
             options: Options(headers: {
               'accept-encoding': 'gzip, deflate, br',
             }))

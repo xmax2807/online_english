@@ -50,7 +50,8 @@ class TeacherCardState extends State<TeacherCardWidget> {
                             child: TeacherProfileWidget(
                               teacherName: currentDTO.name,
                               nationality: currentDTO.country,
-                              svgFlag: Assets.flags.fr,
+                              svgFlag:
+                                  'assets/flags/${currentDTO.country.toLowerCase()}.svg',
                               rating: currentDTO.rating,
                               avatar: currentDTO.avatar,
                               dimension: 70,

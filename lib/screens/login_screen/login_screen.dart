@@ -78,9 +78,7 @@ class LoginScreen extends ConsumerWidget {
                                   ),
                                   suffixIcon: IconButton(
                                     icon: const Icon(Icons.clear_rounded),
-                                    onPressed: () {
-                                      loginValidator.emailController.text = '';
-                                    },
+                                    onPressed: loginValidator.clearEmail,
                                   ),
                                 ),
                               ),

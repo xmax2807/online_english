@@ -48,6 +48,8 @@ class LoginValidator extends ChangeNotifier {
     notifyListeners();
   }
 
+  void clearEmail() => emailController.text = '';
+
   @override
   void dispose() {
     super.dispose();
