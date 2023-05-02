@@ -57,7 +57,7 @@ class _CountdownWidgetState extends State<CountdownWidget> {
   Widget build(BuildContext context) {
     String strDigits(int n) => n.toString().padLeft(2, '0');
     final days = strDigits(_duration.inDays);
-    // Step 7
+
     final hours = strDigits(_duration.inHours.remainder(24));
     final minutes = strDigits(_duration.inMinutes.remainder(60));
     final seconds = strDigits(_duration.inSeconds.remainder(60));

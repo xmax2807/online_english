@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
+import 'package:multi_select_flutter/util/multi_select_item.dart';
+import 'package:multi_select_flutter/util/multi_select_list_type.dart';
 import 'package:online_english/data/settings.dart';
 import 'package:online_english/screens/shared_components/my_drop_down.dart';
 import 'package:online_english/utils/global_constants/country_hashmap.dart';
 import 'package:online_english/utils/theme/my_theme.dart';
 
+import '../../data/model/user_data_source/user_enum.dart';
 import '../../services/profile_service.dart';
 import 'package:intl/intl.dart';
 
@@ -20,31 +24,51 @@ class ProfileInfoView extends ConsumerStatefulWidget {
 class _ProfileInfoViewState extends ConsumerState<ProfileInfoView> {
   final _formKey = GlobalKey<FormState>();
   String _name = '';
-  final String _email = '';
   String _country = '';
-  final String _phoneNumber = '';
+  String _phoneNumber = '';
   DateTime? _birthday;
-  String? _dropdownValue;
-  final String _textAreaValue = '';
-  late final UserProfileService _service;
+  Level? _level;
+  List<String>? _selectedTopics;
+  String scheduleNote = '';
 
+  late final UserProfileService _service;
   late final List<Country> countries;
+
   @override
   void initState() {
     super.initState();
     _service = ref.read(userProfileService);
     _service.getProfileInfo();
+    _service.getMapSpecialties();
     countries = AppSetting.instance.countryHelper.coutryNames();
   }
 
   @override
   Widget build(BuildContext context) {
     final userProfile = ref.watch(userProfileService).data;
-    if (userProfile == null) {
+    final Map<String, String>? topics =
+        ref.watch(userProfileService).specialities;
+    if (userProfile == null || topics == null) {
       return const Center(
         child: CircularProgressIndicator(),
       );
     }
+
+    _birthday = userProfile.birthday;
+    _level = userProfile.level;
+    _country = userProfile.country ?? '';
+    _selectedTopics = [];
+    for (var val in userProfile.learnTopics) {
+      if (topics.containsKey(val.key)) {
+        _selectedTopics!.add(val.key);
+      }
+    }
+    for (var val in userProfile.testPreparations) {
+      if (topics.containsKey(val.key)) {
+        _selectedTopics!.add(val.key);
+      }
+    }
+
     return Padding(
       padding: const EdgeInsets.only(left: 16.0, right: 16, top: 12),
       child: Column(
@@ -113,11 +137,10 @@ class _ProfileInfoViewState extends ConsumerState<ProfileInfoView> {
                 ),
                 MyDropDownWidget<Country>(
                   minWidth: 350,
-                  choosenIndex: countries
-                      .indexWhere((x) => x.code == userProfile.country),
+                  choosenIndex: countries.indexWhere((x) => x.code == _country),
                   hint: 'Country',
                   onValueChanged: (int? index) {
-                    _country = index == null
+                    _country = index == null || index < 0
                         ? countries[0].code
                         : countries[index].code;
                   },
@@ -137,61 +160,93 @@ class _ProfileInfoViewState extends ConsumerState<ProfileInfoView> {
                   keyboardType: TextInputType.phone,
                   enabled: false,
                   initialValue: userProfile.phone,
+                  onSaved: (newValue) => _phoneNumber = newValue!,
                 ),
-                const SizedBox(height: 16.0),
-                ListTile(
-                  minVerticalPadding: 8,
-                  title: const Text('Birthday'),
-                  subtitle: TextButton.icon(
-                    style: MyTheme.outlineButtonStyle,
-                    icon: Text(_birthday == null
+                const SizedBox(height: 10.0),
+                TextButton.icon(
+                  style: MyTheme.outlineButtonStyle.copyWith(
+                      minimumSize:
+                          const MaterialStatePropertyAll(Size.fromHeight(50))),
+                  icon: Text(
+                    _birthday == null
                         ? 'Select Date'
-                        : DateFormat.yMMMd().format(_birthday!)),
-                    onPressed: () async {
-                      final date = await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(1900),
-                        lastDate: DateTime.now(),
-                      );
-                      if (date != null) {
-                        setState(() => _birthday = date);
-                      }
-                    },
-                    label: const Icon(Icons.calendar_month_rounded),
+                        : 'Birthday: ${DateFormat.yMMMd().format(_birthday!)}',
+                  ),
+                  onPressed: () async {
+                    final date = await showDatePicker(
+                      context: context,
+                      initialDate: _birthday ?? DateTime.now(),
+                      firstDate: DateTime(1900),
+                      lastDate: DateTime.now(),
+                    );
+                    if (date != null) {
+                      setState(() => _birthday = date);
+                    }
+                  },
+                  label: const Icon(Icons.calendar_month_rounded),
+                ),
+                const SizedBox(height: 10.0),
+                SizedBox.fromSize(
+                  size: const Size.fromHeight(50),
+                  child: FittedBox(
+                    fit: BoxFit.fitWidth,
+                    child: MyDropDownWidget<Level>(
+                      minWidth: 50,
+                      choosenIndex: Level.values.indexOf(_level!),
+                      hint: 'Select your level',
+                      onValueChanged: (int? index) {
+                        if (index == null) {
+                          _level = null;
+                          return;
+                        }
+                        _level = Level.values.elementAt(index);
+                      },
+                      dataList: Level.values,
+                    ),
                   ),
                 ),
-                const SizedBox(height: 16.0),
-                DropdownButtonFormField<String>(
-                  value: _dropdownValue,
-                  hint: const Text('Select an option'),
-                  onChanged: (String? newValue) {
-                    _dropdownValue = newValue;
+                const SizedBox(height: 10.0),
+                MultiSelectDialogField<String>(
+                  initialValue: _selectedTopics!,
+                  barrierColor: null,
+                  selectedColor: MyTheme.colors.secondaryColor,
+                  selectedItemsTextStyle:
+                      TextStyle(color: MyTheme.colors.onSecondaryColor),
+                  items: topics.keys
+                      .map((key) => MultiSelectItem<String>(key, topics[key]!))
+                      .toList(),
+                  listType: MultiSelectListType.CHIP,
+                  onConfirm: (values) {
+                    _selectedTopics = values;
                   },
-                  items: <String>['Option 1', 'Option 2', 'Option 3']
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
                 ),
-                const SizedBox(height: 16.0),
+                const SizedBox(height: 10.0),
                 TextFormField(
                   decoration: const InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: 'Text Area',
-                      alignLabelWithHint: true),
-                  maxLines: null,
+                      labelText: 'Schedule note',
+                      alignLabelWithHint: true,
+                      hintText: 'Note the time you want to study on Lettutor'),
+                  maxLines: 6,
                   keyboardType: TextInputType.multiline,
+                  onSaved: (value) => scheduleNote = value ?? '',
                 ),
                 const SizedBox(height: 16.0),
                 TextButton(
+                  style: MyTheme.flatButtonStyle,
                   onPressed: () {
                     if (_formKey.currentState != null &&
                         _formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
                       // Save changes
+                      _service.updateProfile(
+                          _name,
+                          _phoneNumber,
+                          _country,
+                          _birthday ?? DateTime.now(),
+                          _selectedTopics ?? [],
+                          scheduleNote,
+                          _level ?? Level.BEGINNER);
                     }
                   },
                   child: const Text('Save Changes'),

@@ -2,7 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 @JsonSerializable()
 class TestPreparationModel {
-  final String id;
+  final int id;
   final String key;
   final String name;
 

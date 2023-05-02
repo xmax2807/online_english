@@ -14,7 +14,11 @@ enum Level {
   @JsonValue("ADVANCED")
   ADVANCED,
   @JsonValue("PROFICIENCY")
-  PROFICIENCY,
+  PROFICIENCY;
+
+  @override
+  String toString() => name.replaceAll('_', '-');
+  String toValue() => name;
 }
 
 enum Role {

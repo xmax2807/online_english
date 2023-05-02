@@ -35,6 +35,9 @@ mixin _$UserModel {
   int? get timezone => throw _privateConstructorUsedError;
   String? get studySchedule => throw _privateConstructorUsedError;
   bool get canSendMessage => throw _privateConstructorUsedError;
+  List<LearnTopicModel> get learnTopics => throw _privateConstructorUsedError;
+  List<TestPreparationModel> get testPreparations =>
+      throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -62,7 +65,9 @@ abstract class $UserModelCopyWith<$Res> {
       bool isPhoneActivated,
       int? timezone,
       String? studySchedule,
-      bool canSendMessage});
+      bool canSendMessage,
+      List<LearnTopicModel> learnTopics,
+      List<TestPreparationModel> testPreparations});
 }
 
 /// @nodoc
@@ -93,6 +98,8 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? timezone = freezed,
     Object? studySchedule = freezed,
     Object? canSendMessage = null,
+    Object? learnTopics = null,
+    Object? testPreparations = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -155,6 +162,14 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.canSendMessage
           : canSendMessage // ignore: cast_nullable_to_non_nullable
               as bool,
+      learnTopics: null == learnTopics
+          ? _value.learnTopics
+          : learnTopics // ignore: cast_nullable_to_non_nullable
+              as List<LearnTopicModel>,
+      testPreparations: null == testPreparations
+          ? _value.testPreparations
+          : testPreparations // ignore: cast_nullable_to_non_nullable
+              as List<TestPreparationModel>,
     ) as $Val);
   }
 }
@@ -181,7 +196,9 @@ abstract class _$$_UserModelCopyWith<$Res> implements $UserModelCopyWith<$Res> {
       bool isPhoneActivated,
       int? timezone,
       String? studySchedule,
-      bool canSendMessage});
+      bool canSendMessage,
+      List<LearnTopicModel> learnTopics,
+      List<TestPreparationModel> testPreparations});
 }
 
 /// @nodoc
@@ -210,6 +227,8 @@ class __$$_UserModelCopyWithImpl<$Res>
     Object? timezone = freezed,
     Object? studySchedule = freezed,
     Object? canSendMessage = null,
+    Object? learnTopics = null,
+    Object? testPreparations = null,
   }) {
     return _then(_$_UserModel(
       id: null == id
@@ -272,6 +291,14 @@ class __$$_UserModelCopyWithImpl<$Res>
           ? _value.canSendMessage
           : canSendMessage // ignore: cast_nullable_to_non_nullable
               as bool,
+      learnTopics: null == learnTopics
+          ? _value._learnTopics
+          : learnTopics // ignore: cast_nullable_to_non_nullable
+              as List<LearnTopicModel>,
+      testPreparations: null == testPreparations
+          ? _value._testPreparations
+          : testPreparations // ignore: cast_nullable_to_non_nullable
+              as List<TestPreparationModel>,
     ));
   }
 }
@@ -294,7 +321,11 @@ class _$_UserModel implements _UserModel {
       required this.isPhoneActivated,
       required this.timezone,
       required this.studySchedule,
-      required this.canSendMessage});
+      required this.canSendMessage,
+      required final List<LearnTopicModel> learnTopics,
+      required final List<TestPreparationModel> testPreparations})
+      : _learnTopics = learnTopics,
+        _testPreparations = testPreparations;
 
   factory _$_UserModel.fromJson(Map<String, dynamic> json) =>
       _$$_UserModelFromJson(json);
@@ -329,10 +360,26 @@ class _$_UserModel implements _UserModel {
   final String? studySchedule;
   @override
   final bool canSendMessage;
+  final List<LearnTopicModel> _learnTopics;
+  @override
+  List<LearnTopicModel> get learnTopics {
+    if (_learnTopics is EqualUnmodifiableListView) return _learnTopics;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_learnTopics);
+  }
+
+  final List<TestPreparationModel> _testPreparations;
+  @override
+  List<TestPreparationModel> get testPreparations {
+    if (_testPreparations is EqualUnmodifiableListView)
+      return _testPreparations;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_testPreparations);
+  }
 
   @override
   String toString() {
-    return 'UserModel(id: $id, email: $email, name: $name, avatar: $avatar, country: $country, phone: $phone, language: $language, birthday: $birthday, isActivated: $isActivated, requireNote: $requireNote, level: $level, isPhoneActivated: $isPhoneActivated, timezone: $timezone, studySchedule: $studySchedule, canSendMessage: $canSendMessage)';
+    return 'UserModel(id: $id, email: $email, name: $name, avatar: $avatar, country: $country, phone: $phone, language: $language, birthday: $birthday, isActivated: $isActivated, requireNote: $requireNote, level: $level, isPhoneActivated: $isPhoneActivated, timezone: $timezone, studySchedule: $studySchedule, canSendMessage: $canSendMessage, learnTopics: $learnTopics, testPreparations: $testPreparations)';
   }
 
   @override
@@ -362,7 +409,11 @@ class _$_UserModel implements _UserModel {
             (identical(other.studySchedule, studySchedule) ||
                 other.studySchedule == studySchedule) &&
             (identical(other.canSendMessage, canSendMessage) ||
-                other.canSendMessage == canSendMessage));
+                other.canSendMessage == canSendMessage) &&
+            const DeepCollectionEquality()
+                .equals(other._learnTopics, _learnTopics) &&
+            const DeepCollectionEquality()
+                .equals(other._testPreparations, _testPreparations));
   }
 
   @JsonKey(ignore: true)
@@ -383,7 +434,9 @@ class _$_UserModel implements _UserModel {
       isPhoneActivated,
       timezone,
       studySchedule,
-      canSendMessage);
+      canSendMessage,
+      const DeepCollectionEquality().hash(_learnTopics),
+      const DeepCollectionEquality().hash(_testPreparations));
 
   @JsonKey(ignore: true)
   @override
@@ -401,21 +454,24 @@ class _$_UserModel implements _UserModel {
 
 abstract class _UserModel implements UserModel {
   factory _UserModel(
-      {required final String id,
-      required final String email,
-      required final String name,
-      required final String avatar,
-      required final String? country,
-      required final String phone,
-      required final String? language,
-      required final DateTime? birthday,
-      required final bool isActivated,
-      required final String? requireNote,
-      required final Level? level,
-      required final bool isPhoneActivated,
-      required final int? timezone,
-      required final String? studySchedule,
-      required final bool canSendMessage}) = _$_UserModel;
+          {required final String id,
+          required final String email,
+          required final String name,
+          required final String avatar,
+          required final String? country,
+          required final String phone,
+          required final String? language,
+          required final DateTime? birthday,
+          required final bool isActivated,
+          required final String? requireNote,
+          required final Level? level,
+          required final bool isPhoneActivated,
+          required final int? timezone,
+          required final String? studySchedule,
+          required final bool canSendMessage,
+          required final List<LearnTopicModel> learnTopics,
+          required final List<TestPreparationModel> testPreparations}) =
+      _$_UserModel;
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
       _$_UserModel.fromJson;
@@ -450,6 +506,10 @@ abstract class _UserModel implements UserModel {
   String? get studySchedule;
   @override
   bool get canSendMessage;
+  @override
+  List<LearnTopicModel> get learnTopics;
+  @override
+  List<TestPreparationModel> get testPreparations;
   @override
   @JsonKey(ignore: true)
   _$$_UserModelCopyWith<_$_UserModel> get copyWith =>

@@ -50,7 +50,7 @@ class MyDropDownWidgetState<TWidget extends MyDropDownWidget<T>, T>
   }
 
   void _initValue(int? index) {
-    choosenValue = index == null ? null : widget.dataList[index];
+    choosenValue = index == null || index < 0 ? null : widget.dataList[index];
   }
 
   void onChangeValue(T? value) {

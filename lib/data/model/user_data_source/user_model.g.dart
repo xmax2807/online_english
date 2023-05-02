@@ -24,6 +24,12 @@ _$_UserModel _$$_UserModelFromJson(Map<String, dynamic> json) => _$_UserModel(
       timezone: json['timezone'] as int?,
       studySchedule: json['studySchedule'] as String?,
       canSendMessage: json['canSendMessage'] as bool,
+      learnTopics: (json['learnTopics'] as List<dynamic>)
+          .map((e) => LearnTopicModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      testPreparations: (json['testPreparations'] as List<dynamic>)
+          .map((e) => TestPreparationModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$$_UserModelToJson(_$_UserModel instance) =>
@@ -43,6 +49,8 @@ Map<String, dynamic> _$$_UserModelToJson(_$_UserModel instance) =>
       'timezone': instance.timezone,
       'studySchedule': instance.studySchedule,
       'canSendMessage': instance.canSendMessage,
+      'learnTopics': instance.learnTopics,
+      'testPreparations': instance.testPreparations,
     };
 
 const _$LevelEnumMap = {
