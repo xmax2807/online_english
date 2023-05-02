@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:online_english/data/model/schedule_model/upcoming_schedule_model/upcoming_schedule_model.dart';
 import 'package:online_english/data/model/schedule_model/upcoming_schedule_model/upcoming_schedule_paging_dto.dart';
 
 import '../data/model/schedule_model/upcoming_schedule_model/cancel_reason_model.dart';
@@ -90,4 +91,25 @@ class UpcomingScheduleService extends ChangeNotifier {
   }
 
   void goToMeeting(UpcomingScheduleGroup group) {}
+
+  // nearest schedule
+  int totalTime = 0;
+  Future<void> totalTimeMeetingAttended() async {
+    totalTime = await _repository.totalOnlineLearned();
+  }
+
+  List<UpcomingScheduleModel>? _nextUpcomingSchedules;
+  List<UpcomingScheduleModel>? get nextUpcomingSchedules =>
+      _nextUpcomingSchedules;
+
+  Future<void> nextUpcomingSchedule() async {
+    _nextUpcomingSchedules = await _repository.getNearestSchedules();
+
+    if (_nextUpcomingSchedules == null) {
+      _nextUpcomingSchedules = [];
+      notifyListeners();
+      return;
+    }
+    notifyListeners();
+  }
 }

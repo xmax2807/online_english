@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:online_english/screens/shared_components/complex_search_component.dart';
+import 'package:online_english/screens/shared_components/upcoming_schedule_widget.dart';
 import 'package:online_english/screens/tutor/tutor_detail_screen.dart';
 import 'package:online_english/utils/theme/my_theme.dart';
 
@@ -104,6 +105,8 @@ class _TutorScreenState extends ConsumerState<TutorScreen>
               // mainAxisSize: MainAxisSize.max,
               //crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                const UpcomingLessonWidget(),
+                const Divider(),
                 Text(
                   "Search a Tutor",
                   style: Theme.of(context).textTheme.headlineLarge,
@@ -139,7 +142,7 @@ class _TutorScreenState extends ConsumerState<TutorScreen>
                         onValueChanged: _onNationalityChanged,
                       ),
                       const MyDropDownWidget<String>(
-                        hint: "Lesson type",
+                        hint: "Specialties",
                         minWidth: 150,
                         dataList: [
                           "English for kids",

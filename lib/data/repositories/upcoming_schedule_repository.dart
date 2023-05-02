@@ -11,6 +11,8 @@ abstract class IUpcomingScheduleRepository {
       UpcomingSchedultPagingDTO paging);
   Future<List<CancelReasonModel>?> getCancelReasons();
   Future<String?> cancelALesson(String lessonId, int reasonId);
+  Future<int> totalOnlineLearned();
+  Future<List<UpcomingScheduleModel>?> getNearestSchedules();
 }
 
 class UpcomingScheduleRepository implements IUpcomingScheduleRepository {
@@ -79,5 +81,27 @@ class UpcomingScheduleRepository implements IUpcomingScheduleRepository {
       },
       onError: _onError,
     );
+  }
+
+  @override
+  Future<int> totalOnlineLearned() {
+    return _dio.get(ApiKeys.totalCallTime).then((response) {
+      return response.data!['total'];
+    }, onError: _onError);
+  }
+
+  @override
+  Future<List<UpcomingScheduleModel>?> getNearestSchedules() {
+    return _dio.get(ApiKeys.nearestSchedules, queryParameters: {
+      'dateTime': DateTime.now().millisecondsSinceEpoch
+    }).then((response) {
+      if (response.data == null) return null;
+
+      final list = response.data!['data'] as List;
+      return list.map((e) {
+        e['scheduleInfo'] = e['scheduleDetailInfo']['scheduleInfo'];
+        return UpcomingScheduleModel.fromJson(e);
+      }).toList();
+    }, onError: _onError);
   }
 }

@@ -4,12 +4,12 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:online_english/data/model/filter_model/teacher_filter/teacher_search.dart';
+import 'package:online_english/data/model/key_value_models/test_preparation_model.dart';
 import 'package:online_english/data/model/tutor_model/dto/overview_teacher_profile.dart';
 import 'package:online_english/data/providers/tutor_search_provider.dart';
 import 'package:online_english/data/repositories/tutor_search_repository.dart';
 
 import '../data/model/key_value_models/learn_topic_model.dart';
-import '../data/model/key_value_models/specialty_model.dart';
 
 final tutorSearchServiceProvider = ChangeNotifierProvider(
     (ref) => TutorSearchService(ref.read(tutorSearchProvider)));
@@ -135,33 +135,29 @@ class TutorSearchService extends ChangeNotifier {
     }
   }
 
-  Future<Map<String, LearnTopicModel>> getLearnTopics() async {
-    Map<String, LearnTopicModel> result = {};
+  Future<Map<String, String>> getMapSpecialties() async {
+    Map<String, String> result = {};
 
-    List<LearnTopicModel>? listData = await _repository.getLearnTopics();
+    List<LearnTopicModel>? listTopics = await _repository.getLearnTopics();
+    List<TestPreparationModel>? listTests =
+        await _repository.getTestPreparations();
 
-    if (listData == null) return result;
-
-    for (var model in listData) {
-      if (!result.containsKey(model.key)) {
-        result[model.key] = model;
+    if (listTopics != null) {
+      for (var model in listTopics) {
+        if (!result.containsKey(model.key)) {
+          result[model.key] = model.name;
+        }
       }
     }
-    return result;
-  }
 
-  Future<Map<String, SpecialtyModel>> getSpecialties() async {
-    Map<String, SpecialtyModel> result = {};
-
-    List<SpecialtyModel>? listData = await _repository.getSpecialties();
-
-    if (listData == null) return result;
-
-    for (var model in listData) {
-      if (!result.containsKey(model.key)) {
-        result[model.key] = model;
+    if (listTests != null) {
+      for (var model in listTests) {
+        if (!result.containsKey(model.key)) {
+          result[model.key] = model.name;
+        }
       }
     }
+
     return result;
   }
 }

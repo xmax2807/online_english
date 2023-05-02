@@ -25,6 +25,7 @@ class ApiKeys {
   static const String bookAClass = "booking";
   static const String cancelBooking = "booking/schedule-detail";
   static const String updateStudentReq = "booking/student-request/:bookedId";
+  static const String nearestSchedules = "booking/next";
   //UserProfile
   static const String userProfile = "user/info";
   static const String updateInfo = "user/info";
@@ -33,6 +34,7 @@ class ApiKeys {
   //specialties
   static const String specialties = 'major';
   static const String learnTopic = 'learn-topic';
+  static const String testPreparation = 'test-preparation';
   //video call
   static const String totalCallTime = 'call/total';
 }

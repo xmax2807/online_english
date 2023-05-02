@@ -1,20 +1,22 @@
 import 'package:dio/dio.dart';
 import 'package:online_english/data/model/key_value_models/learn_topic_model.dart';
 import 'package:online_english/data/model/key_value_models/specialty_model.dart';
+import 'package:online_english/data/model/key_value_models/test_preparation_model.dart';
 import 'package:online_english/utils/global_constants/api_keys.dart';
 
 import '../model/filter_model/teacher_filter/teacher_search.dart';
 import '../model/tutor_model/dto/overview_teacher_profile.dart';
 import 'dart:developer' as dev;
 
+import 'key_value_repository.dart';
+
 abstract class ITutorSearchRepository {
-  Future<List<SpecialtyModel>?> getSpecialties();
-  Future<List<LearnTopicModel>?> getLearnTopics();
   Future<Map<String, dynamic>?> getAll();
   Future<List<dynamic>?> searchATutor(TeacherSearchDTO searchDTO);
 }
 
-class TutorSearchRepository implements ITutorSearchRepository {
+class TutorSearchRepository
+    implements ITutorSearchRepository, IKeyValueRepository {
   final Dio _dio;
   List<TeacherOverviewDTO>? _onError(dynamic error) {
     if (error is DioError) {
@@ -77,6 +79,17 @@ class TutorSearchRepository implements ITutorSearchRepository {
 
       final list = data as List;
       return list.map((e) => LearnTopicModel.fromJson(e)).toList();
+    }, onError: _onError);
+  }
+
+  @override
+  Future<List<TestPreparationModel>?> getTestPreparations() {
+    return _dio.get(ApiKeys.testPreparation).then((response) {
+      final data = response.data;
+      if (data == null) return null;
+
+      final list = data as List;
+      return list.map((e) => TestPreparationModel.fromJson(e)).toList();
     }, onError: _onError);
   }
 }
