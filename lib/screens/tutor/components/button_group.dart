@@ -5,7 +5,8 @@ import '../../../gen/assets.gen.dart';
 import '../../shared_components/my_icon_button.dart';
 
 class TutorButtonGroup extends StatelessWidget {
-  const TutorButtonGroup({super.key});
+  final bool isFav;
+  const TutorButtonGroup({super.key, required this.isFav});
 
   @override
   Widget build(BuildContext context) {
@@ -13,6 +14,7 @@ class TutorButtonGroup extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         MyToggleButton(
+          isOn: isFav,
           toggleOffIcon: Assets.myCustomIcons.hearts.heartOutline,
           toggleOnIcon: Assets.myCustomIcons.hearts.heartFill,
           label: "Favorites",

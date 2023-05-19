@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:online_english/utils/extension_methods/datetime_extension_methods.dart';
 
-import '../../../gen/assets.gen.dart';
+import '../../../data/model/schedule_model/upcoming_schedule_model/dto/group_schedule_dto.dart';
 import '../../shared_components/teacher_profile_info.dart';
 
-class LessonContainer extends StatelessWidget {
+class LessonContainer<T extends ScheduleTime> extends StatelessWidget {
   final Widget? additionWidget;
   final String? additionText;
-  const LessonContainer({super.key, this.additionWidget, this.additionText});
+  final GroupScheduleDTO<T>? data;
+  const LessonContainer(
+      {super.key, this.additionWidget, this.additionText, required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +18,13 @@ class LessonContainer extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             TeacherProfileWidget(
-              teacherName: "ASD",
-              nationality: "France",
-              svgFlag: Assets.flags.fr,
+              teacherName: data!.teacherInfo.name,
+              nationality: data!.teacherInfo.country,
+              avatar: data!.teacherInfo.avatar,
+              svgFlag:
+                  'assets/flags/${data!.teacherInfo.country.toLowerCase()}.svg',
               dimension: 50,
+              maxWidth: 100,
             ),
             const SizedBox(height: 10),
             SizedBox(
@@ -30,7 +34,7 @@ class LessonContainer extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    DateTime.now().toStringFormat(),
+                    data!.getDateString(),
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),
                   if (additionText != null) Text(additionText!),

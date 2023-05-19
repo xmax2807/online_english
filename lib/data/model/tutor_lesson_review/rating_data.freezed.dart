@@ -22,6 +22,7 @@ RatingData _$RatingDataFromJson(Map<String, dynamic> json) {
 mixin _$RatingData {
   String get label => throw _privateConstructorUsedError;
   double get value => throw _privateConstructorUsedError;
+  String get comment => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +36,7 @@ abstract class $RatingDataCopyWith<$Res> {
           RatingData value, $Res Function(RatingData) then) =
       _$RatingDataCopyWithImpl<$Res, RatingData>;
   @useResult
-  $Res call({String label, double value});
+  $Res call({String label, double value, String comment});
 }
 
 /// @nodoc
@@ -53,6 +54,7 @@ class _$RatingDataCopyWithImpl<$Res, $Val extends RatingData>
   $Res call({
     Object? label = null,
     Object? value = null,
+    Object? comment = null,
   }) {
     return _then(_value.copyWith(
       label: null == label
@@ -63,6 +65,10 @@ class _$RatingDataCopyWithImpl<$Res, $Val extends RatingData>
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
               as double,
+      comment: null == comment
+          ? _value.comment
+          : comment // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -75,7 +81,7 @@ abstract class _$$_RatingDataCopyWith<$Res>
       __$$_RatingDataCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String label, double value});
+  $Res call({String label, double value, String comment});
 }
 
 /// @nodoc
@@ -91,6 +97,7 @@ class __$$_RatingDataCopyWithImpl<$Res>
   $Res call({
     Object? label = null,
     Object? value = null,
+    Object? comment = null,
   }) {
     return _then(_$_RatingData(
       label: null == label
@@ -101,6 +108,10 @@ class __$$_RatingDataCopyWithImpl<$Res>
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
               as double,
+      comment: null == comment
+          ? _value.comment
+          : comment // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -108,7 +119,8 @@ class __$$_RatingDataCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_RatingData implements _RatingData {
-  _$_RatingData({required this.label, required this.value});
+  _$_RatingData(
+      {required this.label, required this.value, required this.comment});
 
   factory _$_RatingData.fromJson(Map<String, dynamic> json) =>
       _$$_RatingDataFromJson(json);
@@ -117,10 +129,12 @@ class _$_RatingData implements _RatingData {
   final String label;
   @override
   final double value;
+  @override
+  final String comment;
 
   @override
   String toString() {
-    return 'RatingData(label: $label, value: $value)';
+    return 'RatingData(label: $label, value: $value, comment: $comment)';
   }
 
   @override
@@ -129,12 +143,13 @@ class _$_RatingData implements _RatingData {
         (other.runtimeType == runtimeType &&
             other is _$_RatingData &&
             (identical(other.label, label) || other.label == label) &&
-            (identical(other.value, value) || other.value == value));
+            (identical(other.value, value) || other.value == value) &&
+            (identical(other.comment, comment) || other.comment == comment));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, label, value);
+  int get hashCode => Object.hash(runtimeType, label, value, comment);
 
   @JsonKey(ignore: true)
   @override
@@ -153,7 +168,8 @@ class _$_RatingData implements _RatingData {
 abstract class _RatingData implements RatingData {
   factory _RatingData(
       {required final String label,
-      required final double value}) = _$_RatingData;
+      required final double value,
+      required final String comment}) = _$_RatingData;
 
   factory _RatingData.fromJson(Map<String, dynamic> json) =
       _$_RatingData.fromJson;
@@ -162,6 +178,8 @@ abstract class _RatingData implements RatingData {
   String get label;
   @override
   double get value;
+  @override
+  String get comment;
   @override
   @JsonKey(ignore: true)
   _$$_RatingDataCopyWith<_$_RatingData> get copyWith =>
