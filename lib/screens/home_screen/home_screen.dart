@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:online_english/screens/chat_gpt_screen/chat_gpt_screen.dart';
 import 'package:online_english/screens/course_screen/course_screen.dart';
 import 'package:online_english/screens/tutor/tutor_screen.dart';
 import 'package:online_english/utils/theme/my_theme.dart';
@@ -31,6 +32,10 @@ class _HomeScreenState extends State<HomeScreen> {
       label: MyBuiltInIcons.course.label,
     ),
     BottomNavigationBarItem(
+      icon: Icon(MyBuiltInIcons.chatGPT.icon),
+      label: MyBuiltInIcons.chatGPT.label,
+    ),
+    BottomNavigationBarItem(
       icon: Icon(MyBuiltInIcons.profile.icon),
       label: MyBuiltInIcons.profile.label,
     ),
@@ -41,6 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
     TutorScreen(),
     ScheduleScreen(),
     CourseScreen(),
+    ChatGPTScreen(),
     ProfileScreen(),
   ];
 

@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:online_english/data/model/user_data_source/user_model.dart';
 import 'package:online_english/data/repositories/auth_repository.dart';
-import 'package:online_english/data/settings.dart';
+import 'package:online_english/data/setting/settings.dart';
 
 import '../data/providers/auth_repos_provider.dart';
 

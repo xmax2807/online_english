@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'dart:developer' as dev;
 import 'package:path_provider/path_provider.dart';
 
 abstract class PathProviderIO<T> {
@@ -23,7 +23,20 @@ abstract class PathProviderIO<T> {
     }
   }
 
+  Future write(T object, String filePath) async {
+    try {
+      final local = await _localPath;
+      final File fullPath = File('$local/$filePath');
+
+      final data = toStringContent(object);
+      await fullPath.writeAsString(data);
+    } catch (e) {
+      dev.log(e.toString());
+    }
+  }
+
   T tryParseContent(String contents);
+  String toStringContent(T object);
   T errorParse();
 }
 
@@ -36,5 +49,10 @@ class JsonPathProvider<T> extends PathProviderIO<T?> {
   @override
   T tryParseContent(String contents) {
     return jsonDecode(contents);
+  }
+
+  @override
+  String toStringContent(T? object) {
+    return jsonEncode(object);
   }
 }

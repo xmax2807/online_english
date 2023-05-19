@@ -7,7 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'dart:developer' as dev;
 
-import '../../data/settings.dart';
+import '../../data/setting/settings.dart';
 
 class TeacherProfileWidget extends StatelessWidget {
   final String teacherName, nationality, svgFlag;

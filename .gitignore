@@ -9,6 +9,7 @@
 .buildlog/
 .history
 .svn/
+*.env
 
 # IntelliJ related
 *.iml
@@ -132,4 +133,4 @@ app.*.symbols
 !/dev/ci/**/Gemfile.lock
 
 apis.json
-.env
+*.env
