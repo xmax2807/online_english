@@ -1,0 +1,12 @@
+{
+  "loginApi": {
+    "url": "https://api.example.com/auth/login",
+    "method": "GET",
+    "content-type":"application/json"
+  },
+  "registerApi": {
+    "url": "https://api.example.com/users",
+    "method": "POST",
+    "content-type":"application/x-www-form-urlencoded"
+  }
+}
