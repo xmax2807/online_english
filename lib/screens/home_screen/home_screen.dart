@@ -4,6 +4,7 @@ import 'package:online_english/screens/tutor/tutor_screen.dart';
 import 'package:online_english/utils/theme/my_theme.dart';
 
 import '../../utils/builtIcon/my_built_in_icons.dart';
+import '../profile_screen/profile_screen.dart';
 import '../schedule_screen/schedule_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -40,10 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
     TutorScreen(),
     ScheduleScreen(),
     CourseScreen(),
-    Text(
-      'Index 3: School',
-      style: optionStyle,
-    ),
+    ProfileScreen(),
   ];
 
   void _onItemTapped(int index) {

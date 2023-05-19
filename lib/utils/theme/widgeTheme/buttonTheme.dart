@@ -3,6 +3,24 @@ import 'package:flutter/material.dart';
 import '../my_theme.dart';
 
 class MyButtonTheme {
+  static Color onEachStateBackgroundColor(Set<MaterialState> states) {
+    for (var state in states) {
+      if (state == MaterialState.disabled) {
+        return colors.lightGray;
+      }
+    }
+    return colors.primaryColor;
+  }
+
+  static Color onEachStateForgroundColor(Set<MaterialState> states) {
+    for (var state in states) {
+      if (state == MaterialState.disabled) {
+        return Colors.grey[400]!;
+      }
+    }
+    return colors.onPrimaryColor;
+  }
+
   static const colors = AppColors();
   static final ButtonStyle baseButtonStyle = TextButton.styleFrom(
     minimumSize: const Size(50, 50),
@@ -12,8 +30,10 @@ class MyButtonTheme {
     ),
   );
   static final ButtonStyle flatButtonStyle = baseButtonStyle.copyWith(
-    backgroundColor: MaterialStatePropertyAll(colors.primaryColor),
-    foregroundColor: MaterialStatePropertyAll(colors.onPrimaryColor),
+    backgroundColor:
+        MaterialStateProperty.resolveWith(onEachStateBackgroundColor),
+    foregroundColor:
+        MaterialStateProperty.resolveWith(onEachStateForgroundColor),
   );
   static final ButtonStyle outlineButtonStyle = OutlinedButton.styleFrom(
     surfaceTintColor: colors.secondaryColor,
@@ -43,4 +63,15 @@ class MyButtonTheme {
           backgroundColor: const MaterialStatePropertyAll(Colors.transparent),
           overlayColor: const MaterialStatePropertyAll(Colors.transparent))
       .merge(tagButtonStyle);
+
+  static final ButtonStyle errorTextOnlyStyle = ButtonStyle(
+    foregroundColor: MaterialStateProperty.resolveWith<Color?>(
+      (Set<MaterialState> states) {
+        if (states.contains(MaterialState.disabled)) {
+          return colors.red.withOpacity(0.2);
+        }
+        return colors.red; // Use the component's default.
+      },
+    ),
+  ).merge(textOnlyStyle);
 }
