@@ -1,6 +1,6 @@
-abstract class ISavable<T> {
-  Future<T?> getData();
-  Future writeData();
-}
+import 'package:online_english/utils/io/path_provider_io.dart';
 
-abstract class ISavableAsJson<T> implements ISavable<T> {}
+abstract class ISavable {
+  Future getData(PathProviderIO fileIO);
+  Future writeData(PathProviderIO fileIO);
+}

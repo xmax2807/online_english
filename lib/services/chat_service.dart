@@ -6,8 +6,8 @@ import 'package:flutter_chat_types/flutter_chat_types.dart' as chat_type;
 
 import '../utils/io/path_provider_io.dart';
 
-final chatService = ChangeNotifierProvider(
-    (ref) => ChatService(fileIO: JsonPathProvider<ChatGPTSetting>()));
+final chatService =
+    ChangeNotifierProvider((ref) => ChatService(fileIO: JsonPathProvider()));
 
 class ChatService extends ChangeNotifier {
   ChatGPTSetting get _chatSetting =>
@@ -16,7 +16,7 @@ class ChatService extends ChangeNotifier {
   bool get autoTTS => _chatSetting.autoTTS;
 
   get messages => _chatSetting.cacheMessages;
-  final JsonPathProvider<ChatGPTSetting> fileIO;
+  final JsonPathProvider fileIO;
 
   ChatService({required this.fileIO});
 
@@ -27,24 +27,19 @@ class ChatService extends ChangeNotifier {
   // }
   bool isUser(chat_type.User user) => _chatSetting.user.id == user.id;
 
-  void deleteMessages() {
+  void newConversation() {
     _chatSetting.newConversation();
     notifyListeners();
     saveMessages();
   }
 
   Future<dynamic> loadMessages() async {
-    // final messages = await readJsonList(
-    //   MyGlobalStorage.messagePath,
-    //   onMapping: (map) => chat_type.Message.fromJson(map),
-    // );
-
-    // _chatSetting.cacheMessages = messages ?? [];
-
-    // return MyGlobalStorage.messages;
+    _chatSetting.getData(fileIO);
+    notifyListeners();
   }
 
   void saveMessages() {
+    _chatSetting.writeData(fileIO);
     //fileIO.write(messages, MyGlobalStorage.messagePath);
   }
 }

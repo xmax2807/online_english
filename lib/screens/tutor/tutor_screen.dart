@@ -24,35 +24,6 @@ class _TutorScreenState extends ConsumerState<TutorScreen>
     "England",
     "Others",
   ];
-  // final List<Widget> filters = [
-  //   MyDropDownWidget<DateTime>(
-  //     hint: "Pick a Date",
-  //     dataList: [
-  //       DateTime.now(),
-  //       DateTime.now().subtract(const Duration(days: 1))
-  //     ],
-  //   ),
-  //   MyDropDownWidget<String>(
-  //     hint: "Choose a Nationality",
-  //     dataList: const [
-  //       "VietNam",
-  //       "England",
-  //       "Others",
-  //     ],
-  //     onValueChanged: _onNationalityChanged,
-  //   ),
-  //   const MyDropDownWidget<String>(hint: "Choose lesson type", dataList: [
-  //     "English for kids",
-  //     "English for bussiness",
-  //     "IELTS",
-  //     "TOEFL"
-  //   ]),
-  //   TextButton.icon(
-  //     onPressed: null,
-  //     label: const Text("Clear Filter"),
-  //     icon: const Icon(Icons.clear_rounded),
-  //   ),
-  // ];
 
   late final TutorSearchService _searchService;
 

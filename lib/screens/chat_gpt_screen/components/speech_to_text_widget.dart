@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:online_english/data/setting/settings.dart';
 import 'package:online_english/services/speech_to_text_service.dart';
+import 'package:online_english/utils/theme/my_theme.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
@@ -53,6 +54,7 @@ class _SpeechToTextWidgetState extends ConsumerState<SpeechToTextWidget> {
         // Get the list of languages installed on the supporting platform so they
         // can be displayed in the UI for selection by the user.
         localeNames = await _speechToText.locales();
+        _settingData.speechLocaleNames = localeNames ?? [];
         _settingData.currentSpeechLocaleName ??=
             await _speechToText.systemLocale();
         setState(() {});
@@ -130,26 +132,31 @@ class _SpeechToTextWidgetState extends ConsumerState<SpeechToTextWidget> {
       alignment: Alignment.bottomCenter,
       child: !_speechToText.isAvailable
           ? const Text("Initializing Speech")
-          : Container(
-              width: 60,
-              height: 60,
+          : Stack(
               alignment: Alignment.center,
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                      blurRadius: .26,
-                      spreadRadius: level * 1.5,
-                      color: Theme.of(context).primaryColor.withOpacity(.05))
-                ],
-                //color: Colors.amber,
-                borderRadius: const BorderRadius.all(Radius.circular(50)),
-              ),
-              child: IconButton(
-                icon: const Icon(Icons.mic),
-                onPressed: _speechToText.isNotListening
-                    ? _startListening
-                    : _stopListening,
-              ),
+              children: [
+                Container(
+                  height: 60,
+                  decoration: BoxDecoration(color: MyTheme.colors.primaryColor),
+                ),
+                Container(
+                  height: 60,
+                  width: 60,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: MyTheme.colors.secondaryColor,
+                    //color: Colors.amber,
+                    borderRadius: const BorderRadius.all(Radius.circular(50)),
+                  ),
+                  child: IconButton(
+                    color: MyTheme.colors.primaryColor,
+                    icon: const Icon(Icons.mic),
+                    onPressed: _speechToText.isNotListening
+                        ? _startListening
+                        : _stopListening,
+                  ),
+                ),
+              ],
             ),
     );
   }

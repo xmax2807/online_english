@@ -1,5 +1,8 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:online_english/utils/global_constants/env_consts.dart';
+import 'package:online_english/utils/io/path_provider_io.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../utils/global_constants/country_hashmap.dart';
@@ -16,14 +19,19 @@ class AppSetting {
   late String userId;
   late CountryHelper countryHelper;
   late final UserSetting userSetting;
+  late Map<String, String> essentialKeyValues;
   static const Uuid uuidGenerator = Uuid();
 
   AppSetting._() {
     dotEnv = DotEnv();
     countryHelper = CountryHelper();
-    userSetting = UserSetting._create(uuidGenerator);
+    userSetting = UserSetting._create();
+    essentialKeyValues = {};
   }
 
+  bool _isInitialized = false;
+  static bool get isInitialized =>
+      _instance != null && _instance!._isInitialized;
   static AppSetting? _instance;
   static AppSetting get instance {
     if (_instance == null) {
@@ -35,7 +43,9 @@ class AppSetting {
   static Future<bool> initialize() async {
     _instance = AppSetting._();
     await _instance!.dotEnv.load();
+    await _instance!.userSetting.getData(JsonPathProvider());
     await _instance!.countryHelper.initialize();
+    _instance!._isInitialized = true;
     return true;
   }
 }

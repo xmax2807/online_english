@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:online_english/screens/chat_gpt_screen/chat_gpt_screen.dart';
 import 'package:online_english/screens/course_screen/course_screen.dart';
 import 'package:online_english/screens/tutor/tutor_screen.dart';
+import 'package:online_english/services/app_setting_service.dart';
 import 'package:online_english/utils/theme/my_theme.dart';
 
 import '../../utils/builtIcon/my_built_in_icons.dart';
 import '../profile_screen/profile_screen.dart';
 import '../schedule_screen/schedule_screen.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   PageController? _pageController;
   int _selectedIndex = 0;
   static List<BottomNavigationBarItem> navItems = [
@@ -61,6 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _pageController = PageController(initialPage: _selectedIndex);
+    ref.read(appSettingService).loadEssentialKeyValues();
   }
 
   @override

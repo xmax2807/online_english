@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+import '../../data/model/key_value_models/language_model.dart';
 import '../io/path_provider_io.dart';
 
 @JsonSerializable()
@@ -33,14 +34,16 @@ class Country {
 }
 
 class CountryHelper {
-  late final JsonPathProvider<List<Country>?> fileIO;
-  late final Map<String, Country> _map;
+  late final JsonPathProvider fileIO;
+  late final Map<String, Country> _countryMap;
+  late final Map<String, Language> languageMap;
 
   static const String filePath = 'assets/json/countries.json';
 
   CountryHelper() {
-    fileIO = JsonPathProvider<List<Country>?>();
-    _map = {};
+    fileIO = JsonPathProvider();
+    _countryMap = {};
+    languageMap = {};
   }
 
   Future initialize() async {
@@ -49,17 +52,23 @@ class CountryHelper {
     if (list == null) return;
 
     for (var ele in list) {
-      _map[ele['code']!] = Country(ele['name']!, ele['code']!);
+      _countryMap[ele['code']!] = Country(ele['name']!, ele['code']!);
     }
   }
 
   String getCountryName(String code) {
     code = code.toUpperCase();
-    if (_map.containsKey(code)) return _map[code]!.name;
+    if (_countryMap.containsKey(code)) return _countryMap[code]!.name;
+    return code;
+  }
+
+  String getLanguangeName(String code) {
+    code = code.toLowerCase();
+    if (languageMap.containsKey(code)) return languageMap[code]!.name;
     return code;
   }
 
   List<Country> coutryNames() {
-    return _map.values.toList();
+    return _countryMap.values.toList();
   }
 }

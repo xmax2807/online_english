@@ -1,26 +1,29 @@
 part of 'settings.dart';
 
-class UserSetting implements ISavable<UserSetting> {
+class UserSetting implements ISavable {
   late final ChatGPTSetting chatGPTSetting;
   late final SpeechToTextSetting sttSetting;
 
-  UserSetting._create(Uuid generator) {
-    chatGPTSetting = ChatGPTSetting._create(
-      user: User(id: generator.v4()),
-      bot: User(id: generator.v4()),
-    );
+  UserSetting._create() {
+    chatGPTSetting = ChatGPTSetting._create();
     sttSetting = SpeechToTextSetting();
   }
 
   @override
-  Future<UserSetting?> getData() {
-    // TODO: implement getData
-    throw UnimplementedError();
+  Future getData(PathProviderIO fileIO) {
+    List<Future> tasks = [];
+    tasks.add(chatGPTSetting.getData(fileIO));
+    tasks.add(sttSetting.getData(fileIO));
+
+    return Future.wait(tasks);
   }
 
   @override
-  Future writeData() {
-    // TODO: implement writeData
-    throw UnimplementedError();
+  Future writeData(PathProviderIO fileIO) {
+    List<Future> tasks = [];
+    tasks.add(chatGPTSetting.writeData(fileIO));
+    tasks.add(sttSetting.writeData(fileIO));
+
+    return Future.wait(tasks);
   }
 }

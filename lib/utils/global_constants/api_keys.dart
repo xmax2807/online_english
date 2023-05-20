@@ -32,6 +32,7 @@ class ApiKeys {
   static const String updateAvatar = "user/uploadAvatar";
 
   //specialties
+  static const String languages = 'category';
   static const String specialties = 'major';
   static const String learnTopic = 'learn-topic';
   static const String testPreparation = 'test-preparation';

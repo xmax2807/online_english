@@ -10,6 +10,7 @@ import 'package:uuid/uuid.dart';
 import '../../../services/chat_service.dart';
 import '../../../services/speech_to_text_service.dart';
 import 'chat_gpt.dart';
+import 'custom_chat_theme.dart';
 import 'text_to_speech.dart';
 
 class MyChatWidget extends ConsumerStatefulWidget {
@@ -91,7 +92,7 @@ class _MyChatWidgetState extends ConsumerState<MyChatWidget>
   }
 
   List<chat_type.Message> _getMessages() {
-    final List<chat_type.Message> messages = ref.read(chatService).messages;
+    final List<chat_type.Message> messages = ref.watch(chatService).messages;
     if (messages.isEmpty) {
       _chatGPT.clearMessages();
     }
@@ -205,8 +206,20 @@ class _MyChatWidgetState extends ConsumerState<MyChatWidget>
   @override
   Widget build(BuildContext context) {
     return !_isReady
-        ? const Text("Initializing Messages")
+        ? Column(
+            children: const [
+              Text("Initializing Messages"),
+              CircularProgressIndicator(),
+            ],
+          )
         : Chat(
+            theme: DefaultChatTheme(
+                attachmentButtonIcon: Icon(
+                  Icons.clear_all_rounded,
+                  color: MyTheme.colors.onPrimaryColor,
+                ),
+                inputTextCursorColor: MyTheme.colors.onPrimaryColor,
+                inputContainerDecoration: CustomInputDecoration()),
             bubbleBuilder: _bubbleBuilder,
             messages: _getMessages(),
             onSendPressed: _handleSendPressed,
@@ -216,6 +229,8 @@ class _MyChatWidgetState extends ConsumerState<MyChatWidget>
                 _messageTextEditController.text =
                     ref.watch(speechToTextService).speechResult;
                 return Input(
+                  isAttachmentUploading: false,
+                  onAttachmentPressed: _chatService.newConversation,
                   onSendPressed: _handleSendPressed,
                   options: InputOptions(
                       textEditingController: _messageTextEditController),

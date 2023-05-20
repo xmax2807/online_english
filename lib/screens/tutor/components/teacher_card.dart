@@ -2,6 +2,7 @@ import 'package:extended_wrap/extended_wrap.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:online_english/data/model/tutor_model/dto/overview_teacher_profile.dart';
+import 'package:online_english/data/setting/settings.dart';
 import 'package:online_english/screens/shared_components/my_icon_button.dart';
 import 'package:online_english/screens/shared_components/teacher_profile_info.dart';
 import 'package:online_english/screens/tutor/tutor_book_screen.dart';
@@ -80,7 +81,9 @@ class TeacherCardState extends State<TeacherCardWidget> {
                         TextButton(
                           style: MyTheme.tagButtonStyle,
                           onPressed: () {},
-                          child: Text(tag),
+                          child: Text(
+                              AppSetting.instance.essentialKeyValues[tag] ??
+                                  tag),
                         ),
                     ],
                   ),
