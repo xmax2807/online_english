@@ -2,6 +2,7 @@ import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:online_english/data/setting/settings.dart';
 import 'package:online_english/screens/shared_components/teacher_profile_info.dart';
 import 'package:online_english/screens/tutor/tutor_book_screen.dart';
 import 'package:readmore/readmore.dart';
@@ -168,7 +169,8 @@ class _TutorDetailScreen extends ConsumerState<TutorDetailScreen> {
                         TextButton(
                           onPressed: () {},
                           style: MyTheme.tagButtonStyle,
-                          child: Text(lang),
+                          child: Text(AppSetting.instance.countryHelper
+                              .getLanguangeName(lang)),
                         ),
                     ],
                   ),
@@ -190,7 +192,9 @@ class _TutorDetailScreen extends ConsumerState<TutorDetailScreen> {
                             TextButton(
                               onPressed: () {},
                               style: MyTheme.tagButtonStyle,
-                              child: Text(skill),
+                              child: Text(AppSetting
+                                      .instance.essentialKeyValues[skill] ??
+                                  skill),
                             ),
                         ],
                       ),

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:online_english/data/model/key_value_models/language_model.dart';
 import 'package:online_english/data/model/key_value_models/test_preparation_model.dart';
 import 'package:online_english/data/model/key_value_models/specialty_model.dart';
 import 'package:online_english/data/model/key_value_models/learn_topic_model.dart';
@@ -90,5 +91,10 @@ class ProfileRepository implements IProfileRepository, IKeyValueRepository {
     return _dio.put(ApiKeys.updateInfo, data: info).then(
         (value) => value.data != null && value.statusCode == 200,
         onError: _onError);
+  }
+
+  @override
+  Future<List<Language>?> getLanguages() {
+    return Future(() => null);
   }
 }

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:online_english/data/model/key_value_models/language_model.dart';
 import 'package:online_english/data/model/key_value_models/learn_topic_model.dart';
 import 'package:online_english/data/model/key_value_models/specialty_model.dart';
 import 'package:online_english/data/model/key_value_models/test_preparation_model.dart';
@@ -90,6 +91,18 @@ class TutorSearchRepository
 
       final list = data as List;
       return list.map((e) => TestPreparationModel.fromJson(e)).toList();
+    }, onError: _onError);
+  }
+
+  @override
+  Future<List<Language>?> getLanguages() {
+    return _dio.get(ApiKeys.languages).then((response) {
+      final data = response.data;
+      if (data == null) return null;
+
+      final list = data as List;
+      final languageList = list[0]['categories'] as List;
+      return languageList.map((e) => Language.fromJson(e)).toList();
     }, onError: _onError);
   }
 }

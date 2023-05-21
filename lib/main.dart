@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:online_english/data/settings.dart';
+import 'package:online_english/data/setting/settings.dart';
 import 'package:online_english/screens/login_screen/login_screen.dart';
 import 'package:online_english/utils/theme/my_theme.dart';
 
@@ -19,9 +20,14 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return FutureBuilder<bool>(
         future: AppSetting.initialize(),
         builder: (context, snapshot) {
@@ -46,7 +52,7 @@ class MyApp extends StatelessWidget {
                   )
                 : Scaffold(
                     key: GlobalKey(),
-                    body: Center(child: Text('snapshot : ${snapshot.error}')),
+                    body: const Center(child: CircularProgressIndicator()),
                   ),
           );
         });

@@ -1,16 +1,16 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'dart:developer' as dev;
 import 'package:path_provider/path_provider.dart';
 
-abstract class PathProviderIO<T> {
+abstract class PathProviderIO {
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
 
     return directory.path;
   }
 
-  Future<T> read(String filePath) async {
+  Future<T> read<T>(String filePath) async {
     try {
       final local = await _localPath;
       final File fullPath = File('$local/$filePath');
@@ -23,18 +23,34 @@ abstract class PathProviderIO<T> {
     }
   }
 
-  T tryParseContent(String contents);
-  T errorParse();
+  Future write<T>(T object, String filePath) async {
+    try {
+      final local = await _localPath;
+      final File fullPath = File('$local/$filePath');
+
+      final data = toStringContent(object);
+      await fullPath.writeAsString(data);
+    } catch (e) {
+      dev.log(e.toString());
+    }
+  }
+
+  T? tryParseContent<T>(String contents);
+  String toStringContent<T>(T object);
+  T? errorParse<T>();
 }
 
-class JsonPathProvider<T> extends PathProviderIO<T?> {
+class JsonPathProvider extends PathProviderIO {
   @override
-  T? errorParse() {
-    return null;
+  T? tryParseContent<T>(String contents) {
+    return jsonDecode(contents);
   }
 
   @override
-  T tryParseContent(String contents) {
-    return jsonDecode(contents);
+  String toStringContent<T>(T object) {
+    return jsonEncode(object);
   }
+
+  @override
+  T? errorParse<T>() => null;
 }

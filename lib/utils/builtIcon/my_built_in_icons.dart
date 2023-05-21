@@ -11,4 +11,5 @@ class MyBuiltInIcons {
   static IconText schedule = IconText(Icons.calendar_month_sharp, "Schedule");
   static IconText course = IconText(Icons.book_rounded, "Course");
   static IconText profile = IconText(Icons.account_circle, "Profile");
+  static IconText chatGPT = IconText(Icons.api_rounded, "Chat AI");
 }

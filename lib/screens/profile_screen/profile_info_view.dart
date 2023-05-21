@@ -3,7 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
 import 'package:multi_select_flutter/util/multi_select_list_type.dart';
-import 'package:online_english/data/settings.dart';
+import 'package:online_english/data/setting/settings.dart';
 import 'package:online_english/screens/shared_components/my_drop_down.dart';
 import 'package:online_english/utils/global_constants/country_hashmap.dart';
 import 'package:online_english/utils/theme/my_theme.dart';
